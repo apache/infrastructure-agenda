@@ -2,6 +2,8 @@
 
 Current status: exploratory/proof of concept.
 
+Contribute to [./REQUIREMENTS.md](REQUIREMENTS.md) to propose features for the future infra-supported Agenda tool.
+
 As this project gets further along, this page will have links to current
 status and where a live instance is hosted.  Meanwhile:
 

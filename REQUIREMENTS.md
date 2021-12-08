@@ -75,3 +75,139 @@ Raw list of features that are in-use today.
 * Technologies that are (generally) within the existing set (eg. cloud
   services, backups, configuration management (such as Puppet), and other
   tech that is within typical scope)
+
+
+# Data Structures And Workflows
+
+While much of the monthly agenda is boilerplate text with lists of data 
+plugged in (like names in Call To Order), some items in the agenda have 
+data structures or workflows used elsewhere in the ASF.  In particular, 
+Secretary, Infra, Incubator, Attic, and general LDAP records need various
+update data provided after the meeting for some workflows. 
+
+Also note that agenda items should have all state archived privately, and 
+select data and indicies must be archived publicly (by date; by 
+project/officer, etc.)
+
+## All Items
+- Item ID (where in Agenda)
+- Title (boilerplate style or free form)
+- Submitter (new: we should really track who submitted each item)
+
+## Report
+
+- Title (PMC name or Officer's name)
+- Author (PMC VP or Officer)
+- Shepherd (Director)
+- Text (markdown document of contents)
+- Status (approvals; flagged (by who); comments)
+
+### Report Workflow
+
+- **Pre-Meeting Workflow**
+  - Secretary, Chair: Add specific Report and assign ItemNum (agenda create; ItemNum should remain stable)
+  - PMC VPs, Officer: Add their own Report (out-of-band: default an ItemNum value)
+  - Member: Edit any report
+  - Director: Preapprove; Flag; Comment (add new to list, or edit own)
+- **During Meeting Workflow**
+  - Secretary, Chair: edit any report (but not other roles)
+  - Director: Preapprove; Flag; Comment (add new to list, or edit own)
+- **Post Meeting Workflow**
+  - Secretary: mark EndStatus: Accepted, Missing, Rejected
+  - List reports Missing/Rejected (for summary email)
+  - List reports expected next month (for summary; for next agenda)
+- **Public Archive Workflow**
+  - Do not publish: 
+    - _private_ sections
+    - Approvals, Flags, Comments
+
+## Resolution
+
+- Title - boilerplate for new TLP, Attic, Chair Change; otherwise free text
+- Submitter (PMC VP or Officer)
+- Text (boilerplate contents or free form)
+- Status (comments; board vote status or general consent)
+
+### Resolution Workflow
+
+- **Pre-Meeting Workflow**
+  - Member: Add resolution
+  - Director: Preapprove / pre-vote; Comment (add new to list, or edit own)
+- **During Meeting Workflow**
+  - Secretary, Chair: edit any resolution (but not other roles)
+  - Secretary: record director votes or table/postpone
+- **Post Meeting Workflow**
+  - List resolutions and status (for summary email)
+  - Carry-over tabled resolutions to next agenda
+- **Public Archive Workflow**
+  - Do not publish: 
+    - _private_ sections
+    - Comments
+
+## New TLP Resolution
+
+As Resolution plus:
+
+- TLP Boilerplate
+- Incubator Graduate or Straight-To-TLP?
+- PMC name
+- PMC purpose (creation of software to manage widgets...)
+- PMC VP
+- PMC Members (list)
+  - Display VP;Members as Public Name, ID, with bold for ASF Members
+
+- **Post Meeting Workflow**
+  - Inform Infra of new TLP Name, list of PMC members & VP
+    - Various LDAP and other updates
+  - Inform Incubator (if is a graduation)
+  - Inform press@ of new project
+
+## Attic TLP Resolution
+
+As Resolution plus:
+
+- Attic Boilerplate
+- PMC name
+- PMC VP
+- Link/commentary to attic vote (?)
+
+- **Post Meeting Workflow**
+  - Inform Infra of TLP Name, VP, list of members
+    - Various LDAP Updates (?)
+  - Inform Attic
+  - Inform press@ of terminated project
+
+## Chair Change Resolution
+
+As Resolution plus:
+
+- Chair Change Boilerplate
+- PMC name
+- PMC VP name - outgoing 
+- PMC VP name - incoming 
+
+- **Post Meeting Workflow**
+  - Inform Infra of new VP for LDAP update
+  - Inform new VP, outgoing VP of role change
+  - Inform PMC of the role change (? We don't do this now, but should)
+
+## Discussion Item
+
+- Text
+- (?) Should we add Comments list to discussion items too?
+- (?) Should we add Status to discussion items too?
+- TBD: definition if items are carried over to next agenda?
+
+## Action Item
+
+- Text
+- Owner
+- Linked Report (PMC, officer, etc)(optional)
+- Status
+
+### Action Item Workflows
+
+- Secretary can create on the fly during meeting, link by default to current discussion item
+- Members can update data at any point
+- Chair/Secretary decide post-meeting which AIs to carry over to next agenda
+- TBD: post-meeting Secretary email should inform Owner of new AIs
