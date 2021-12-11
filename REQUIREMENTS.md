@@ -43,23 +43,40 @@ Raw list of features that are in-use today.
   * PMC VPs can read and comment on reports
 * Provide active workflow during a Board meeting
   * Special functions for: Chair, Directors, Secretary, Members/Guests
-   * Chair features:
-    * Mark current position in agenda being discussed, so other users can follow the agenda during meeting
-    * Can use next/back buttons to easily progress through meeting in defined order (i.e. flagged reports, etc.) 
-   * Secretary features:
-    * Open and close meeting with timestamps
-    * Record votes or decisions on items
-    * Record comments on items
-    * Record Action Items associated with an item assigned to an individual
-   * Directors can review, sign-off, comment, and flag reports during meeting
+    * Chair features:
+      * Mark current position in agenda being discussed, so other users can follow the agenda during meeting
+      * Can use next/back buttons to easily progress through meeting in defined order (i.e. flagged reports, etc.) 
+    * Secretary features:
+      * Open and close meeting with timestamps
+      * Record votes or decisions on items
+      * Record comments on items
+      * Record Action Items associated with an item assigned to an individual
+    * Directors can review, sign-off, comment, and flag reports during meeting
   * Display only "flagged" projects or reports (including officers) in order
   * Display only "unapproved" project reports in order
 * Track action items (finer points of this: TBD)
 * Archive private version of agenda before monthly meeting
 * Post-Meeting publishing:
- * Publish **public** version of meeting minutes after meeting
- * Execute workflow on any Resolutions **passed**
- * Prepare committers@ Board meeting recap email (projects and their VP's added/deleted; new officers appointed)
+* Publish **public** version of meeting minutes after meeting
+* Execute workflow on any Resolutions **passed**
+* Prepare committers@ Board meeting recap email (projects and their VP's added/deleted; new officers appointed)
+* single button attend/regret
+* show local time in call to order
+* show draft minutes
+* queue of pending reports
+* hotlink urls, JIRA, CVE
+* enbolden asf members in resolutions
+* visual indication of whether a report is flagged, needs more approvals, has sufficient preapprovals, etc
+* reflow reports
+* should show related information - e.g., action items, special orders, and history of missing reports, history of previous board comments, etc. associated with current report
+* for missing reports, it should indicate if a report has been posted to baord@ during the past month, and assist with the posting of the repot
+* send reminders
+* show podling name search status
+* draft emails for late reports
+* show shepard reports - with easy navigation to only reports you are sheparding
+* search function
+* show a global list of comments - with ability to mark as seen
+* offline support
 * *more TBD*
 
 ## Infrastructure Requirements
