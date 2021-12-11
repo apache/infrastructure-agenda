@@ -61,9 +61,9 @@ Raw list of features that are in-use today.
 * Track action items (finer points of this: TBD)
 * Archive private version of agenda before monthly meeting
 * Post-Meeting publishing:
-* Publish **public** version of meeting minutes after meeting
-* Execute workflow on any Resolutions **passed**
-* Prepare committers@ Board meeting recap email (projects and their VP's added/deleted; new officers appointed)
+  * Publish **public** version of meeting minutes after meeting
+  * Execute workflow on any Resolutions **passed**
+  * Prepare committers@ Board meeting recap email (projects and their VP's added/deleted; new officers appointed)
 * single button attend/regret
 * show local time in call to order
 * show draft minutes
