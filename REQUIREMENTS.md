@@ -19,8 +19,6 @@ There are multiple audiences for the tool.
 * Interested Members of the Foundation
 * Guests invited to a Board meeting
 
-
-
 ## Functional Requirements
 
 Raw list of features that are in-use today.
@@ -74,12 +72,11 @@ Raw list of features that are in-use today.
 * enbolden asf members in resolutions
 * visual indication of whether a report is flagged, needs more approvals, has sufficient preapprovals, etc
 * reflow reports
-* should show related information - e.g., action items, special orders, and history of missing reports, history of previous board comments, etc. associated with current report
+* should show related information - e.g., action items, special orders, and history of missing reports, history of previous board comments, prior reports, roster, etc. associated with current report
 * for missing reports, it should indicate if a report has been posted to board@ during the past month, and assist with the posting of the report
 * send reminders
   * template based on missing status the previous month(s)
   * first and final reminder selection should include all missing project reports by default, including non-responsive PMCs
-* show podling name search status
 * draft emails for late reports
 * show shepard reports - with easy navigation to only reports you are sheparding
 * search function
