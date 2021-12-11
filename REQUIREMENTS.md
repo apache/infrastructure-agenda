@@ -29,7 +29,10 @@ Raw list of features that are in-use today.
 * Generate new agenda from a template _(Secretary, Chair)_
   * Given current set of Directors, Officers, and Guests
   * Based on which PMCs are due to report for "this" month
-  * Carry over unfinished items (Actions, Discussions, other?) from last month
+    * Based on published schedule
+    * Based on flagged to report since last meeting 
+  * Carry over unfinished items (Actions, Discussions, Unfinished Business, other?) from last month
+  * Automatically assign shepherds
 * Post or edit a PMC report _(PMC VPs, Members)_
  * Tool integration with Reporter 
 * Post or edit Resolutions based on templates
@@ -41,6 +44,9 @@ Raw list of features that are in-use today.
   * Appoint officer: send new officer welcome email in post-meeting publish
 * Directors can review, sign-off, comment, and flag reports
   * PMC VPs can read and comment on reports
+  * Comments can be targetted at the PMC, which includes notifications to the PMC
+  * Comments can be targetted at the board, without notifications to the PMC.
+  * Any agenda item from Minutes through Special Orders can be commented on.
 * Provide active workflow during a Board meeting
   * Special functions for: Chair, Directors, Secretary, Members/Guests
     * Chair features:
@@ -69,14 +75,17 @@ Raw list of features that are in-use today.
 * visual indication of whether a report is flagged, needs more approvals, has sufficient preapprovals, etc
 * reflow reports
 * should show related information - e.g., action items, special orders, and history of missing reports, history of previous board comments, etc. associated with current report
-* for missing reports, it should indicate if a report has been posted to baord@ during the past month, and assist with the posting of the repot
+* for missing reports, it should indicate if a report has been posted to board@ during the past month, and assist with the posting of the report
 * send reminders
+  * template based on missing status the previous month(s)
+  * first and final reminder selection should include all missing project reports by default, including non-responsive PMCs
 * show podling name search status
 * draft emails for late reports
 * show shepard reports - with easy navigation to only reports you are sheparding
 * search function
 * show a global list of comments - with ability to mark as seen
 * offline support
+* should only require a single authentication step for all functionality
 * *more TBD*
 
 ## Infrastructure Requirements
