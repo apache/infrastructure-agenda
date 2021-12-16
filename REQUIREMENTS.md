@@ -112,6 +112,15 @@ Also note that agenda items should have all state archived privately, and
 select data and indicies must be archived publicly (by date; by 
 project/officer, etc.)
 
+## General Data Requirements
+
+The resulting data, once a Board meeting is over, must be available in an open structured format, such as JSON or structured text, to allow for:
+
+  * Long-term structured archiving of the Board's decisions and comments
+  * Enabling other tools to generate specific views of the results, like [listing all reports of a given project](https://whimsy.apache.org/board/minutes/Ant).
+
+Access to other ASF data (usually read-only, such as [committee-info.txt](https://svn.apache.org/repos/private/committers/board/committee-info.txt)) might go through a specific subdomain like data.apache.org (or two: one private, one public) to help keep track, over time, of what data is used and to clarify access control.
+
 ## All Items
 - Item ID (where in Agenda)
 - Title (boilerplate style or free form)
