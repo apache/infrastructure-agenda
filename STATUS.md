@@ -12,7 +12,8 @@
 
 ## Worklog (newest at top)
 
-* Get more familiar with LDAP/SVN/Flask Python libraries (iroh)
+* Look at ASFpy and SvnPubSub (iroh)
+* Get more familiar with LDAP/SVN/Flask/ Python libraries (iroh)
 * Attend board meeting to see current workflow/needs (iroh)
 * Review existing code (iroh)
 * Read through REQUIREMENTS.md (iroh)
