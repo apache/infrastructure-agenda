@@ -1,11 +1,11 @@
-from flask import Flask
-from flask_bootstrap import Bootstrap
+import flask
+import flask_bootstrap
 #from config import config
 
-bootstrap = Bootstrap()
+bootstrap = flask_bootstrap.Bootstrap()
 
 def create_app(config_name):
-    app = Flask('agenda')
+    app = flask.Flask('agenda')
     #app.config.from_object(config[config_name])
     #config[config_name].init_app(app)
 
