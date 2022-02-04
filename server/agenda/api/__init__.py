@@ -1,5 +1,5 @@
-from flask import Blueprint
+import flask
 
-api = Blueprint('api', __name__)
+api = flask.Blueprint('api', __name__)
 
 from . import reports
