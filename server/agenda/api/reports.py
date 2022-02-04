@@ -1,6 +1,5 @@
 from flask import jsonify, request, g, url_for, current_app
 from . import api
-from ..models import Report
 
 @api.route('/reports')
 def get_reports():
