@@ -164,7 +164,7 @@ Access to other ASF data (usually read-only, such as [committee-info.txt](https:
 
 - **Pre-Meeting Workflow**
   - Member: Add resolution
-  - Director: Preapprove / pre-vote; Comment (add new to list, or edit own)
+  - Director: Preapprove / pre-vote; Comment (add new to list, or edit own); being able to select "reports where I'm shepherd" or "reports which don't have enough pre-approvals" is useful
 - **During Meeting Workflow**
   - Secretary, Chair: edit any resolution (but not other roles)
   - Secretary: record director votes or table/postpone
