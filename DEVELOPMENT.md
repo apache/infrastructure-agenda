@@ -2,6 +2,10 @@
 
 ## Quick Start
 
+_please note, it appears that the account used to login to a running demo 
+must have member status within the ASF due to privileged information that 
+is pulled from whimsy using said credentials._
+
 To run this, pick from the following:
 
 * [Docker](./docker-compose.yml)
@@ -16,7 +20,7 @@ Updating to the latest can be done as follows:
 The (currently modest, but growing) test suite can be run via:
 
     yarn test
-
+    
 ## Architecture
 
 The server is in [src/server.js](src/server.js), with the application logic
