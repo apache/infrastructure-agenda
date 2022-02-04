@@ -53,20 +53,24 @@ class Repo(object):
         return self._revision
     
     def _update_meta(self, info):
-        """This function updates the repo metadata"""
+        """Updates the repo metadata
+        
+        Args:
+            info: the output from `svn info <local dir>`
+        """
         self._uuid, self._revision = self._parse_svninfo(info)
         self._last_update = datetime.datetime.now()
 
     @staticmethod
     def _parse_svninfo(info):
-        """This function parses out a few useful bits and updates class vars"""
+        """Parses out a few useful bits and updates class vars"""
         uuid_match = re.search(r'^Repository\ UUID: (.*)$', info, re.MULTILINE)
         revision_match = re.search(r'^Revision: (.*)$', info, re.MULTILINE)
         
         return [uuid_match[1], revision_match[1]]
 
     def update_content(self):
-        """This function updates the local repo content"""
+        """Updates local repo content"""
         results = None
         try:
             results = subprocess.run(["svn", "info", self._directory], 
