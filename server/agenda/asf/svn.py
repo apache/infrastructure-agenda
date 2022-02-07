@@ -42,7 +42,7 @@ class Repo(object):
 
     @property
     def workdir(self):
-        return self._directory
+        return self._workdir
 
     @property
     def uuid(self):
@@ -73,13 +73,13 @@ class Repo(object):
         """Updates local repo content"""
         results = None
         try:
-            results = subprocess.run(["svn", "info", self._directory], 
+            results = subprocess.run(["svn", "info", self._workdir], 
                                      check=True, 
                                      text=True, 
                                      capture_output=True)
         except subprocess.CalledProcessError:
-            subprocess.run(["svn", "checkout", self._url, self._directory])
+            subprocess.run(["svn", "checkout", self._url, self._workdir])
         else:
-            subprocess.run(["svn", "up", self._directory])
+            subprocess.run(["svn", "up", self._workdir])
         finally:
             self._update_meta(results.stdout)
