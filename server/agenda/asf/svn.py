@@ -16,7 +16,7 @@ class Repo(object):
         revision: current revision in workdir
     """
 
-    _work_base = '../data'
+    _work_base = '../data'  # should we use PWD here instead of '..'?
 
     def __init__(self, url):
         """Inits Repo
@@ -86,6 +86,12 @@ class Repo(object):
                                      capture_output=True)
         except subprocess.CalledProcessError:
             subprocess.run(["svn", "checkout", self._url, self._workdir])
+
+            # this seems like a kludge and should probably be DRY'ed up
+            results = subprocess.run(["svn", "info", self._workdir], 
+                                     check=True, 
+                                     text=True, 
+                                     capture_output=True)
         else:
             subprocess.run(["svn", "up", self._workdir])
         finally:
