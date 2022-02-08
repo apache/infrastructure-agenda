@@ -1,6 +1,7 @@
 import datetime
 import subprocess
 import re
+import os
 
 
 class Repo(object):
@@ -15,18 +16,16 @@ class Repo(object):
         revision: current revision in workdir
     """
 
-    _repo_base = 'https://svn.apache.org/repos'
     _work_base = '../data'
 
-    def __init__(self, path, directory):
+    def __init__(self, url):
         """Inits Repo
 
         Args:
-            path: target path of remote repo
-            directory: path of local workdir
+            url: target url of a remote repo
         """
-        self._url = f"{self._repo_base}/{path}"
-        self._workdir = f"{self._work_base}/{directory}"
+        self._url = url
+        self._workdir = f"{self._work_base}/{self._parse_path_from_url(url)}"
         self._uuid = None
         self._revision = None
 
@@ -68,6 +67,14 @@ class Repo(object):
         revision_match = re.search(r'^Revision: (.*)$', info, re.MULTILINE)
         
         return [uuid_match[1], revision_match[1]]
+
+    @staticmethod
+    def _parse_path_from_url(url):
+        """Create a path relative path from a given url"""
+        split_url = url.split('/')
+        repos_idx = split_url.index('repos')
+
+        return os.path.join(*split_url[repos_idx:])
 
     def update_content(self):
         """Updates local repo content"""
