@@ -18,14 +18,16 @@ class Repo(object):
 
     _work_base = '../data'  # should we use PWD here instead of '..'?
 
-    def __init__(self, url):
+    def __init__(self, url, depth="infinity"):
         """Inits Repo
 
         Args:
             url: target url of a remote repo
+            depth: desired checkout depth (default=infinity)
         """
         self._url = url
         self._workdir = f"{self._work_base}/{self._parse_path_from_url(url)}"
+        self._depth = depth
         self._uuid = None
         self._revision = None
 
@@ -43,6 +45,10 @@ class Repo(object):
     def workdir(self):
         return self._workdir
 
+    @property
+    def depth(self):
+        return self._depth
+    
     @property
     def uuid(self):
         return self._uuid
@@ -85,7 +91,8 @@ class Repo(object):
                                      text=True, 
                                      capture_output=True)
         except subprocess.CalledProcessError:
-            subprocess.run(["svn", "checkout", self._url, self._workdir])
+            subprocess.run(["svn", "checkout", f"--depth={self._depth}", 
+                            self._url, self._workdir])
 
             # this seems like a kludge and should probably be DRY'ed up
             results = subprocess.run(["svn", "info", self._workdir], 
