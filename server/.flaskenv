@@ -1,1 +1,1 @@
-FLASK_APP=agenda
+FLASK_APP=main.py

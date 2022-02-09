@@ -1,4 +1,3 @@
-import flask
 from . import api
 
 
