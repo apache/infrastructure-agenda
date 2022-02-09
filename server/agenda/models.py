@@ -3,29 +3,43 @@ import re
 
 import flask
 
-# this should pull from the app.config eventually
-base_dir = '/home/iroh/Projects/asf-agenda/infrastructure-agenda/server/data'
 
+class FileModel(object):
+    """A parent class for models which are backed by files"""
 
-class Agenda(object):
-    """A class for agendas"""
-    _data_dir = os.path.join(base_dir, 'repos/private/foundation/board')
-    _file_regex = r'board_agenda_\d{4}_\d{2}_\d{2}\.txt'
+    # this should pull from the app.config eventually
+    _base_dir = '/home/iroh/Projects/asf-agenda/infrastructure-agenda/server/data'
+    _file_regex = r'.*\.txt'
+    _data_dir = _base_dir
 
     def __init__(self):
         pass
 
     @classmethod
+    def _iter_files(cls):
+        for dir_, dirs, files in os.walk(cls._data_dir):
+            for file in files:
+                yield file
+
+    @classmethod
     def get_files(cls):
         file_list = [file
                      for file
-                     in _iter_files(cls._data_dir)
+                     in cls._iter_files()
                      if re.search(cls._file_regex, str(file))]
 
         return file_list
 
+    @classmethod
+    def get_file(cls, date):
+        pass
 
-def _iter_files(directory):
-    for dir_, dirs, files in os.walk(directory):
-        for file in files:
-            yield file
+
+class Agenda(FileModel):
+    """A class for agendas"""
+    _file_regex = r'board_agenda_\d{4}_\d{2}_\d{2}\.txt'
+    _data_dir = os.path.join(FileModel._base_dir, 'repos/private/foundation/board')
+
+    def __init__(self):
+        super().__init__(self)
+        pass
