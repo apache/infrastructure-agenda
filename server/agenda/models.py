@@ -43,3 +43,13 @@ class Agenda(FileModel):
     def __init__(self):
         super().__init__(self)
         pass
+
+class Minutes(FileModel):
+    """A class for meeting minutes"""
+    _file_regex = r'board_minutes_\d{4}_\d{2}_\d{2}\.txt'
+    _data_dir = os.path.join(FileModel._base_dir,
+                             'repos/asf/infrastructure/site/trunk/content/foundation/records/minutes')
+
+    def __init__(self):
+        super().__init__(self)
+        pass
