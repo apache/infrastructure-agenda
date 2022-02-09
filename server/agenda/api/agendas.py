@@ -1,9 +1,12 @@
+import flask
+
 from . import api
+from ..models import Agenda
 
 
 @api.route('/agendas')
 def get_agendas():
-    pass
+    return flask.jsonify(Agenda.get_files())
 
 
 @api.route('/agendas/<meeting_dates:date>')
