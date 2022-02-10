@@ -1,35 +1,18 @@
-import unittest
-import json
+def test_404(client):
+    response = client.get('/api/v1/non_existent_url')
 
-import agenda
+    assert response.status_code == 404
+    json_response = response.get_json()
+    assert 'not found' in json_response['error']
 
 
-class APITestCase(unittest.TestCase):
-    def setUp(self):
-        self.app = agenda.create_app('testing')
-        self.app_context = self.app.app_context()
-        self.app_context.push()
+def test_agendas(client):
+    response = client.get("/api/v1/agendas")
 
-        self.client = self.app.test_client()
+    assert response.status_code == 200
 
-    def tearDown(self):
-        self.app_context.pop()
 
-    def test_404(self):
-        response = self.client.get(
-            '/api/v1/wrong_url_etc')
-        self.assertEqual(response.status_code, 404)
-        json_response = json.loads(response.get_data(as_text=True))
-        self.assertEqual(json_response['error'], 'not found')
+def test_minutes(client):
+    response = client.get("/api/v1/minutes")
 
-    def test_agendas(self):
-        response = self.client.get(
-            '/api/v1/agendas')
-
-        self.assertEqual(response.status_code, 200)
-
-    def test_minutes(self):
-        response = self.client.get(
-            '/api/v1/minutes')
-
-        self.assertEqual(response.status_code, 200)
+    assert response.status_code == 200
