@@ -11,7 +11,7 @@ def test_agendas(client):
 
     assert response.status_code == 200
     json_response = response.get_json()
-    assert 'board_agenda_2005_07_28.txt' in json_response
+    assert json_response['count'] > 0
 
 
 def test_minutes(client):
@@ -19,4 +19,4 @@ def test_minutes(client):
 
     assert response.status_code == 200
     json_response = response.get_json()
-    assert 'board_minutes_1999_04_13.txt' in json_response
+    assert json_response['count'] > 0

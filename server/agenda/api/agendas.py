@@ -4,9 +4,13 @@ from . import api
 from ..models import Agenda
 
 
+agendas = Agenda()
+
+
 @api.route('/agendas')
 def get_agendas():
-    return flask.jsonify(Agenda.get_files())
+    items = agendas.get_items()
+    return flask.jsonify(items=items, count=len(items))
 
 
 @api.route('/agendas/<meeting_dates:date>')
