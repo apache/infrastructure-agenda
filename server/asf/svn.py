@@ -16,7 +16,7 @@ class Repo(object):
         revision: current revision in workdir
     """
 
-    _work_base = '../data'  # should we use PWD here instead of '..'?
+    _work_base = os.environ.get('DATA_DIR')
 
     def __init__(self, url, depth="infinity"):
         """Inits Repo
