@@ -8,7 +8,7 @@ class FileModel(object):
     """A parent class for models which are backed by files"""
 
     # this should pull from the app.config eventually
-    _base_dir = '/home/iroh/Projects/asf-agenda/infrastructure-agenda/server/data'
+    _base_dir = os.environ['DATA_DIR']
     _file_regex = r'.*\.txt'
     _data_dir = _base_dir
 
