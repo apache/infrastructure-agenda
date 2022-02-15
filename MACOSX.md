@@ -3,7 +3,7 @@
     brew install node yarn subversion
     brew install --cask visual-studio-code
     git clone https://github.com/apache/infrastructure-agenda.git
-    cd whimsy-board-agenda-nodejs
+    cd infrastructure-agenda
     yarn install
     yarn dev
 
