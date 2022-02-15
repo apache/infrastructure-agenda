@@ -3,3 +3,4 @@ ezt~=1.1
 Flask~=2.0.2
 Flask-Bootstrap~=3.3.7.1
 python-dotenv~=0.19.2
+click~=8.0.3
