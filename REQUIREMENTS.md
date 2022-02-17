@@ -164,7 +164,10 @@ Access to other ASF data (usually read-only, such as [committee-info.txt](https:
 
 - **Pre-Meeting Workflow**
   - Member: Add resolution
-  - Director: Preapprove / pre-vote; Comment (add new to list, or edit own); being able to select "reports where I'm shepherd" or "reports which don't have enough pre-approvals" is useful
+  - Director: Preapprove / pre-vote; Comment (add new to list, or edit own); Three levels of report selection are useful:
+     -  Start with "reports where I'm shepherd", currently possible by searching for Director's name on the Agenda page and opening those reports in a new browser tab for review.
+     -  Then, select "reports which don't have enough pre-approvals" using the Navigation/Queue list, next/previous buttons navigate in this list or open those reports (based on their colors in the list) in a new tab as in the previous phase.
+     -  And lastly look at the Navigation/Queue for reports that haven't been reviewed by this Director yet
 - **During Meeting Workflow**
   - Secretary, Chair: edit any resolution (but not other roles)
   - Secretary: record director votes or table/postpone
