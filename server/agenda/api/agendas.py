@@ -9,7 +9,7 @@ agendas = Agenda()
 
 @api.route('/agendas')
 def get_agendas():
-    items = agendas.get_items()
+    items = agendas.get_agendas()
     return flask.jsonify(items=items, count=len(items))
 
 
