@@ -69,6 +69,10 @@ class Dir(FSObject):
     def files(self):
         return self._walkdir()
 
+    def file(self, file):
+        if file in self.files:
+            return file
+
     def _walkdir(self):
         if self._recurse:
             file_list = [file
@@ -87,6 +91,10 @@ class Dir(FSObject):
         for dir_, dirs, files in os.walk(self._path):
             for file in files:
                 yield file
+
+
+    def __len__(self):
+        return len(self.files)
 
     def __repr__(self):
         return f"<SVNDir: {self.path}>"
@@ -118,7 +126,11 @@ class File(FSObject):
     def name(self):
         return os.path.split(self._path)[1]
 
-
+    @property
+    def contents(self):
+        with open(self._path, 'r')as file:
+            return file.readlines()
+    
     def __repr__(self):
         return f"<SVNFile: {self.name}>"
 
