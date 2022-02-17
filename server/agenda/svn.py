@@ -69,16 +69,13 @@ class Dir(FSObject):
     def files(self):
         return self._walkdir()
 
-    def file(self, file):
-        if file in self.files:
-            return file
-
     def _walkdir(self):
+        """create a list of files in this dir and return it"""
         if self._recurse:
-            file_list = [file
+            file_list = [File(f"{file[0]}/{file[1]}")
                          for file
                          in self._iter_files()
-                         if re.search(self._filter, str(file))]
+                         if re.search(self._filter, str(file[1]))]
         else:
             file_list = [File(f"{self._path}/{file}")
                          for file
@@ -88,10 +85,10 @@ class Dir(FSObject):
         return file_list
 
     def _iter_files(self):
+        """generator method to allow filtering of os.walk()"""
         for dir_, dirs, files in os.walk(self._path):
             for file in files:
-                yield file
-
+                yield (dir_, file)
 
     def __len__(self):
         return len(self.files)
