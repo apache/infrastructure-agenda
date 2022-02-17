@@ -7,9 +7,10 @@ class FSObject(object):
     """A parent class for the following two classes
     """
 
+    _info_regex = r''
+
     def __init__(self, path, *args, **kwargs):
         self._path = path
-        self._info_regex = r''
 
     @property
     def path(self):
@@ -36,14 +37,15 @@ class FSObject(object):
 
 class Dir(FSObject):
     """A class facilitating access to an SVN backed directory
-
+        
+        Attributes:
+            path: full path to this dir
+            info: SVN info for this dir
+            files: given an optional filter, the list of files in this dir
+              and the nested directories if recursion is specified
     """
 
-    def __init__(self, path, *args, **kwargs):
-        """Inits directory object
-        """
-        super().__init__(path, *args, **kwargs)
-        self._info_regex = r'''^Path:\s(?P<path>.*)$
+    _info_regex = r'''^Path:\s(?P<path>.*)$
 ^Working\sCopy\sRoot\sPath:\s(?P<working_copy_root_path>.*)$
 ^URL:\s(?P<url>.*)$
 ^Relative\sURL:\s(?P<relative_url>.*)$
@@ -55,11 +57,22 @@ class Dir(FSObject):
 ^Last\sChanged\sAuthor:\s(?P<last_changed_author>.*)$
 ^Last\sChanged\sRev:\s(?P<last_changed_rev>.*)$
 ^Last\sChanged\sDate:\s(?P<last_changed_date>.*)$'''
-        
+
+    def __init__(self, path, *args, **kwargs):
+        """Inits directory object
+
+            Arguments:
+                path: full path to this dir (required)
+                filter: regex pattern with which to filter files
+                recurse: boolean argument to enable directory recursion
+        """
+        super().__init__(path, *args, **kwargs)
+                
         if 'filter' in kwargs:
             self._filter = kwargs['filter']
         else:
             self._filter = r'.*'
+
         if 'recurse' in kwargs:
             self._recurse = kwargs['recurse']
         else:
@@ -99,11 +112,16 @@ class Dir(FSObject):
 
 class File(FSObject):
     """A class facilitating access to an SVN backed directory
+
+        Attributes:
+            path: full path to this file
+            info: SVN info for this file
+            name: filename
+            contents: contents of the file
+
     """
 
-    def __init__(self, path, *args, **kwargs):
-        super().__init__(path, *args, **kwargs)
-        self._info_regex = r'''^Path:\s(?P<path>.*)$
+    _info_regex = r'''^Path:\s(?P<path>.*)$
 ^Name:\s(?P<name>.*)$
 ^Working\sCopy\sRoot\sPath:\s(?P<working_copy_root_path>.*)$
 ^URL:\s(?P<url>.*)$
@@ -119,6 +137,14 @@ class File(FSObject):
 ^Text\sLast\sUpdated:\s(?P<text_last_updated>.*)$
 ^Checksum:\s(?P<checksum>.*)$'''
 
+    def __init__(self, path, *args, **kwargs):
+        """Inits File object
+
+            Arguments:
+                path: full path to this file
+        """
+        super().__init__(path, *args, **kwargs)
+        
     @property
     def name(self):
         return os.path.split(self._path)[1]
