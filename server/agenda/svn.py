@@ -82,6 +82,17 @@ class Dir(FSObject):
     def files(self):
         return self._walkdir()
 
+    def file(self, filename):
+        """return a File object
+
+            Arguments:
+                filename: name of the file being requested
+        """
+        for f in self.files:
+            if f.name == filename:
+                return f
+        raise FileNotFoundError
+
     def _walkdir(self):
         """create a list of files in this dir and return it"""
         if self._recurse:
