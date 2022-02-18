@@ -11,7 +11,7 @@ def test_agendas(client):
 
     assert response.status_code == 200
     json_response = response.get_json()
-    assert json_response['count'] > 0
+    assert json_response['count'] == 2
 
 
 def test_minutes(client):
@@ -19,4 +19,4 @@ def test_minutes(client):
 
     assert response.status_code == 200
     json_response = response.get_json()
-    assert json_response['count'] > 0
+    assert json_response['count'] == 1
