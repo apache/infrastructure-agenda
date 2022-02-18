@@ -8,6 +8,7 @@ bootstrap = flask_bootstrap.Bootstrap()
 
 def create_app(config_name):
     app = flask.Flask('agenda')
+    app.app_context().push()
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
 

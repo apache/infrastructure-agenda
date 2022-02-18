@@ -1,12 +1,14 @@
 import datetime
 import os
 
+import flask
+
 from . import svn
 
 
 class Agenda(object):
 
-    _dir = svn.Dir(os.path.join(os.environ['DATA_DIR'], 'repos/private/foundation/board'),
+    _dir = svn.Dir(os.path.join(flask.current_app.config['DATA_DIR'], 'board'),
                    filter=r'board_agenda_\d{4}_\d{2}_\d{2}\.txt',
                    recurse=True)
 
@@ -24,7 +26,7 @@ class Agenda(object):
 
 class Minutes(object):
 
-    _dir = svn.Dir(os.path.join(os.environ['DATA_DIR'], 'repos/asf/infrastructure/site/trunk/content/foundation/records/minutes'),
+    _dir = svn.Dir(os.path.join(flask.current_app.config['DATA_DIR'], 'minutes'),
                    filter=r'board_minutes_\d{4}_\d{2}_\d{2}\.txt',
                    recurse=True)
 
