@@ -7,10 +7,9 @@ class FSObject(object):
     """A parent class for the following two classes
     """
 
-    _info_regex = r''
-
     def __init__(self, path, *args, **kwargs):
         self._path = path
+        self._info = self._get_info()
 
     @property
     def path(self):
@@ -18,21 +17,24 @@ class FSObject(object):
 
     @property
     def info(self):
-        results = self._svninfo()
-        info = re.search(self._info_regex, results.stdout, re.MULTILINE)
+        return self._info
 
-        return info.groupdict()
-
-    def _svninfo(self):
+    def _get_info(self):
         try:
-            results = subprocess.run(["svn", "info", self._path],
-                                     check=True,
-                                     text=True, 
-                                     capture_output=True)
+            output = subprocess.run(["svn", "info", self._path],
+                                    check=True,
+                                    text=True, 
+                                    capture_output=True)
         except subprocess.CalledProcessError:
             raise NotSVNRepoError
 
-        return results
+        info = {}
+        clean_output = output.stdout.strip()
+        for line in clean_output.split('\n'):
+            k, v = line.split(':', 1)
+            info[k.replace(" ", "_").lower()] = v.strip()
+
+        return info
 
 
 class Dir(FSObject):
@@ -44,19 +46,6 @@ class Dir(FSObject):
             files: given an optional filter, the list of files in this dir
               and the nested directories if recursion is specified
     """
-
-    _info_regex = r'''^Path:\s(?P<path>.*)$
-^Working\sCopy\sRoot\sPath:\s(?P<working_copy_root_path>.*)$
-^URL:\s(?P<url>.*)$
-^Relative\sURL:\s(?P<relative_url>.*)$
-^Repository\sRoot:\s(?P<repository_root>.*)$
-^Repository\sUUID:\s(?P<repository_uuid>.*)$
-^Revision:\s(?P<revision>.*)$
-^Node\sKind:\s(?P<node_kind>.*)$
-^Schedule:\s(?P<schedule>.*)$
-^Last\sChanged\sAuthor:\s(?P<last_changed_author>.*)$
-^Last\sChanged\sRev:\s(?P<last_changed_rev>.*)$
-^Last\sChanged\sDate:\s(?P<last_changed_date>.*)$'''
 
     def __init__(self, path, *args, **kwargs):
         """Inits directory object
@@ -131,22 +120,6 @@ class File(FSObject):
             contents: contents of the file
 
     """
-
-    _info_regex = r'''^Path:\s(?P<path>.*)$
-^Name:\s(?P<name>.*)$
-^Working\sCopy\sRoot\sPath:\s(?P<working_copy_root_path>.*)$
-^URL:\s(?P<url>.*)$
-^Relative\sURL:\s(?P<relative_url>.*)$
-^Repository\sRoot:\s(?P<repository_root>.*)$
-^Repository\sUUID:\s(?P<repository_uuid>.*)$
-^Revision:\s(?P<revision>.*)$
-^Node\sKind:\s(?P<node_kind>.*)$
-^Schedule:\s(?P<schedule>.*)$
-^Last\sChanged\sAuthor:\s(?P<last_changed_author>.*)$
-^Last\sChanged\sRev:\s(?P<last_changed_rev>.*)$
-^Last\sChanged\sDate:\s(?P<last_changed_date>.*)$
-^Text\sLast\sUpdated:\s(?P<text_last_updated>.*)$
-^Checksum:\s(?P<checksum>.*)$'''
 
     def __init__(self, path, *args, **kwargs):
         """Inits File object
