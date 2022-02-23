@@ -3,6 +3,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+    DATA_DIR = os.path.join(basedir, 'tests/data')
 
     @staticmethod
     def init_app(app):
@@ -11,12 +12,10 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    DATA_DIR = os.path.join(basedir, 'data')
 
 
 class TestingConfig(Config):
     TESTING = True
-    DATA_DIR = os.path.join(basedir, 'tests/data')
 
 
 class ProductionConfig(Config):
