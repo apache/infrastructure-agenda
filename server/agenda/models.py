@@ -18,8 +18,8 @@ class Agenda(object):
     def get_agendas(self):
 
         return [{'filename': agenda.name,
-                 'checksum': agenda.info['checksum'],
-                 'revision': agenda.info['last_changed_rev']}
+                 'checksum': agenda['checksum'],
+                 'revision': agenda['last_changed_rev']}
                 for agenda
                 in self._dir.files]
 
@@ -36,7 +36,7 @@ class Minutes(object):
     def get_minutes(self):
         
         return [{'filename': minutes.name,
-                 'checksum': minutes.info['checksum'],
-                 'revision': minutes.info['last_changed_rev']}
+                 'checksum': minutes['checksum'],
+                 'revision': minutes['last_changed_rev']}
                 for minutes
                 in self._dir.files]

@@ -36,6 +36,9 @@ class FSObject(object):
 
         return info
 
+    def __getitem__(self, item):
+        return self._info[item]
+
 
 class Dir(FSObject):
     """A class facilitating access to an SVN backed directory
@@ -67,9 +70,11 @@ class Dir(FSObject):
         else:
             self._recurse = False
 
+        self._files = self._walkdir()
+
     @property
     def files(self):
-        return self._walkdir()
+        return self._files
 
     def file(self, filename):
         """return a File object
@@ -136,7 +141,7 @@ class File(FSObject):
     @property
     def contents(self):
         with open(self._path, 'r')as file:
-            return file.readlines()
+            return file.read()
     
     def __repr__(self):
         return f"<SVNFile: {self.name}>"
