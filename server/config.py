@@ -12,10 +12,12 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    DATA_DIR = os.path.join(basedir, 'data')
 
 
 class TestingConfig(Config):
     TESTING = True
+    DATA_DIR = os.path.join(basedir, 'tests/data')
 
 
 class ProductionConfig(Config):

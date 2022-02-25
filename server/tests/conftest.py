@@ -17,8 +17,8 @@ def client(app):
     return app.test_client()
 
 
-# We need to figure out how to pull this from app.config
-data_dir = "/Users/dzqmmt/Projects/infrastructure-agenda/server/tests/data"
+config = agenda.config['testing']
+data_dir = config.DATA_DIR
 
 
 def pytest_configure():

@@ -8,7 +8,7 @@ from . import svn
 
 class Agenda(object):
 
-    _dir = svn.Dir(os.path.join(flask.current_app.config['DATA_DIR'], 'repos', 'board'),
+    _dir = svn.Dir(os.path.join(flask.current_app.config['DATA_DIR'], 'repos', 'foundation_board'),
                    filter=r'board_agenda_\d{4}_\d{2}_\d{2}\.txt',
                    recurse=True)
 
@@ -16,7 +16,7 @@ class Agenda(object):
         pass
 
     def get_agendas(self):
-        
+
         return [{'filename': agenda.name,
                  'checksum': agenda.info['checksum'],
                  'revision': agenda.info['last_changed_rev']}
