@@ -8,6 +8,6 @@ minutes = Minutes()
 
 
 @api.route('/minutes')
-def get_minutes():
-    items = minutes.get_minutes()
+def get_all_minutes():
+    items = minutes.get_all_minutes()
     return flask.jsonify(items=items, count=len(items))
