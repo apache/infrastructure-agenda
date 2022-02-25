@@ -14,5 +14,7 @@ def get_all_agendas():
 
 
 @api.route('/agendas/<meeting_dates:date>')
-    pass
 def get_agenda_by_date(date):
+    item = agendas.get_agenda_by_date(date)
+
+    return flask.jsonify(items=item.info, count=1)
