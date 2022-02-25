@@ -4,12 +4,18 @@
 
 ### iroh (cevanwells)
 
-* Create ezt templates for minutes, etc...
+* Build parser for agendas/minutes
+* Figure out if using [sqlite, json, etc...] for agenda drafts
+* Create ezt templates for agendas, minutes, etc...
 * Plan out needed data structures/classes
-* Plan API endpoints/skeleton
+* get more familiar with using whimsy/JS tools
+* create calendar endpoint for meeting dates
 
 ## Worklog (newest at top)
 
+* Created API endpoints Agenda and Minutes models (iroh)
+* Created SVN class to handle access SVN backed data (iroh)
+* Setup testing (iroh)
 * Setup basic app layout (iroh)
 * Look into Flask Blueprints (iroh)
 * Look at ASFpy and SvnPubSub (iroh)
