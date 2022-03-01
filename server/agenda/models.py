@@ -16,7 +16,7 @@ class Agenda(object):
     def __init__(self):
         pass
 
-    def get_all_agendas(self):
+    def get_all(self):
 
         return [{'filename': agenda.name,
                  'checksum': agenda['checksum'],
@@ -24,7 +24,7 @@ class Agenda(object):
                 for agenda
                 in self._dir.files]
 
-    def get_agenda_by_date(self, date):
+    def get_by_date(self, date):
         filename = f"board_agenda_{date.strftime('%Y_%m_%d')}.txt"
 
         return self._dir.file(filename)
@@ -39,7 +39,7 @@ class Minutes(object):
     def __init__(self):
         pass
 
-    def get_all_minutes(self):
+    def get_all(self):
         
         return [{'filename': minutes.name,
                  'checksum': minutes['checksum'],
@@ -47,7 +47,7 @@ class Minutes(object):
                 for minutes
                 in self._dir.files]
 
-    def get_minutes_by_date(self, date):
+    def get_by_date(self, date):
         filename = f"board_minutes_{date.strftime('%Y_%m_%d')}.txt"
 
         return self._dir.file(filename)
