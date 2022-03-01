@@ -209,6 +209,8 @@ As Resolution plus:
 - **Post Meeting Workflow**
   - Inform Infra of TLP Name, VP, list of members
     - Various LDAP Updates (?)
+    - If former VP is no longer an officer nor a member, make sure
+      they are no longer subscribed to board@
   - Inform Attic
   - Inform press@ of terminated project
 
@@ -225,6 +227,9 @@ As Resolution plus:
   - Inform Infra of new VP for LDAP update
   - Inform new VP, outgoing VP of role change
   - Inform PMC of the role change (? We don't do this now, but should)
+  - If outgoing VP is no longer an officer nor a member, make sure
+    they are no longer subscribed to board@
+
 
 ## Discussion Item
 
