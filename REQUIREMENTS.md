@@ -43,6 +43,9 @@ Raw list of features that are in-use today.
 * Directors can review, sign-off, comment, and flag reports
   * PMC VPs can read and comment on reports
   * Comments can be targetted at the PMC, which includes notifications to the PMC
+    * May be a Request for clarification, with direct notification to the PMC+VP
+    * May be a Request for edit, with direct notification to the PMC+VP
+    * May be a comment that is either non-actionable or actionable for a next report
   * Comments can be targetted at the board, without notifications to the PMC.
   * Any agenda item from Minutes through Special Orders can be commented on.
 * Provide active workflow during a Board meeting
@@ -120,6 +123,10 @@ The resulting data, once a Board meeting is over, must be available in an open s
   * Enabling other tools to generate specific views of the results, like [listing all reports of a given project](https://whimsy.apache.org/board/minutes/Ant).
 
 Access to other ASF data (usually read-only, such as [committee-info.txt](https://svn.apache.org/repos/private/committers/board/committee-info.txt)) might go through a specific subdomain like data.apache.org (or two: one private, one public) to help keep track, over time, of what data is used and to clarify access control.
+
+## Identity
+- Every person referenced in an agenda is always identified via their ASF ID (ie. not via Director initials)
+- A person's full name is used in outgoing communication (e.g. comments to PMCs, shepherd assignments, action items)
 
 ## All Items
 - Item ID (where in Agenda)
