@@ -12,7 +12,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    DATA_DIR = os.path.join(basedir, 'data')
+    DATA_DIR = os.environ['DATA_DIR'] or os.path.join(basedir, 'data')
 
 
 class TestingConfig(Config):
@@ -21,7 +21,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
-    pass
+    DATA_DIR = os.environ['DATA_DIR'] or os.path.join(basedir, 'data')
 
 
 config = {
