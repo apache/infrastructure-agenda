@@ -3,4 +3,8 @@ import flask
 
 api = flask.Blueprint('api', __name__)
 
-from . import reports, agendas, minutes, error_handlers
+from . import reports
+from . import agendas
+from . import minutes
+from . import meetings
+from . import error_handlers

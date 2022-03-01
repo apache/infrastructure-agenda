@@ -1,0 +1,37 @@
+The Apache Software Foundation                                  -*-text-*-
+Board of Directors meeting calendar           $Date: 2014-12-17 15:05:15 -0400 (Wed, 17 Dec 2014) $
+
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam mollis laoreet est non pharetra. Cras cursus quam nec erat commodo faucibus. Cras sodales posuere augue sit amet eleifend. Ut viverra sem in elit scelerisque mollis. Etiam ac condimentum libero. Cras sollicitudin lacinia dictum. Etiam finibus metus ut ipsum volutpat, dignissim venenatis lectus faucibus. Etiam a magna eu urna faucibus imperdiet vel et sem. Vivamus arcu sem, consectetur vitae volutpat a, ultrices ut nisl. Integer a justo eget neque condimentum commodo. Nulla ex ante, varius non turpis vel, porttitor cursus ipsum. Mauris id tristique nunc, vel ornare elit. Sed aliquet metus et sapien pellentesque, id tempor risus posuere. Ut semper a arcu pretium cursus.
+
+Nunc imperdiet egestas elit, in feugiat ex eleifend ac. Donec interdum lectus lorem, sodales pharetra eros bibendum ac. Curabitur euismod posuere dolor, quis lobortis ante ornare vestibulum. Donec tempus orci turpis, non luctus massa dictum quis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In a ipsum a elit semper finibus. Sed ullamcorper, magna vitae pulvinar malesuada, orci neque dignissim dolor, at suscipit erat lacus convallis ipsum. Interdum et malesuada fames ac ante ipsum primis in faucibus. 
+
+In sed tellus eu nisi commodo condimentum. Proin mollis ut velit et tincidunt. Mauris egestas tellus elit, quis rhoncus justo facilisis a. Cras ante enim, sagittis at porttitor sed, eleifend at purus. Proin turpis nisi, consectetur iaculis risus ut, elementum pellentesque orci.
+
+
+Meeting Calendar
+================
+
+  *) Wed, 21 January 2015, 22:00 UTC
+
+  *) Wed, 18 February 2015, 22:00 UTC
+
+  *) Wed, 18 March 2015, 22:00 UTC
+
+  *) Wed, 15 April 2015, 22:00 UTC
+
+  *) Wed, 20 May 2015, 22:00 UTC
+
+  *) Wed, 17 June 2015, 22:00 UTC
+
+  *) Wed, 15 July 2015, 22:00 UTC
+
+  *) Wed, 19 August 2015, 22:00 UTC
+
+  *) Wed, 16 September 2015, 22:00 UTC
+
+  *) Wed, 21 October 2015, 22:00 UTC
+
+  *) Wed, 18 November 2015, 22:00 UTC
+
+  *) Wed, 16 December 2015, 22:00 UTC
