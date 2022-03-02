@@ -1,0 +1,134 @@
+INFORMATION ABOUT THE ASF COMMITTEES                         -*-indented-text-*-
+
+                         Last modified:
+                         $Date: 2022-03-02 05:00:00 -0500 (Wed, 02 Mar 2022) $
+
+
+                  +++ N.B. This file is encoded in UTF-8 +++
+Please ensure the correct encoding is maintained. Do not use tabs.
+
+** DO NOT CHANGE THE LAYOUT OR SYNTAX OF THE FILE OR YOU MAY BREAK LOTS OF SCRIPTS **
+
+=============================================================================
+
+1. APACHE SOFTWARE FOUNDATION COMMITTEES
+
+
+The Apache Software Foundation has the following Project Management
+Committees (PMCs):
+
+    NAME                    CHAIR
+    ----------              ---------------
+    Arbustum                Brian Torphic <bt@example.org>
+    Boyau                   Zula Purdy <zulalila@example.org>
+    Bubaline                Štěpán Florián <stepan@example.org
+    Carbuncle               Alexia De Ridder <alexia.deridder@example.org>
+    Carrack                 Todd Jackson <todd@example.org>
+    Cheverel                Margaux Michaux <mmichaux@example.org>
+    Coronach                Eivor Johannessen <eivor@example.org>
+    Fardel77                Roland Åberg <raberg@example.org>
+    Gallet                  Jeremy Laurila <jerbear@example.org>
+    Pteric                  Kazimierz Nowak <kaz@example.org>
+    RosMarine               Takashi Fujimori <takashi.fujimori@example.org>
+    RuginePQ                Zelida Sala <tormach@example.org>
+
+
+The ASF also has the following Board Committees:
+
+    NAME                      CHAIR
+    ----------                ---------------
+    Legal Affairs             Noëlle Özer <nozer@example.org>
+    Security Team             Aline Weinhold <aline@example.org>
+
+
+The ASF also has the following President's Committees:
+
+    NAME                      CHAIR
+    ----------                ---------------
+    Brand Management          Դշխուն Պողոսյան <pog@example.org>
+    Conferences               Liam Green <liam@example.org>
+    Diversity and Inclusion   Ines Regalado Hijo <irh@example.org>
+    Fundraising               Napoleon Schmeler <napoleon.schmeler@example.org>
+    Marketing and Publicity   Meixiao Rui <meixiao@example.org>
+    Travel Assistance         Niels Hubert <niels@example.org>
+    Data Privacy              Euģēnijs Kovaļevskis <eugene@example.org>
+
+
+The ASF also has the following Executive Officers:
+
+    Office                        Officer
+    ----------                    ---------------
+    Board Chair                   Heiðrós Halldórsson <halldor@example.org>
+    Vice Chair                    Αγαθάγγελος Κεδίκογλου <ked@example.org>
+    President                     Jessica Orn <jorn@example.org>
+    Exec. V.P.                    Layne Goodwin <goodwin@example.org>
+    Treasurer                     Kurt McCullough <kurt@example.org>
+    Assistant Treasurer           Mike Predovic <predovic@example.org>
+    Secretary                     Đồng Lễ <dle@example.org>
+    Assistant Secretary           Svetlana Platanić <svetlana@example.org>
+
+
+The ASF also has the following additional Officers:
+
+    Office                        Officer
+    ----------                    ---------------
+    W3C Relations                 Evģenijs Bērziņš <eberzins@example.org>
+    Infrastructure                Reynold Pouros <pouros@example.org>
+    Infrastructure Administrator  Haven Langosh <haven.langosh@example.org>
+    Sponsor Relations             Blanka Szulc <blanka@example.org>
+    Jakarta EE Relations          Pavitra Malakar <pmalakar@example.org>
+    Assistant V.P. Legal Affairs  Raheem Runolfsdottir <raheem@example.org>
+
+
+=============================================================================
+
+2. REPORTING PROCESS AND SCHEDULE
+
+
+The assigned quarterly reporting periods are:
+
+
+January, April, July, October
+-----------------------------
+    RuginePQ
+    Cheverel
+    Coronach
+    Pteric   
+
+
+February, May, August, November
+-------------------------------
+    Bubaline
+    Fardel77
+    RosMarine
+    Boyau
+
+
+March, June, September, December
+--------------------------------
+    Arbustum
+    Gallet
+    Carbuncle
+    Carrack
+
+
+The following lists those projects who need to report at the next meeting,
+along with a comment as to how long this is expected to be the case. No comment
+implies that they are expected to report every month.
+
+Next month
+----------
+    Brand Management
+    Fundraising
+    Incubator
+    Infrastructure
+    W3C Relations
+    Legal Affairs
+    Marketing and Publicity
+    Security Team
+    Travel Assistance
+    Arbustum               # missing in June 
+    RosMarine              # missing in May, June
+
+
+=============================================================================

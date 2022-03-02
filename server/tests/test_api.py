@@ -82,3 +82,25 @@ def test_get_meeting_by_month(client):
     json_response = response.get_json()
     assert json_response['count'] == 1
     assert json_response['items'][0] == 'Wed, 17 Jun 2015 22:00:00 GMT'
+
+
+# committee endpoint
+def test_get_all_committees(client):
+    response = client.get("/api/v1/committees")
+
+    assert response.status_code == 200
+    json_response = response.get_json()
+    assert json_response['count'] == 19
+    assert json_response['items'][0]['name'] == 'arbustum'
+
+
+def test_get_committee_by_name(client):
+    response = client.get("/api/v1/committees/pteric")
+
+    assert response.status_code == 200
+    json_response = response.get_json()
+    assert json_response['count'] == 1
+    assert json_response['items'][0]['name'] == 'pteric'
+
+# get committees by reporting month
+# get committees reporting next meeting
