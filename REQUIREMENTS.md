@@ -198,6 +198,7 @@ As Resolution plus:
 - PMC VP
 - PMC Members (list)
   - Display VP;Members as Public Name, ID, with bold for ASF Members
+- Links/commentary - leave these similar as a comment making it easier for directors to trace/review.
 
 - **Post Meeting Workflow**
   - Inform Infra of new TLP Name, list of PMC members & VP
