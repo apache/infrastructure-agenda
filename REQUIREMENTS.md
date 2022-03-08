@@ -47,7 +47,7 @@ Raw list of features that are in-use today.
     * May be a Request for edit, with direct notification to the PMC+VP
     * May be a comment that is either non-actionable or actionable for a next report
   * Comments can be targetted at the board, without notifications to the PMC.
-  * Any agenda item from Minutes through Special Orders can be commented on.
+  * Any agenda item from Minutes through Discussion Items can be commented on.
 * Provide active workflow during a Board meeting
   * Special functions for: Chair, Directors, Secretary, Members/Guests
     * Chair features:
@@ -170,6 +170,8 @@ Access to other ASF data (usually read-only, such as [committee-info.txt](https:
 - Submitter (PMC VP or Officer)
 - Text (boilerplate contents or free form)
 - Status (comments; board vote status or general consent)
+- Links/commentary - similar as a comment making it easier for directors
+  to trace/review votes/discussions as provided
 
 ### Resolution Workflow
 
@@ -198,7 +200,6 @@ As Resolution plus:
 - PMC VP
 - PMC Members (list)
   - Display VP;Members as Public Name, ID, with bold for ASF Members
-- Links/commentary - leave these similar as a comment making it easier for directors to trace/review.
 
 - **Post Meeting Workflow**
   - Inform Infra of new TLP Name, list of PMC members & VP
@@ -213,7 +214,6 @@ As Resolution plus:
 - Attic Boilerplate
 - PMC name
 - PMC VP
-- Link/commentary to attic vote (?)
 
 - **Post Meeting Workflow**
   - Inform Infra of TLP Name, VP, list of members
@@ -243,9 +243,12 @@ As Resolution plus:
 ## Discussion Item
 
 - Text
-- (?) Should we add Comments list to discussion items too?
-- (?) Should we add Status to discussion items too?
+- Status (comments)
 - TBD: definition if items are carried over to next agenda?
+  - outcome of a discussion item is
+  - a decision was made / no decision was made - the outcome is minuted
+  - optional: an action item was taken
+  - when inconclusive, the discussion item could carry to Unfinished Business (this is very rare)
 
 ## Action Item
 
@@ -258,5 +261,6 @@ As Resolution plus:
 
 - Secretary can create on the fly during meeting, link by default to current discussion item
 - Members can update data at any point
+- Directors can proactively create AIs for a report pre-meeting
 - Chair/Secretary decide post-meeting which AIs to carry over to next agenda
 - TBD: post-meeting Secretary email should inform Owner of new AIs
