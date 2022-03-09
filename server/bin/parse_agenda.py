@@ -12,19 +12,36 @@ import click
 def main(file, section):
     parsed_file = AgendaParser(file)
 
-    print(parsed_file)
+    print(parsed_file.contents)
 
 
 class AgendaParser(object):
 
     def __init__(self, file):
         raw_sections = self._parse_sections(file)
-        self.date = self._parse_meeting_date(raw_sections[0]['data'])
-        self.roll_call = self._parse_roll_call(raw_sections[2]['data'])
-
+        self.meta = {'date': self._parse_meeting_date(raw_sections[0]['data'])}
+        self.contents = {'roll_call': self._parse_roll_call(raw_sections[2]['data']),
+                         'previous_minutes': self._parse_last_minutes(raw_sections[3]['data'])
+                         }
 
     def __repr__(self):
-        return f"<ParsedAgenda: {self.date}>"
+        return f"<ParsedAgenda: {self.meta['date']}>"
+
+    def _parse_last_minutes(self, data):
+        data_str = "\n".join(data)
+        ret = {}
+
+        date_match = re.search(r'The\ meeting\ of\ (.*)', data_str)
+        ret['date'] = datetime.datetime.strptime(date_match.group(1), '%B %d, %Y')
+        file_match = re.search(r'See:\ (.*)', data_str)
+        ret['file'] = file_match.group(1)
+
+        # need to come back to this bit and parse it out more fully
+        ret['status'] = self._parse_fragment(data,
+                                             r"See: board_minutes_.*\.txt",
+                                             r"\]")
+
+        return ret
 
     def _parse_roll_call(self, data):
         ret = {}
@@ -84,13 +101,16 @@ class AgendaParser(object):
         capture = False
         for line in fragment:
 
-            if re.match(stop_pattern, line):
+            if re.search(stop_pattern, line):
+                #print("STATE: capture->False", line)
                 capture = False
 
             if capture is True:
+                #print(f"CAPTURE: {line}")
                 ret.append(line.strip())
 
-            if re.match(start_pattern, line):
+            if re.search(start_pattern, line):
+                #print("STATE: capture->True", line)
                 capture = True
 
         return ret
