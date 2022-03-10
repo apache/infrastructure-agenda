@@ -178,6 +178,12 @@ Access to other ASF data (usually read-only, such as [committee-info.txt](https:
 - **Pre-Meeting Workflow**
   - Member: Add resolution
   - Director: Preapprove / pre-vote; Comment (add new to list, or edit own)
+- **Pre-Meeting Async vote workflow
+  - When resolution has been in the agenda for N hours (say 1) to leave room for edits:
+    - send notification to board@ with [VOTE] $resolution_title subject and link to resolution in agenda
+  - When all directors have voted, after N hours (say 1) to leave room for edits:
+    - move resolution from Special Orders(7) section to Minutes(3) section of the agenda as Action without a meeting (https://www.apache.org/foundation/bylaws.html#5.12)
+    - send notification to board@ with [VOTE RESULT] $resolution_title subject and link to resolution in the agenda
 - **During Meeting Workflow**
   - Secretary, Chair: edit any resolution (but not other roles)
   - Secretary: record director votes or table/postpone
