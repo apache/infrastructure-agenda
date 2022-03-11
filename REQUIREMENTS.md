@@ -66,7 +66,7 @@ Raw list of features that are in-use today.
 * Post-Meeting publishing:
   * Publish **public** version of meeting minutes after meeting
   * Execute workflow on any Resolutions **passed**
-  * Prepare committers@ Board meeting recap email (projects and their VP's added/deleted; new officers appointed)
+  * Prepare committers@ Board meeting recap email (people present and guest/officer role; projects and their VP's added/deleted; new officers appointed)
 * single button attend/regret
 * show local time in call to order
 * show draft minutes
@@ -181,7 +181,7 @@ Access to other ASF data (usually read-only, such as [committee-info.txt](https:
 - **Pre-Meeting Async vote workflow**
   - When resolution has been in the agenda for N hours (say 1) to leave room for edits:
     - send notification to board@ with [VOTE] $resolution_title subject and link to resolution in agenda
-  - If all directors have voted Yes, then after N hours (say 1) to leave room for edits:
+  - If all directors have voted Yes (or Abstain), then after N hours (say 1) to leave room for edits:
     - move resolution from Special Orders(7) section to Minutes(3) section of the agenda
       - Include that result of the vote was unanimous, the date, and that this was an Action Without a Meeting (https://www.apache.org/foundation/bylaws.html#5.12).
     - send notification to board@ with [VOTE RESULT] $resolution_title subject and link to resolution in the agenda
