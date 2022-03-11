@@ -12,20 +12,67 @@ import click
 def main(file, section):
     parsed_file = AgendaParser(file)
 
-    print(parsed_file.contents)
+    print(parsed_file.raw_sections[section])
 
 
 class AgendaParser(object):
 
     def __init__(self, file):
-        raw_sections = self._parse_sections(file)
-        self.meta = {'date': self._parse_meeting_date(raw_sections[0]['data'])}
-        self.contents = {'roll_call': self._parse_roll_call(raw_sections[2]['data']),
-                         'previous_minutes': self._parse_last_minutes(raw_sections[3]['data'])
+        self.raw_sections = self._parse_sections(file)
+        self.meta = {'date': self._parse_meeting_date(self.raw_sections[0]['data'])}
+        self.contents = {'roll_call': self._parse_roll_call(self.raw_sections[2]['data']),
+                         'previous_minutes': self._parse_last_minutes(self.raw_sections[3]['data']),
+                         'executive_officer_reports': self._parse_exec_officer_reports(self.raw_sections[4]['data']),
+                         'additional_officer_reports': self._parse_add_officer_reports(self.raw_sections[5]['data'])
                          }
 
     def __repr__(self):
         return f"<ParsedAgenda: {self.meta['date']}>"
+
+    def _parse_add_officer_reports(self, data):
+        ret = {}
+        ret['vp_of_w3c_relations'] = \
+            self._parse_fragment(data,
+                                 r'A\.\ VP\ of\ W3C\ Relations',
+                                 r'B\.\ Apache\ Legal\ Affairs\ Committee')
+
+        ret['apache_legal_affairs_committee'] = \
+            self._parse_fragment(data,
+                                 r'B\.\ Apache\ Legal\ Affairs\ Committee',
+                                 r'C\.\ Apache\ Security\ Team\ Project')
+
+        return ret
+
+    def _parse_exec_officer_reports(self, data):
+        # need to parse out officer names here
+        # also need to parse possible status messages in each report
+        ret = {}
+        ret['chairman'] = \
+            self._parse_fragment(data,
+                                 r'A\.\ Chairman\ \[.*\]',
+                                 r'B\.\ President\ \[.*\]')
+
+        ret['president'] = \
+            self._parse_fragment(data,
+                                 r'B\.\ President\ \[.*\]',
+                                 r'C\.\ Treasurer\ \[.*\]')
+
+        ret['secretary'] = \
+            self._parse_fragment(data,
+                                 r'D\.\ Secretary\ \[.*\]',
+                                 r'E\.\ Executive\ Vice\ President\ \[.*\]')
+
+        ret['executive_vice_president'] = \
+            self._parse_fragment(data,
+                                 r'E\.\ Executive\ Vice\ President\ \[.*\]',
+                                 r'F\.\ Vice\ Chairman\ \[.*\]')
+
+        ret['vice_chairman'] = \
+            self._parse_fragment(data,
+                                 r'F\.\ Vice\ Chairman\ \[.*\]',
+                                 r'5\.\ Additional\ Officer\ Reports')
+
+        return ret
 
     def _parse_last_minutes(self, data):
         data_str = "\n".join(data)
@@ -79,7 +126,7 @@ class AgendaParser(object):
     def _parse_sections(file_name):
         ret = [{'name': 'head', 'data': []}]
         section_num = 0
-        section_pattern = r'^[ |\d]\d\.\s(.*)$'
+        section_pattern = r'^[ |\d]\d\.\s(.*)$|\={12}\n(ATTACHMENTS):\n\={12}'
         with open(file_name, "r") as fp:
 
             for line in fp.readlines():
