@@ -18,16 +18,18 @@ def main(file, section):
 class AgendaParser(object):
 
     def __init__(self, file):
-        self.raw_sections = self._parse_sections(file)
-        self.meta = {'date': self._parse_meeting_date(self.raw_sections[0]['data'])}
-        self.contents = {'roll_call': self._parse_roll_call(self.raw_sections[2]['data']),
-                         'previous_minutes': self._parse_last_minutes(self.raw_sections[3]['data']),
-                         'executive_officer_reports': self._parse_exec_officer_reports(self.raw_sections[4]['data']),
-                         'additional_officer_reports': self._parse_add_officer_reports(self.raw_sections[5]['data'])
-                         }
+        raw_sections = self._parse_sections(file)
+        self.date = self._parse_meeting_date(raw_sections[0]['data'])
+        self.roll_call = self._parse_roll_call(raw_sections[2]['data'])
+        self.previous_minutes = self._parse_last_minutes(raw_sections[3]['data'])
+        self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[4]['data'])
+        self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[5]['data'])
+
+        ### for main()
+        self.raw_sections = raw_sections
 
     def __repr__(self):
-        return f"<ParsedAgenda: {self.meta['date']}>"
+        return f"<ParsedAgenda: {self.date}>"
 
     def _parse_add_officer_reports(self, data):
         ret = {}
