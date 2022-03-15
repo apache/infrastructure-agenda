@@ -47,6 +47,7 @@ Raw list of features that are in-use today.
     * May be a Request for edit, with direct notification to the PMC+VP
     * May be a comment that is either non-actionable or actionable for a next report
   * Comments can be targetted at the board, without notifications to the PMC.
+  * Currently, responses from PMCs to comments go to the board list and are not linked to the comments stored in the agenda. Having those responses in the agenda would be useful to keep a complete history. Might be done by including a PMC-specific ID in the subject line when writing to the PMC and providing a link to search for those IDs in our mailing lists archive.
   * Any agenda item from Minutes through Discussion Items can be commented on.
 * Provide active workflow during a Board meeting
   * Special functions for: Chair, Directors, Secretary, Members/Guests
