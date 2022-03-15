@@ -84,6 +84,14 @@
          comments:
          ]
 
+    B. The meeting of August 19, 2020
+
+       See: board_minutes_2020_08_19.txt
+
+       [ approved: nh, clr, rubys, ps, curcuru, rtf, jm
+         comments:
+         ]
+
  4. Executive Officer Reports
 
     A. Chairman [Brett]
