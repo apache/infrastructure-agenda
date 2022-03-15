@@ -47,6 +47,35 @@ def main(file, section):
 
 class AgendaParser(object):
 
+    # Regex patterns for various lines in the agenda. These are used
+    # as both stop/start for the _parse_fragment() method.
+    #
+    # Note: technically, we could precompile them, but this entire
+    # parse is sub-second.
+
+    # Section headers
+    P_OFFICER_REPORTS = r'5\.\ Additional\ Officer\ Reports'
+
+    # Roll call lines
+    P_RC_DIRECTORS_PRESENT = r"Directors\ \(expected\ to\ be\)\ Present\:"
+    P_RC_DIRECTORS_ABSENT = r"Directors\ \(expected\ to\ be\)\ Absent\:"
+    P_RC_EXEC_PRESENT = r"Executive\ Officers\ \(expected\ to\ be\)\ Present\:"
+    P_RC_EXEC_ABSENT = r"Executive\ Officers\ \(expected\ to\ be\)\ Absent\:"
+    P_RC_GUESTS = r"Guests\ \(expected\)\:"
+
+    # Executive Officer Reports
+    P_CHAIR = r'A\.\ Chairman\ \[.*\]'
+    P_PRESIDENT = r'B\.\ President\ \[.*\]'
+    P_TREASURER = r'C\.\ Treasurer\ \[.*\]'
+    P_SECRETARY = r'D\.\ Secretary\ \[.*\]'
+    P_EVP = r'E\.\ Executive\ Vice\ President\ \[.*\]'
+    P_VICE_CHAIR = r'F\.\ Vice\ Chairman\ \[.*\]'
+
+    # Additional Officer Reports
+    P_VP_W3C = r'A\.\ VP\ of\ W3C\ Relations'
+    P_VP_LEGAL = r'B\.\ Apache\ Legal\ Affairs\ Committee'
+    P_SECURITY_TEAM = r'C\.\ Apache\ Security\ Team\ Project'
+
     def __init__(self, file):
         raw_sections = self._parse_sections(file)
         self.date = self._parse_meeting_date(raw_sections[S_HEADER]['data'])
@@ -62,47 +91,40 @@ class AgendaParser(object):
         return f"<ParsedAgenda: {self.date}>"
 
     def _parse_add_officer_reports(self, data):
-        ret = {}
-        ret[R_VP_W3C] = \
-            self._parse_fragment(data,
-                                 r'A\.\ VP\ of\ W3C\ Relations',
-                                 r'B\.\ Apache\ Legal\ Affairs\ Committee')
-
-        ret[R_VP_LEGAL] = \
-            self._parse_fragment(data,
-                                 r'B\.\ Apache\ Legal\ Affairs\ Committee',
-                                 r'C\.\ Apache\ Security\ Team\ Project')
-
-        return ret
+        return {
+            R_VP_W3C: self._parse_fragment(data,
+                                           self.P_VP_W3C,
+                                           self.P_VP_LEGAL),
+            R_VP_LEGAL: self._parse_fragment(data,
+                                             self.P_VP_LEGAL,
+                                             self.P_SECURITY_TEAM),
+        }
 
     def _parse_exec_officer_reports(self, data):
         # need to parse out officer names here
         # also need to parse possible status messages in each report
         ret = {}
-        ret[O_CHAIR] = \
-            self._parse_fragment(data,
-                                 r'A\.\ Chairman\ \[.*\]',
-                                 r'B\.\ President\ \[.*\]')
+        ret[O_CHAIR] = self._parse_fragment(data,
+                                            self.P_CHAIR,
+                                            self.P_PRESIDENT)
 
-        ret[O_PRESIDENT] = \
-            self._parse_fragment(data,
-                                 r'B\.\ President\ \[.*\]',
-                                 r'C\.\ Treasurer\ \[.*\]')
+        ret[O_PRESIDENT] = self._parse_fragment(data,
+                                                self.P_PRESIDENT,
+                                                self.P_TREASURER)
 
-        ret[O_SECRETARY] = \
-            self._parse_fragment(data,
-                                 r'D\.\ Secretary\ \[.*\]',
-                                 r'E\.\ Executive\ Vice\ President\ \[.*\]')
+        ### treasurer?
 
-        ret[O_EVP] = \
-            self._parse_fragment(data,
-                                 r'E\.\ Executive\ Vice\ President\ \[.*\]',
-                                 r'F\.\ Vice\ Chairman\ \[.*\]')
+        ret[O_SECRETARY] = self._parse_fragment(data,
+                                                self.P_SECRETARY,
+                                                self.P_EVP)
 
-        ret[O_VICE_CHAIR] = \
-            self._parse_fragment(data,
-                                 r'F\.\ Vice\ Chairman\ \[.*\]',
-                                 r'5\.\ Additional\ Officer\ Reports')
+        ret[O_EVP] = self._parse_fragment(data,
+                                          self.P_EVP,
+                                          self.P_VICE_CHAIR)
+
+        ret[O_VICE_CHAIR] = self._parse_fragment(data,
+                                                 self.P_VICE_CHAIR,
+                                                 self.P_OFFICER_REPORTS)
 
         return ret
 
@@ -148,25 +170,25 @@ class AgendaParser(object):
         ret = {}
         ret[RC_DIRECTORS_PRESENT] = \
             self._parse_fragment(data,
-                                 r"Directors\ \(expected\ to\ be\)\ Present\:",
-                                 r"Directors\ \(expected\ to\ be\)\ Absent\:")
+                                 self.P_RC_DIRECTORS_PRESENT,
+                                 self.P_RC_DIRECTORS_ABSENT)
         ret[RC_DIRECTORS_ABSENT] = \
             self._parse_fragment(data,
-                                 r"Directors\ \(expected\ to\ be\)\ Absent\:",
-                                 r"Executive\ Officers\ \(expected\ to\ be\)\ Present\:")
+                                 self.P_RC_DIRECTORS_ABSENT,
+                                 self.P_RC_EXEC_PRESENT)
         ret[RC_OFFICERS_PRESENT] = \
             self._parse_fragment(data,
-                                 r"Executive\ Officers\ \(expected\ to\ be\)\ Present\:",
-                                 r"Executive\ Officers\ \(expected\ to\ be\)\ Absent\:")
+                                 self.P_RC_EXEC_PRESENT,
+                                 self.P_RC_EXEC_ABSENT)
 
         ret[RC_OFFICERS_ABSENT] = \
             self._parse_fragment(data,
-                                 r"Executive\ Officers\ \(expected\ to\ be\)\ Absent\:",
-                                 r"Guests\ \(expected\)\:")
+                                 self.P_RC_EXEC_ABSENT,
+                                 self.P_RC_GUESTS)
 
         ret[RC_GUESTS_PRESENT] = \
             self._parse_fragment(data,
-                                 r"Guests\ \(expected\)\:",
+                                 self.P_RC_GUESTS,
                                  r"\n")
 
         return ret
