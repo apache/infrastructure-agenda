@@ -107,20 +107,42 @@ class AgendaParser(object):
         return ret
 
     def _parse_last_minutes(self, data):
-        data_str = "\n".join(data)
-        ret = {}
+        # List of minutes to approve. Tuples: (DATE, FILENAME, CONTENT)
+        minutes = [ ]
 
-        date_match = re.search(r'The\ meeting\ of\ (.*)', data_str)
-        ret['date'] = datetime.datetime.strptime(date_match.group(1), '%B %d, %Y')
-        file_match = re.search(r'See:\ (.*)', data_str)
-        ret['file'] = file_match.group(1)
+        # What have we seen/accumulated?
+        min_date = None
+        min_filename = None
+        min_content = None
 
-        # need to come back to this bit and parse it out more fully
-        ret['status'] = self._parse_fragment(data,
+        for line in data:
+            m = re.search(r'The\ meeting\ of\ (.*)', line)
+            if m:
+                if min_date:
+                    minutes.append((min_date, min_filename, min_content))
+                    min_filename = None
+                    min_content = None
+                min_date = datetime.datetime.strptime(m.group(1), '%B %d, %Y')
+            else:
+                m = re.search(r'See:\ (.*)', line)
+                if m:
+                    min_filename = m.group(1)
+
+            ### TBD: do we need to capture CONTENT?
+
+        # Parse loop done. Finish out accumulated info.
+        if min_date:
+            minutes.append((min_date, min_filename, min_content))
+
+        ### need to come back to this bit and parse it out more fully.
+        ### old code. Leaving for posterity and carry-forward
+        if False:
+         ret['status'] = self._parse_fragment(data,
                                              r"See: board_minutes_.*\.txt",
                                              r"\]")
 
-        return ret
+        #print('MINUTES:', minutes)
+        return minutes
 
     def _parse_roll_call(self, data):
         ret = {}
