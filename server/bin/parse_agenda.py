@@ -15,6 +15,17 @@ S_OFFICER_REPORTS = 5
 S_REPORTS = 6
 S_ORDERS = 7
 
+# Report names
+R_VP_W3C = 'vp_of_w3c_relations'
+R_VP_LEGAL = 'apache_legal_affairs_committee'
+
+# Officer names
+O_CHAIR = 'chairman'
+O_PRESIDENT = 'president'
+O_SECRETARY = 'secretary'
+O_EVP = 'executive_vice_president'
+O_VICE_CHAIR = 'vice_chairman'
+
 
 @click.command()
 @click.argument('file')
@@ -43,12 +54,12 @@ class AgendaParser(object):
 
     def _parse_add_officer_reports(self, data):
         ret = {}
-        ret['vp_of_w3c_relations'] = \
+        ret[R_VP_W3C] = \
             self._parse_fragment(data,
                                  r'A\.\ VP\ of\ W3C\ Relations',
                                  r'B\.\ Apache\ Legal\ Affairs\ Committee')
 
-        ret['apache_legal_affairs_committee'] = \
+        ret[R_VP_LEGAL] = \
             self._parse_fragment(data,
                                  r'B\.\ Apache\ Legal\ Affairs\ Committee',
                                  r'C\.\ Apache\ Security\ Team\ Project')
@@ -59,27 +70,27 @@ class AgendaParser(object):
         # need to parse out officer names here
         # also need to parse possible status messages in each report
         ret = {}
-        ret['chairman'] = \
+        ret[O_CHAIR] = \
             self._parse_fragment(data,
                                  r'A\.\ Chairman\ \[.*\]',
                                  r'B\.\ President\ \[.*\]')
 
-        ret['president'] = \
+        ret[O_PRESIDENT] = \
             self._parse_fragment(data,
                                  r'B\.\ President\ \[.*\]',
                                  r'C\.\ Treasurer\ \[.*\]')
 
-        ret['secretary'] = \
+        ret[O_SECRETARY] = \
             self._parse_fragment(data,
                                  r'D\.\ Secretary\ \[.*\]',
                                  r'E\.\ Executive\ Vice\ President\ \[.*\]')
 
-        ret['executive_vice_president'] = \
+        ret[O_EVP] = \
             self._parse_fragment(data,
                                  r'E\.\ Executive\ Vice\ President\ \[.*\]',
                                  r'F\.\ Vice\ Chairman\ \[.*\]')
 
-        ret['vice_chairman'] = \
+        ret[O_VICE_CHAIR] = \
             self._parse_fragment(data,
                                  r'F\.\ Vice\ Chairman\ \[.*\]',
                                  r'5\.\ Additional\ Officer\ Reports')
