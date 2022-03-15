@@ -5,6 +5,16 @@ import datetime
 
 import click
 
+# Section names
+S_HEADER = 0
+S_CALL_TO_ORDER = 1
+S_ROLL_CALL = 2
+S_MINUTES = 3
+S_EXEC_REPORTS = 4
+S_OFFICER_REPORTS = 5
+S_REPORTS = 6
+S_ORDERS = 7
+
 
 @click.command()
 @click.argument('file')
@@ -19,11 +29,11 @@ class AgendaParser(object):
 
     def __init__(self, file):
         raw_sections = self._parse_sections(file)
-        self.date = self._parse_meeting_date(raw_sections[0]['data'])
-        self.roll_call = self._parse_roll_call(raw_sections[2]['data'])
-        self.previous_minutes = self._parse_last_minutes(raw_sections[3]['data'])
-        self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[4]['data'])
-        self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[5]['data'])
+        self.date = self._parse_meeting_date(raw_sections[S_HEADER]['data'])
+        self.roll_call = self._parse_roll_call(raw_sections[S_ROLL_CALL]['data'])
+        self.previous_minutes = self._parse_last_minutes(raw_sections[S_MINUTES]['data'])
+        self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
+        self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[S_OFFICER_REPORTS]['data'])
 
         ### for main()
         self.raw_sections = raw_sections
