@@ -10,12 +10,12 @@ from . import parseci
 
 class Agenda(object):
 
-    _dir = svn.Dir(os.path.join(flask.current_app.config['DATA_DIR'], 'repos', 'foundation_board'),
-                   filter=r'board_agenda_\d{4}_\d{2}_\d{2}\.txt',
-                   recurse=True)
-
     def __init__(self):
-        pass
+        self._dir = svn.Dir(os.path.join(flask.current_app.config['DATA_DIR'],
+                                         'repos',
+                                         'foundation_board'),
+                            filter=r'board_agenda_\d{4}_\d{2}_\d{2}\.txt',
+                            recurse=True)
 
     def get_all(self):
 
@@ -33,12 +33,12 @@ class Agenda(object):
 
 class Minutes(object):
 
-    _dir = svn.Dir(os.path.join(flask.current_app.config['DATA_DIR'], 'repos', 'minutes'),
-                   filter=r'board_minutes_\d{4}_\d{2}_\d{2}\.txt',
-                   recurse=True)
-
     def __init__(self):
-        pass
+        self._dir = svn.Dir(os.path.join(flask.current_app.config['DATA_DIR'],
+                                         'repos',
+                                         'minutes'),
+                            filter=r'board_minutes_\d{4}_\d{2}_\d{2}\.txt',
+                            recurse=True)
 
     def get_all(self):
         
@@ -56,12 +56,13 @@ class Minutes(object):
 
 class Meeting(object):
 
-    _cal_file = os.path.join(flask.current_app.config['DATA_DIR'], 
-                             'repos', 
-                             'committers_board',
-                             'calendar.txt')
-
     def __init__(self):
+
+        self._cal_file = os.path.join(flask.current_app.config['DATA_DIR'], 
+                                      'repos', 
+                                      'committers_board',
+                                      'calendar.txt')
+
         with open(self._cal_file, "r") as f:
             matches = re.findall(r'^\s+\*\)\s(.*)$', f.read(), re.MULTILINE)
 
@@ -98,13 +99,13 @@ class Meeting(object):
 
 
 class Committee(object):
-    
-    _data_file = os.path.join(flask.current_app.config['DATA_DIR'],
-                              'repos',
-                              'committers_board',
-                              'committee-info.txt')
 
     def __init__(self):
+        self._data_file = os.path.join(flask.current_app.config['DATA_DIR'],
+                                       'repos',
+                                       'committers_board',
+                                       'committee-info.txt')
+
         with open(self._data_file, 'r') as fp:
             self._data = parseci.parse_info(fp)
 
