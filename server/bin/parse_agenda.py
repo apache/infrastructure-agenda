@@ -26,6 +26,15 @@ O_SECRETARY = 'secretary'
 O_EVP = 'executive_vice_president'
 O_VICE_CHAIR = 'vice_chairman'
 
+# Roll call sections
+### do we need these bits? ... seems we only need: who attended,
+### extracted from minutes
+RC_DIRECTORS_PRESENT = 'directors_present'
+RC_DIRECTORS_ABSENT = 'directors_absent'
+RC_OFFICERS_PRESENT = 'officers_present'
+RC_OFFICERS_ABSENT = 'officers_absent'
+RC_GUESTS_PRESENT = 'guests_present'
+
 
 @click.command()
 @click.argument('file')
@@ -115,25 +124,25 @@ class AgendaParser(object):
 
     def _parse_roll_call(self, data):
         ret = {}
-        ret['directors_present'] = \
+        ret[RC_DIRECTORS_PRESENT] = \
             self._parse_fragment(data,
                                  r"Directors\ \(expected\ to\ be\)\ Present\:",
                                  r"Directors\ \(expected\ to\ be\)\ Absent\:")
-        ret['directors_absent'] = \
+        ret[RC_DIRECTORS_ABSENT] = \
             self._parse_fragment(data,
                                  r"Directors\ \(expected\ to\ be\)\ Absent\:",
                                  r"Executive\ Officers\ \(expected\ to\ be\)\ Present\:")
-        ret['officers_present'] = \
+        ret[RC_OFFICERS_PRESENT] = \
             self._parse_fragment(data,
                                  r"Executive\ Officers\ \(expected\ to\ be\)\ Present\:",
                                  r"Executive\ Officers\ \(expected\ to\ be\)\ Absent\:")
 
-        ret['officers_absent'] = \
+        ret[RC_OFFICERS_ABSENT] = \
             self._parse_fragment(data,
                                  r"Executive\ Officers\ \(expected\ to\ be\)\ Absent\:",
                                  r"Guests\ \(expected\)\:")
 
-        ret['guests_present'] = \
+        ret[RC_GUESTS_PRESENT] = \
             self._parse_fragment(data,
                                  r"Guests\ \(expected\)\:",
                                  r"\n")
