@@ -29,6 +29,7 @@ R_VP_LEGAL = 'apache_legal_affairs_committee'
 # Officer names
 O_CHAIR = 'chairman'
 O_PRESIDENT = 'president'
+O_TREASURER = 'treasurer'
 O_SECRETARY = 'secretary'
 O_EVP = 'executive_vice_president'
 O_VICE_CHAIR = 'vice_chairman'
@@ -119,7 +120,9 @@ class AgendaParser(object):
                                                 self.P_PRESIDENT,
                                                 self.P_TREASURER)
 
-        ### treasurer?
+        ret[O_TREASURER] = self._parse_fragment(data,
+                                                self.P_TREASURER,
+                                                self.P_SECRETARY)
 
         ret[O_SECRETARY] = self._parse_fragment(data,
                                                 self.P_SECRETARY,
