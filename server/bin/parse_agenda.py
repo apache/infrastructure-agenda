@@ -16,7 +16,7 @@ S_REPORTS = 6
 S_ORDERS = 7
 S_DISCUSS_ITEMS = 8
 S_REVIEW_ACTION_ITEMS = 9
-S_UNIFINISHED_BUSINESS = 10
+S_UNFINISHED_BUSINESS = 10
 S_NEW_BUSINESS = 11
 S_ANNOUNCEMENTS = 12
 S_ADJOURNMENT = 13
@@ -50,7 +50,7 @@ RC_GUESTS_PRESENT = 'guests_present'
 def main(file, section):
     parsed_file = AgendaParser(file)
 
-    print(parsed_file.raw_sections[section])
+    print("\n".join(parsed_file.raw_sections[S_REPORTS]['data']))
 
 
 class AgendaParser(object):
@@ -84,6 +84,14 @@ class AgendaParser(object):
     P_VP_LEGAL = r'B\.\ Apache\ Legal\ Affairs\ Committee'
     P_SECURITY_TEAM = r'C\.\ Apache\ Security\ Team\ Project'
 
+    # Reports (gmxs)
+    P_REPORT = r'''\s{4}\w+\.\s(?P<project>.*?)\s\[(?P<owner>.*?)(?:\s\/\s(?P<shepherd>.*?))?\]
+                   \s+See\sAttachment\s(?P<attachment>\w+)
+                   \s+\[(?P<status>.*?)\]'''
+    # status (xs)
+    P_STATUS = r'''approved:\s(?P<approvals>.*?)?\n
+                   comments:\s(?P<comments>.*)'''
+
     def __init__(self, file):
         raw_sections = self._parse_sections(file)
         self.date = self._parse_meeting_date(raw_sections[S_HEADER]['data'])
@@ -91,12 +99,17 @@ class AgendaParser(object):
         self.previous_minutes = self._parse_last_minutes(raw_sections[S_MINUTES]['data'])
         self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
         self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[S_OFFICER_REPORTS]['data'])
+        #self.reports = self._parse_committee_reports("\n".join(raw_sections[S_REPORTS]['data']))
 
         ### for main()
         self.raw_sections = raw_sections
 
     def __repr__(self):
         return f"<ParsedAgenda: {self.date}>"
+
+    def _parse_committee_reports(self, data):
+        ret = re.findall(self.P_REPORT, data, re.MULTILINE | re.VERBOSE | re.DOTALL)
+        return ret
 
     def _parse_add_officer_reports(self, data):
         return {
@@ -148,7 +161,7 @@ class AgendaParser(object):
         min_content = None
 
         for line in data:
-            m = re.search(r'The\ meeting\ of\ (.*)', line)
+            m = re.search(r'The meeting of (.*)', line)
             if m:
                 if min_date:
                     minutes.append((min_date, min_filename, min_content))
@@ -156,7 +169,7 @@ class AgendaParser(object):
                     min_content = None
                 min_date = datetime.datetime.strptime(m.group(1), '%B %d, %Y')
             else:
-                m = re.search(r'See:\ (.*)', line)
+                m = re.search(r'See: (.*)', line)
                 if m:
                     min_filename = m.group(1)
 

@@ -19,7 +19,7 @@ def test_get_all_agendas(client):
     assert response.status_code == 200
     json_response = response.get_json()
     assert json_response['count'] == 2
-    assert json_response['items'][0]['checksum'] == "9925530f37dbbd995e939d72927befd711e9461b"
+    assert json_response['items'][0]['checksum'] == "74dc12856a54e292025747ec35052b4a84f04291"
 
 
 def test_get_agenda_by_date(client):
