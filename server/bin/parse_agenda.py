@@ -46,11 +46,10 @@ RC_GUESTS_PRESENT = 'guests_present'
 
 @click.command()
 @click.argument('file')
-@click.option('--section', '-s', default=0, type=int)
-def main(file, section):
+def main(file):
     parsed_file = AgendaParser(file)
 
-    print("\n".join(parsed_file.raw_sections[S_REPORTS]['data']))
+    print(parsed_file.reports)
 
 
 class AgendaParser(object):
@@ -84,13 +83,9 @@ class AgendaParser(object):
     P_VP_LEGAL = r'B\.\ Apache\ Legal\ Affairs\ Committee'
     P_SECURITY_TEAM = r'C\.\ Apache\ Security\ Team\ Project'
 
-    # Reports (gmxs)
-    P_REPORT = r'''\s{4}\w+\.\s(?P<project>.*?)\s\[(?P<owner>.*?)(?:\s\/\s(?P<shepherd>.*?))?\]
-                   \s+See\sAttachment\s(?P<attachment>\w+)
-                   \s+\[(?P<status>.*?)\]'''
-    # status (xs)
-    P_STATUS = r'''approved:\s(?P<approvals>.*?)?\n
-                   comments:\s(?P<comments>.*)'''
+    # Reports (re.DOTALL)
+    # match groups: (owner, shepherd, attachment, project, approvals, comments)
+    P_REPORT = r'\w+\.\s.*?\s\[(.*?)(?:\s\/\ (.*?))?\]\nSee\sAttachment\s(\w+)\n\[\s(.*?)\.\napproved\:(.*?)\ncomments\:\n(?:(.*?)\]|\])'
 
     def __init__(self, file):
         raw_sections = self._parse_sections(file)
@@ -99,7 +94,7 @@ class AgendaParser(object):
         self.previous_minutes = self._parse_last_minutes(raw_sections[S_MINUTES]['data'])
         self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
         self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[S_OFFICER_REPORTS]['data'])
-        #self.reports = self._parse_committee_reports("\n".join(raw_sections[S_REPORTS]['data']))
+        self.reports = self._parse_committee_reports("\n".join(raw_sections[S_REPORTS]['data']))
 
         ### for main()
         self.raw_sections = raw_sections
@@ -108,7 +103,7 @@ class AgendaParser(object):
         return f"<ParsedAgenda: {self.date}>"
 
     def _parse_committee_reports(self, data):
-        ret = re.findall(self.P_REPORT, data, re.MULTILINE | re.VERBOSE | re.DOTALL)
+        ret = re.findall(self.P_REPORT, data, re.DOTALL)
         return ret
 
     def _parse_add_officer_reports(self, data):
