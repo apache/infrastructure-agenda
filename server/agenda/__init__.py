@@ -2,6 +2,7 @@ import flask
 import flask_bootstrap
 
 from config import config
+from . import parsers
 
 bootstrap = flask_bootstrap.Bootstrap()
 
