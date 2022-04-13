@@ -85,7 +85,9 @@ class AgendaParser(object):
 
     # Reports (re.DOTALL)
     # match groups: (owner, shepherd, attachment, project, approvals, comments)
-    P_REPORT = r'\w+\.\s.*?\s\[(.*?)(?:\s\/\ (.*?))?\]\nSee\sAttachment\s(\w+)\n\[\s(.*?)\.\napproved\:(.*?)\ncomments\:\n(?:(.*?)\]|\])'
+    P_REPORT_META = r'\w+\.\sApache\s(.*?)\sProject\s\[(.*?)(?:\s\/\ (.*?))?\]'
+    P_REPORT_ATTACH = r'See\sAttachment\s(\w+)'
+    P_REPORT_APPROVALS = r'approved:\s(.*)'
 
     def __init__(self, file):
         raw_sections = self._parse_sections(file)
@@ -94,7 +96,7 @@ class AgendaParser(object):
         self.previous_minutes = self._parse_last_minutes(raw_sections[S_MINUTES]['data'])
         self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
         self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[S_OFFICER_REPORTS]['data'])
-        self.reports = self._parse_committee_reports("\n".join(raw_sections[S_REPORTS]['data']))
+        self.reports = self._parse_committee_reports(raw_sections[S_REPORTS]['data'])
 
         ### for main()
         self.raw_sections = raw_sections
@@ -103,8 +105,37 @@ class AgendaParser(object):
         return f"<ParsedAgenda: {self.date}>"
 
     def _parse_committee_reports(self, data):
-        ret = re.findall(self.P_REPORT, data, re.DOTALL)
-        return ret
+        reports = [ ]
+
+        project = None
+        owner = None
+        shepherd = None
+        attachment = None
+        approvals = None
+
+        for line in data:
+            m = re.search(self.P_REPORT_META, line)
+            if m:
+                if project:
+                    reports.append((project, owner, shepherd, attachment, approvals))
+                    attachment = None
+                    approvals = None
+                project = m.group(1)
+                owner = m.group(2)
+                shepherd = m.group(3)
+            m = re.search(self.P_REPORT_ATTACH, line)
+            if m:
+                attachment = m.group(1)
+            m = re.search(self.P_REPORT_APPROVALS, line)
+            if m:
+                temp_list = [sig.strip() for sig in m.group(1).split(",")]
+                approvals = tuple(temp_list)
+            ## TODO: figure out how to grab comments here
+
+        if project:
+            reports.append((project, owner, shepherd, attachment, approvals))
+
+        return reports
 
     def _parse_add_officer_reports(self, data):
         return {
@@ -117,8 +148,8 @@ class AgendaParser(object):
         }
 
     def _parse_exec_officer_reports(self, data):
-        # need to parse out officer names here
-        # also need to parse possible status messages in each report
+        ## TODO: need to parse out officer names here
+        ## TODO: need to parse possible status messages in each report
         ret = {}
         ret[O_CHAIR] = self._parse_fragment(data,
                                             self.P_CHAIR,
