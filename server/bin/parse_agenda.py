@@ -49,7 +49,7 @@ RC_GUESTS_PRESENT = 'guests_present'
 def main(file):
     parsed_file = AgendaParser(file)
 
-    print(parsed_file.reports)
+    print(parsed_file.orders)
 
 
 class AgendaParser(object):
@@ -59,6 +59,7 @@ class AgendaParser(object):
     #
     # Note: technically, we could precompile them, but this entire
     # parse is sub-second.
+    # TODO: precompile these even if just for self-doc purposes
 
     # Section headers
     P_OFFICER_REPORTS = r'5\.\ Additional\ Officer\ Reports'
@@ -97,12 +98,34 @@ class AgendaParser(object):
         self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
         self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[S_OFFICER_REPORTS]['data'])
         self.reports = self._parse_committee_reports(raw_sections[S_REPORTS]['data'])
+        self.orders = self._parse_special_orders(raw_sections[S_ORDERS]['data'])
 
         ### for main()
         self.raw_sections = raw_sections
 
     def __repr__(self):
         return f"<ParsedAgenda: {self.date}>"
+
+    def _parse_special_orders(self, data):
+        orders = [ ]
+
+        title = None
+        content = [ ]
+
+        for line in data:
+            m = re.search(r'^\w+\.\s(.*)$', line)
+            if m:
+                if title:
+                    orders.append((title, content))
+                    content = [ ]
+                title = m.group(1)
+            else:
+                content.append(line)
+
+        if title:
+            orders.append((title, content))
+
+        return orders
 
     def _parse_committee_reports(self, data):
         reports = [ ]
