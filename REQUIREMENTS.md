@@ -55,10 +55,12 @@ Raw list of features that are in-use today.
       * Mark current position in agenda being discussed, so other users can follow the agenda during meeting
       * Can use next/back buttons to easily progress through meeting in defined order (i.e. flagged reports, etc.) 
     * Secretary features:
-      * Open and close meeting with timestamps
+      * Open and close meeting with timestamps (call to order)
+      * Record attendance (roll call)
       * Record votes or decisions on items
       * Record comments on items
       * Record Action Items associated with an item assigned to an individual
+      * Record adjournment
     * Directors can review, sign-off, comment, and flag reports during meeting
   * Display only "flagged" projects or reports (including officers) in order
   * Display only "unapproved" project reports in order
