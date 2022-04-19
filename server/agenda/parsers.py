@@ -49,7 +49,7 @@ class AgendaParser(object):
     # parse is sub-second.
     # TODO: precompile these even if just for self-doc purposes
 
-    P_SECTION = r'^[ |\d]\d\.\s(.*)$'
+    RE_SECTION = re.compile(r'^[ |\d]\d\.\s(.*)$')
     RE_SUBSECTION = re.compile(r'^\ +\w+\.\s(.*)$')
 
     # Section headers
@@ -91,7 +91,7 @@ class AgendaParser(object):
         with open(file, 'r') as fp:
             self._data = fp.readlines()
 
-        self._idx = self._create_index(self._data, self.P_SECTION)
+        self._idx = self._create_index(self._data, self.RE_SECTION)
 
         self.date = self._parse_meeting_date(self._get_section(S_HEADER))
         self.last_minutes = self._parse_last_minutes(self._get_section(S_MINUTES))
@@ -303,7 +303,7 @@ class AgendaParser(object):
         line_num = 1
         idx = [line_num]
         for line in data:
-            m = re.search(pattern, line)
+            m = pattern.search(line)
             if m:
                 idx.append(line_num)
             line_num += 1
