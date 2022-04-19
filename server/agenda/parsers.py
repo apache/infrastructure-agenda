@@ -81,6 +81,10 @@ class AgendaParser(object):
     def __init__(self, file):
         raw_sections = self._parse_sections(file)
         self.date = self._parse_meeting_date(raw_sections[S_HEADER]['data'])
+        with open(file, 'r') as fp:
+            self._data = fp.readlines()
+
+        self._idx = self._create_index(self._data, self.P_SECTION)
         self.roll_call = self._parse_roll_call(raw_sections[S_ROLL_CALL]['data'])
         self.previous_minutes = self._parse_last_minutes(raw_sections[S_MINUTES]['data'])
         self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
@@ -257,6 +261,28 @@ class AgendaParser(object):
     def _parse_meeting_date(section):
         parsed_date = datetime.datetime.strptime(section[2], '%B %d, %Y')
         return parsed_date.date()
+    def _create_index(data, pattern):
+        line_num = 1
+        idx = [line_num]
+        for line in data:
+            m = re.search(pattern, line)
+            if m:
+                idx.append(line_num)
+            line_num += 1
+        idx.append(idx[-1] + 7)
+        return idx
+
+    def _get_section(self, section):
+        if section == S_HEADER:
+            s_start = self._idx[S_HEADER]
+            s_end = self._idx[S_CALL_TO_ORDER] - 1
+        elif section == S_ATTACHMENTS:
+            s_start = self._idx[S_ATTACHMENTS]
+            s_end = -1
+        else:
+            s_start = 0
+            s_end = 0
+        return self._data[s_start:s_end]
 
     @staticmethod
     def _parse_sections(file_name):
