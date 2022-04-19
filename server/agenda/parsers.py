@@ -49,6 +49,7 @@ class AgendaParser(object):
     # parse is sub-second.
     # TODO: precompile these even if just for self-doc purposes
 
+    P_SECTION = r'^[ |\d]\d\.\s(.*)$'
     # Section headers
     P_OFFICER_REPORTS = r'5\.\ Additional\ Officer\ Reports'
 
@@ -80,11 +81,15 @@ class AgendaParser(object):
 
     def __init__(self, file):
         raw_sections = self._parse_sections(file)
-        self.date = self._parse_meeting_date(raw_sections[S_HEADER]['data'])
         with open(file, 'r') as fp:
             self._data = fp.readlines()
 
         self._idx = self._create_index(self._data, self.P_SECTION)
+
+        self.date = self._parse_meeting_date()
+        self.attachments = self._parse_attachments()
+
+        ## TODO: convert the following to use self._create_index() and compiled patterns like the above
         self.roll_call = self._parse_roll_call(raw_sections[S_ROLL_CALL]['data'])
         self.previous_minutes = self._parse_last_minutes(raw_sections[S_MINUTES]['data'])
         self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
@@ -257,10 +262,11 @@ class AgendaParser(object):
 
         return ret
 
+    def _parse_meeting_date(self):
+        date_str = self._get_section(S_HEADER)[3].strip()
+        return datetime.datetime.strptime(date_str, '%B %d, %Y').date()
+
     @staticmethod
-    def _parse_meeting_date(section):
-        parsed_date = datetime.datetime.strptime(section[2], '%B %d, %Y')
-        return parsed_date.date()
     def _create_index(data, pattern):
         line_num = 1
         idx = [line_num]
