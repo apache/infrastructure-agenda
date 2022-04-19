@@ -73,8 +73,7 @@ class AgendaParser(object):
     P_VP_LEGAL = r'B\.\ Apache\ Legal\ Affairs\ Committee'
     P_SECURITY_TEAM = r'C\.\ Apache\ Security\ Team\ Project'
 
-    # Reports (re.DOTALL)
-    # match groups: (owner, shepherd, attachment, project, approvals, comments)
+    # Committee reports
     P_REPORT_META = r'\w+\.\sApache\s(.*?)\sProject\s\[(.*?)(?:\s\/\ (.*?))?\]'
     P_REPORT_ATTACH = r'See\sAttachment\s(\w+)'
     P_REPORT_APPROVALS = r'approved:\s(.*)'
@@ -97,8 +96,6 @@ class AgendaParser(object):
         self.reports = self._parse_committee_reports(raw_sections[S_REPORTS]['data'])
         self.orders = self._parse_special_orders(raw_sections[S_ORDERS]['data'])
 
-        ### for main()
-        self.raw_sections = raw_sections
 
     def __repr__(self):
         return f"<ParsedAgenda: {self.date}>"
