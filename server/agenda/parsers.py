@@ -50,6 +50,7 @@ class AgendaParser(object):
     # TODO: precompile these even if just for self-doc purposes
 
     P_SECTION = r'^[ |\d]\d\.\s(.*)$'
+    RE_SUBSECTION = re.compile(r'^\ +\w+\.\s(.*)$')
 
     # Section headers
     P_OFFICER_REPORTS = r'5\.\ Additional\ Officer\ Reports'
@@ -95,13 +96,13 @@ class AgendaParser(object):
         self.date = self._parse_meeting_date(self._get_section(S_HEADER))
         self.last_minutes = self._parse_last_minutes(self._get_section(S_MINUTES))
         self.reports = self._parse_committee_reports(self._get_section(S_REPORTS))
+        self.orders = self._parse_special_orders(self._get_section(S_ORDERS))
         self.attachments = self._parse_attachments()
 
         ## TODO: convert the following to use self._create_index() and compiled patterns like the above
         #self.roll_call = self._parse_roll_call(raw_sections[S_ROLL_CALL]['data'])
         self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
         self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[S_OFFICER_REPORTS]['data'])
-        self.orders = self._parse_special_orders(raw_sections[S_ORDERS]['data'])
 
     def __repr__(self):
         return f"<ParsedAgenda: {self.date}>"
@@ -141,17 +142,17 @@ class AgendaParser(object):
         content = [ ]
 
         for line in data:
-            m = re.search(r'^\w+\.\s(.*)$', line)
+            m = self.RE_SUBSECTION.search(line)
             if m:
                 if title:
-                    orders.append((title, content))
+                    orders.append((title, "".join(content)))
                     content = [ ]
                 title = m.group(1)
             else:
                 content.append(line)
 
         if title:
-            orders.append((title, content))
+            orders.append((title, "".join(content)))
 
         return orders
 
@@ -319,6 +320,9 @@ class AgendaParser(object):
         elif section == S_MINUTES:
             s_start = self._idx[S_MINUTES]
             s_end = self._idx[S_EXEC_REPORTS] - 1
+        elif section == S_ORDERS:
+            s_start = self._idx[S_ORDERS]
+            s_end = self._idx[S_DISCUSS_ITEMS] - 1
         elif section == S_REPORTS:
             s_start = self._idx[S_REPORTS]
             s_end = self._idx[S_ORDERS] - 1
