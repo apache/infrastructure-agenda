@@ -78,6 +78,9 @@ class AgendaParser(object):
     # Header
     RE_AGENDA_DATE = re.compile(r"(\w+\s\d{1,2},\s\d{4})")
 
+    # Roll Call
+    RE_ROLL_CALL = re.compile(r"^\ +.*:$")
+
     # Committee reports
     RE_REPORT_META = re.compile(r'\w+\.\sApache\s(.*?)\sProject\s\[(.*?)(?:\s\/\ (.*?))?\]')
     RE_REPORT_ATTACH = re.compile(r'See\sAttachment\s(\w+)')
@@ -94,13 +97,13 @@ class AgendaParser(object):
         self._idx = self._create_index(self._data, self.RE_SECTION)
 
         self.date = self._parse_meeting_date(self._get_section(S_HEADER))
+        self.roll_call = self._parse_roll_call(self._get_section(S_ROLL_CALL))
         self.last_minutes = self._parse_last_minutes(self._get_section(S_MINUTES))
         self.reports = self._parse_committee_reports(self._get_section(S_REPORTS))
         self.orders = self._parse_special_orders(self._get_section(S_ORDERS))
         self.attachments = self._parse_attachments()
 
         ## TODO: convert the following to use self._create_index() and compiled patterns like the above
-        #self.roll_call = self._parse_roll_call(raw_sections[S_ROLL_CALL]['data'])
         self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
         self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[S_OFFICER_REPORTS]['data'])
 
@@ -268,31 +271,35 @@ class AgendaParser(object):
         return minutes
 
     def _parse_roll_call(self, data):
-        ret = {}
-        ret[RC_DIRECTORS_PRESENT] = \
-            self._parse_fragment(data,
-                                 self.P_RC_DIRECTORS_PRESENT,
-                                 self.P_RC_DIRECTORS_ABSENT)
-        ret[RC_DIRECTORS_ABSENT] = \
-            self._parse_fragment(data,
-                                 self.P_RC_DIRECTORS_ABSENT,
-                                 self.P_RC_EXEC_PRESENT)
-        ret[RC_OFFICERS_PRESENT] = \
-            self._parse_fragment(data,
-                                 self.P_RC_EXEC_PRESENT,
-                                 self.P_RC_EXEC_ABSENT)
+        """
+        Returns lists of who is expected to attend/not-attend the meeting
+            Parameters:
+                data (str): a string containing the roll call section of the agenda
+            Returns:
+                roll_call (list): a list containing tuples with the following contents and order:
+                    [directors expected to be present,
+                    directors expected to be absent,
+                    executive officers expected to be present,
+                    executive officers expected to be absent,
+                    guests expected to be present]
+        """
+        roll_call = [ ]
 
-        ret[RC_OFFICERS_ABSENT] = \
-            self._parse_fragment(data,
-                                 self.P_RC_EXEC_ABSENT,
-                                 self.P_RC_GUESTS)
+        people = [ ]
 
-        ret[RC_GUESTS_PRESENT] = \
-            self._parse_fragment(data,
-                                 self.P_RC_GUESTS,
-                                 r"\n")
+        for line in data:
+            if self.RE_ROLL_CALL.search(line):
+                if len(people) > 0:
+                    roll_call.append(tuple(people))
+                    people = [ ]
+            elif line != '\n':
+                people.append(line.strip())
 
-        return ret
+        if len(people) > 0:
+            roll_call.append(tuple(people))
+
+        # return everything but the initial cruft that gets captured
+        return roll_call[1:]
 
     def _parse_meeting_date(self, data):
         date_str = self.RE_AGENDA_DATE.search("".join(data))
