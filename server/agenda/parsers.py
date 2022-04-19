@@ -79,6 +79,9 @@ class AgendaParser(object):
     P_REPORT_ATTACH = r'See\sAttachment\s(\w+)'
     P_REPORT_APPROVALS = r'approved:\s(.*)'
 
+    # Header
+    RE_AGENDA_DATE = re.compile(r"(\w+\s\d{1,2},\s\d{4})")
+
     # Attachments
     RE_ATTACHMENT = re.compile(r"^Attachment\s(\w+)\:\s(.*?)\s+\[(.*?)\]")
 
@@ -89,12 +92,12 @@ class AgendaParser(object):
 
         self._idx = self._create_index(self._data, self.P_SECTION)
 
-        self.date = self._parse_meeting_date()
+        self.date = self._parse_meeting_date(self._get_section(S_HEADER))
+        self.last_minutes = self._parse_last_minutes(self._get_section(S_MINUTES))
         self.attachments = self._parse_attachments()
 
         ## TODO: convert the following to use self._create_index() and compiled patterns like the above
         self.roll_call = self._parse_roll_call(raw_sections[S_ROLL_CALL]['data'])
-        self.previous_minutes = self._parse_last_minutes(raw_sections[S_MINUTES]['data'])
         self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
         self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[S_OFFICER_REPORTS]['data'])
         self.reports = self._parse_committee_reports(raw_sections[S_REPORTS]['data'])
@@ -290,9 +293,9 @@ class AgendaParser(object):
 
         return ret
 
-    def _parse_meeting_date(self):
-        date_str = self._get_section(S_HEADER)[3].strip()
-        return datetime.datetime.strptime(date_str, '%B %d, %Y').date()
+    def _parse_meeting_date(self, data):
+        date_str = self.RE_AGENDA_DATE.search("".join(data))
+        return datetime.datetime.strptime(date_str.group(1), '%B %d, %Y').date()
 
     @staticmethod
     def _create_index(data, pattern):
@@ -308,8 +311,14 @@ class AgendaParser(object):
 
     def _get_section(self, section):
         if section == S_HEADER:
-            s_start = self._idx[S_HEADER]
+            s_start = 0
             s_end = self._idx[S_CALL_TO_ORDER] - 1
+        elif section == S_ROLL_CALL:
+            s_start = self._idx[S_ROLL_CALL]
+            s_end = self._idx[S_MINUTES] - 1
+        elif section == S_MINUTES:
+            s_start = self._idx[S_MINUTES]
+            s_end = self._idx[S_EXEC_REPORTS] - 1
         elif section == S_ATTACHMENTS:
             s_start = self._idx[S_ATTACHMENTS]
             s_end = -1
