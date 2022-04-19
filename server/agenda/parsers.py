@@ -74,13 +74,13 @@ class AgendaParser(object):
     P_VP_LEGAL = r'B\.\ Apache\ Legal\ Affairs\ Committee'
     P_SECURITY_TEAM = r'C\.\ Apache\ Security\ Team\ Project'
 
-    # Committee reports
-    P_REPORT_META = r'\w+\.\sApache\s(.*?)\sProject\s\[(.*?)(?:\s\/\ (.*?))?\]'
-    P_REPORT_ATTACH = r'See\sAttachment\s(\w+)'
-    P_REPORT_APPROVALS = r'approved:\s(.*)'
-
     # Header
     RE_AGENDA_DATE = re.compile(r"(\w+\s\d{1,2},\s\d{4})")
+
+    # Committee reports
+    RE_REPORT_META = re.compile(r'\w+\.\sApache\s(.*?)\sProject\s\[(.*?)(?:\s\/\ (.*?))?\]')
+    RE_REPORT_ATTACH = re.compile(r'See\sAttachment\s(\w+)')
+    RE_REPORT_APPROVALS = re.compile(r'approved:\s(.*)')
 
     # Attachments
     RE_ATTACHMENT = re.compile(r"^Attachment\s(\w+)\:\s(.*?)\s+\[(.*?)\]")
@@ -94,13 +94,13 @@ class AgendaParser(object):
 
         self.date = self._parse_meeting_date(self._get_section(S_HEADER))
         self.last_minutes = self._parse_last_minutes(self._get_section(S_MINUTES))
+        self.reports = self._parse_committee_reports(self._get_section(S_REPORTS))
         self.attachments = self._parse_attachments()
 
         ## TODO: convert the following to use self._create_index() and compiled patterns like the above
-        self.roll_call = self._parse_roll_call(raw_sections[S_ROLL_CALL]['data'])
+        #self.roll_call = self._parse_roll_call(raw_sections[S_ROLL_CALL]['data'])
         self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
         self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[S_OFFICER_REPORTS]['data'])
-        self.reports = self._parse_committee_reports(raw_sections[S_REPORTS]['data'])
         self.orders = self._parse_special_orders(raw_sections[S_ORDERS]['data'])
 
     def __repr__(self):
@@ -165,7 +165,7 @@ class AgendaParser(object):
         approvals = None
 
         for line in data:
-            m = re.search(self.P_REPORT_META, line)
+            m = self.RE_REPORT_META.search(line)
             if m:
                 if project:
                     reports.append((project, owner, shepherd, attachment, approvals))
@@ -174,10 +174,10 @@ class AgendaParser(object):
                 project = m.group(1)
                 owner = m.group(2)
                 shepherd = m.group(3)
-            m = re.search(self.P_REPORT_ATTACH, line)
+            m = self.RE_REPORT_ATTACH.search(line)
             if m:
                 attachment = m.group(1)
-            m = re.search(self.P_REPORT_APPROVALS, line)
+            m = self.RE_REPORT_APPROVALS.search(line)
             if m:
                 temp_list = [sig.strip() for sig in m.group(1).split(",")]
                 approvals = tuple(temp_list)
@@ -319,6 +319,9 @@ class AgendaParser(object):
         elif section == S_MINUTES:
             s_start = self._idx[S_MINUTES]
             s_end = self._idx[S_EXEC_REPORTS] - 1
+        elif section == S_REPORTS:
+            s_start = self._idx[S_REPORTS]
+            s_end = self._idx[S_ORDERS] - 1
         elif section == S_ATTACHMENTS:
             s_start = self._idx[S_ATTACHMENTS]
             s_end = -1
