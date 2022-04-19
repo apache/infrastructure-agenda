@@ -50,6 +50,7 @@ class AgendaParser(object):
     # TODO: precompile these even if just for self-doc purposes
 
     P_SECTION = r'^[ |\d]\d\.\s(.*)$'
+
     # Section headers
     P_OFFICER_REPORTS = r'5\.\ Additional\ Officer\ Reports'
 
@@ -78,6 +79,9 @@ class AgendaParser(object):
     P_REPORT_ATTACH = r'See\sAttachment\s(\w+)'
     P_REPORT_APPROVALS = r'approved:\s(.*)'
 
+    # Attachments
+    RE_ATTACHMENT = re.compile(r"^Attachment\s(\w+)\:\s(.*?)\s+\[(.*?)\]")
+
     def __init__(self, file):
         raw_sections = self._parse_sections(file)
         with open(file, 'r') as fp:
@@ -96,9 +100,36 @@ class AgendaParser(object):
         self.reports = self._parse_committee_reports(raw_sections[S_REPORTS]['data'])
         self.orders = self._parse_special_orders(raw_sections[S_ORDERS]['data'])
 
-
     def __repr__(self):
         return f"<ParsedAgenda: {self.date}>"
+
+    def _parse_attachments(self):
+        attachments = [ ]
+        data = self._get_section(S_ATTACHMENTS)
+
+        id = None
+        title = None
+        reporter = None
+        content = [ ]
+
+        for line in data:
+            m = self.RE_ATTACHMENT.search(line)
+            if m:
+                if id:
+                    attachments.append((id, title, reporter, "".join(content)))
+                    content = [ ]
+                id = m.group(1)
+                title = m.group(2)
+                reporter = m.group(3)
+            elif re.search(r'-{41}', line):
+                pass
+            else:
+                content.append(line)
+
+        if id:
+            attachments.append((id, title, reporter, "".join(content)))
+
+        return attachments
 
     def _parse_special_orders(self, data):
         orders = [ ]
