@@ -101,7 +101,7 @@ class AgendaParser(object):
         self.last_minutes = self._parse_last_minutes(self._get_section(S_MINUTES))
         self.reports = self._parse_committee_reports(self._get_section(S_REPORTS))
         self.orders = self._parse_special_orders(self._get_section(S_ORDERS))
-        self.attachments = self._parse_attachments()
+        self.attachments = self._parse_attachments(self._get_section(S_ATTACHMENTS))
 
         ## TODO: convert the following to use self._create_index() and compiled patterns like the above
         self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
@@ -110,9 +110,8 @@ class AgendaParser(object):
     def __repr__(self):
         return f"<ParsedAgenda: {self.date}>"
 
-    def _parse_attachments(self):
+    def _parse_attachments(self, data):
         attachments = [ ]
-        data = self._get_section(S_ATTACHMENTS)
 
         id = None
         title = None
