@@ -76,10 +76,13 @@ class AgendaParser(object):
     P_SECURITY_TEAM = r'C\.\ Apache\ Security\ Team\ Project'
 
     # Header
-    RE_AGENDA_DATE = re.compile(r"(\w+\s\d{1,2},\s\d{4})")
+    RE_AGENDA_DATE = re.compile(r'(\w+\s\d{1,2},\s\d{4})')
 
     # Roll Call
-    RE_ROLL_CALL = re.compile(r"^\ +.*:$")
+    RE_ROLL_CALL = re.compile(r'^\ +.*:$')
+
+    # Officer reports
+    RE_EXEC_REPORT = re.compile(r'^\ {4}\w\.\ (.*?)\ \[(.*?)\]')
 
     # Committee reports
     RE_REPORT_META = re.compile(r'\w+\.\sApache\s(.*?)\sProject\s\[(.*?)(?:\s\/\ (.*?))?\]')
@@ -87,7 +90,7 @@ class AgendaParser(object):
     RE_REPORT_APPROVALS = re.compile(r'approved:\s(.*)')
 
     # Attachments
-    RE_ATTACHMENT = re.compile(r"^Attachment\s(\w+)\:\s(.*?)\s+\[(.*?)\]")
+    RE_ATTACHMENT = re.compile(r'^Attachment\s(\w+)\:\s(.*?)\s+\[(.*?)\]')
 
     def __init__(self, file):
         raw_sections = self._parse_sections(file)
@@ -99,12 +102,12 @@ class AgendaParser(object):
         self.date = self._parse_meeting_date(self._get_section(S_HEADER))
         self.roll_call = self._parse_roll_call(self._get_section(S_ROLL_CALL))
         self.last_minutes = self._parse_last_minutes(self._get_section(S_MINUTES))
+        self.executive_officer_reports = self._parse_exec_officer_reports(self._get_section(S_EXEC_REPORTS))
         self.reports = self._parse_committee_reports(self._get_section(S_REPORTS))
         self.orders = self._parse_special_orders(self._get_section(S_ORDERS))
         self.attachments = self._parse_attachments(self._get_section(S_ATTACHMENTS))
 
         ## TODO: convert the following to use self._create_index() and compiled patterns like the above
-        self.executive_officer_reports = self._parse_exec_officer_reports(raw_sections[S_EXEC_REPORTS]['data'])
         self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[S_OFFICER_REPORTS]['data'])
 
     def __repr__(self):
@@ -202,34 +205,37 @@ class AgendaParser(object):
         }
 
     def _parse_exec_officer_reports(self, data):
-        ## TODO: need to parse out officer names here
-        ## TODO: need to parse possible status messages in each report
-        ret = {}
-        ret[O_CHAIR] = self._parse_fragment(data,
-                                            self.P_CHAIR,
-                                            self.P_PRESIDENT)
+        """
+        Returns the list of executive officer reports
 
-        ret[O_PRESIDENT] = self._parse_fragment(data,
-                                                self.P_PRESIDENT,
-                                                self.P_TREASURER)
+            Parameters:
+                data (string): a string containing the executive officer report section of the agenda
 
-        ret[O_TREASURER] = self._parse_fragment(data,
-                                                self.P_TREASURER,
-                                                self.P_SECRETARY)
+            Returns:
+                exec_reports (list): (POSITION, REPORTER, CONTENT)
+        """
+        exec_reports = [ ]
 
-        ret[O_SECRETARY] = self._parse_fragment(data,
-                                                self.P_SECRETARY,
-                                                self.P_EVP)
+        position = None
+        reporter = None
+        content = [ ]
 
-        ret[O_EVP] = self._parse_fragment(data,
-                                          self.P_EVP,
-                                          self.P_VICE_CHAIR)
+        for line in data:
+            m = self.RE_EXEC_REPORT.search(line)
+            if m:
+                if position:
+                    exec_reports.append((position, reporter, "".join(content)))
+                    reporter = None
+                    content = [ ]
+                position = m.group(1)
+                reporter = m.group(2)
+            else:
+                content.append(line)
 
-        ret[O_VICE_CHAIR] = self._parse_fragment(data,
-                                                 self.P_VICE_CHAIR,
-                                                 self.P_OFFICER_REPORTS)
+        if position:
+            exec_reports.append((position, reporter, "".join(content)))
 
-        return ret
+        return exec_reports
 
     def _parse_last_minutes(self, data):
         # List of minutes to approve. Tuples: (DATE, FILENAME, CONTENT)
@@ -317,6 +323,21 @@ class AgendaParser(object):
         return idx
 
     def _get_section(self, section):
+        # S_HEADER = 0
+        # S_CALL_TO_ORDER = 1
+        # S_ROLL_CALL = 2
+        # S_MINUTES = 3
+        # S_EXEC_REPORTS = 4
+        # S_OFFICER_REPORTS = 5
+        # S_REPORTS = 6
+        # S_ORDERS = 7
+        # S_DISCUSS_ITEMS = 8
+        # S_REVIEW_ACTION_ITEMS = 9
+        # S_UNFINISHED_BUSINESS = 10
+        # S_NEW_BUSINESS = 11
+        # S_ANNOUNCEMENTS = 12
+        # S_ADJOURNMENT = 13
+        # S_ATTACHMENTS = 14
         if section == S_HEADER:
             s_start = 0
             s_end = self._idx[S_CALL_TO_ORDER] - 1
@@ -326,6 +347,9 @@ class AgendaParser(object):
         elif section == S_MINUTES:
             s_start = self._idx[S_MINUTES]
             s_end = self._idx[S_EXEC_REPORTS] - 1
+        elif section == S_EXEC_REPORTS:
+            s_start = self._idx[S_EXEC_REPORTS]
+            s_end = self._idx[S_OFFICER_REPORTS] - 1
         elif section == S_ORDERS:
             s_start = self._idx[S_ORDERS]
             s_end = self._idx[S_DISCUSS_ITEMS] - 1
