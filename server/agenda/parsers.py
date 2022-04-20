@@ -18,63 +18,14 @@ S_ANNOUNCEMENTS = 12
 S_ADJOURNMENT = 13
 S_ATTACHMENTS = 14
 
-# Report names
-R_VP_W3C = 'vp_of_w3c_relations'
-R_VP_LEGAL = 'apache_legal_affairs_committee'
-
-# Officer names
-O_CHAIR = 'chairman'
-O_PRESIDENT = 'president'
-O_TREASURER = 'treasurer'
-O_SECRETARY = 'secretary'
-O_EVP = 'executive_vice_president'
-O_VICE_CHAIR = 'vice_chairman'
-
-# Roll call sections
-### do we need these bits? ... seems we only need: who attended,
-### extracted from minutes
-RC_DIRECTORS_PRESENT = 'directors_present'
-RC_DIRECTORS_ABSENT = 'directors_absent'
-RC_OFFICERS_PRESENT = 'officers_present'
-RC_OFFICERS_ABSENT = 'officers_absent'
-RC_GUESTS_PRESENT = 'guests_present'
-
-
 class AgendaParser(object):
+    # TODO: DRY up the _parse_* methods
+    # TODO: finish docstrings
 
-    # Regex patterns for various lines in the agenda. These are used
-    # as both stop/start for the _parse_fragment() method.
-    #
-    # Note: technically, we could precompile them, but this entire
-    # parse is sub-second.
-    # TODO: precompile these even if just for self-doc purposes
-    # TODO: DRY up the parser methods
+    # Regex patterns for various lines in the agenda.
 
     RE_SECTION = re.compile(r'^[ |\d]\d\.\s(.*)$')
     RE_SUBSECTION = re.compile(r'^\ +\w+\.\s(.*)$')
-
-    # Section headers
-    P_OFFICER_REPORTS = r'5\.\ Additional\ Officer\ Reports'
-
-    # Roll call lines
-    P_RC_DIRECTORS_PRESENT = r"Directors\ \(expected\ to\ be\)\ Present\:"
-    P_RC_DIRECTORS_ABSENT = r"Directors\ \(expected\ to\ be\)\ Absent\:"
-    P_RC_EXEC_PRESENT = r"Executive\ Officers\ \(expected\ to\ be\)\ Present\:"
-    P_RC_EXEC_ABSENT = r"Executive\ Officers\ \(expected\ to\ be\)\ Absent\:"
-    P_RC_GUESTS = r"Guests\ \(expected\)\:"
-
-    # Executive Officer Reports
-    P_CHAIR = r'A\.\ Chairman\ \[.*\]'
-    P_PRESIDENT = r'B\.\ President\ \[.*\]'
-    P_TREASURER = r'C\.\ Treasurer\ \[.*\]'
-    P_SECRETARY = r'D\.\ Secretary\ \[.*\]'
-    P_EVP = r'E\.\ Executive\ Vice\ President\ \[.*\]'
-    P_VICE_CHAIR = r'F\.\ Vice\ Chairman\ \[.*\]'
-
-    # Additional Officer Reports
-    P_VP_W3C = r'A\.\ VP\ of\ W3C\ Relations'
-    P_VP_LEGAL = r'B\.\ Apache\ Legal\ Affairs\ Committee'
-    P_SECURITY_TEAM = r'C\.\ Apache\ Security\ Team\ Project'
 
     # Header
     RE_AGENDA_DATE = re.compile(r'(\w+\s\d{1,2},\s\d{4})')
@@ -95,16 +46,14 @@ class AgendaParser(object):
     RE_ATTACHMENT = re.compile(r'^Attachment\s(\w+)\:\s(.*?)\s+\[(.*?)\]')
 
     def __init__(self, file):
-        raw_sections = self._parse_sections(file)
         with open(file, 'r') as fp:
             self._data = fp.readlines()
-
         self._idx = self._create_index(self._data, self.RE_SECTION)
 
         self.date = self._parse_meeting_date(self._get_section(S_HEADER))
         self.roll_call = self._parse_roll_call(self._get_section(S_ROLL_CALL))
         self.last_minutes = self._parse_last_minutes(self._get_section(S_MINUTES))
-        self.exec_reports = self._parse_exec_officer_reports(self._get_section(S_EXEC_REPORTS))
+        self.exec_reports = self._parse_exec_reports(self._get_section(S_EXEC_REPORTS))
         self.officer_reports = self._parse_officer_reports(self._get_section(S_OFFICER_REPORTS))
         self.reports = self._parse_committee_reports(self._get_section(S_REPORTS))
         self.orders = self._parse_special_orders(self._get_section(S_ORDERS))
@@ -243,7 +192,7 @@ class AgendaParser(object):
 
         return officer_reports
 
-    def _parse_exec_officer_reports(self, data):
+    def _parse_exec_reports(self, data):
         """
         Returns the list of executive officer reports
 
@@ -304,13 +253,6 @@ class AgendaParser(object):
         if min_date:
             minutes.append((min_date, min_filename, min_content))
 
-        ### need to come back to this bit and parse it out more fully.
-        ### old code. Leaving for posterity and carry-forward
-        if False:
-         ret['status'] = self._parse_fragment(data,
-                                             r"See: board_minutes_.*\.txt",
-                                             r"\]")
-
         #print('MINUTES:', minutes)
         return minutes
 
@@ -362,86 +304,16 @@ class AgendaParser(object):
         return idx
 
     def _get_section(self, section):
-        # S_HEADER = 0
-        # S_CALL_TO_ORDER = 1
-        # S_ROLL_CALL = 2
-        # S_MINUTES = 3
-        # S_EXEC_REPORTS = 4
-        # S_OFFICER_REPORTS = 5
-        # S_REPORTS = 6
-        # S_ORDERS = 7
-        # S_DISCUSS_ITEMS = 8
-        # S_REVIEW_ACTION_ITEMS = 9
-        # S_UNFINISHED_BUSINESS = 10
-        # S_NEW_BUSINESS = 11
-        # S_ANNOUNCEMENTS = 12
-        # S_ADJOURNMENT = 13
-        # S_ATTACHMENTS = 14
+        s_start = 0
+        s_end = 0
+
         if section == S_HEADER:
-            s_start = 0
             s_end = self._idx[S_CALL_TO_ORDER] - 1
-        elif section == S_ROLL_CALL:
-            s_start = self._idx[S_ROLL_CALL]
-            s_end = self._idx[S_MINUTES] - 1
-        elif section == S_MINUTES:
-            s_start = self._idx[S_MINUTES]
-            s_end = self._idx[S_EXEC_REPORTS] - 1
-        elif section == S_EXEC_REPORTS:
-            s_start = self._idx[S_EXEC_REPORTS]
-            s_end = self._idx[S_OFFICER_REPORTS] - 1
-        elif section == S_OFFICER_REPORTS:
-            s_start = self._idx[S_OFFICER_REPORTS]
-            s_end = self._idx[S_REPORTS] - 1
-        elif section == S_REPORTS:
-            s_start = self._idx[S_REPORTS]
-            s_end = self._idx[S_ORDERS] - 1
-        elif section == S_ORDERS:
-            s_start = self._idx[S_ORDERS]
-            s_end = self._idx[S_DISCUSS_ITEMS] - 1
         elif section == S_ATTACHMENTS:
             s_start = self._idx[S_ATTACHMENTS]
             s_end = -1
         else:
-            s_start = 0
-            s_end = 0
+            s_start = self._idx[section]
+            s_end = self._idx[section + 1] - 1
+
         return self._data[s_start:s_end]
-
-    @staticmethod
-    def _parse_sections(file_name):
-        ret = [{'name': 'head', 'data': []}]
-        section_num = 0
-        section_pattern = r'^[ |\d]\d\.\s(.*)$|\={12}\n(ATTACHMENTS):\n\={12}'
-        with open(file_name, "r") as fp:
-
-            for line in fp.readlines():
-                match = re.search(section_pattern, line)
-                if match is not None:
-                    section_num += 1
-                    ret.append({'name': match.group(1).replace(" ", "_").lower(),
-                                'data': []})
-                else:
-                    line = line.strip()
-                    if line:
-                        ret[section_num]['data'].append(line)
-
-        return ret
-
-    @staticmethod
-    def _parse_fragment(fragment, start_pattern, stop_pattern):
-        ret = []
-        capture = False
-        for line in fragment:
-
-            if re.search(stop_pattern, line):
-                #print("STATE: capture->False", line)
-                capture = False
-
-            if capture is True:
-                #print(f"CAPTURE: {line}")
-                ret.append(line.strip())
-
-            if re.search(start_pattern, line):
-                #print("STATE: capture->True", line)
-                capture = True
-
-        return ret
