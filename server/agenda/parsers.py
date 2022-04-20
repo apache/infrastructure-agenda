@@ -48,6 +48,7 @@ class AgendaParser(object):
     # Note: technically, we could precompile them, but this entire
     # parse is sub-second.
     # TODO: precompile these even if just for self-doc purposes
+    # TODO: DRY up the parser methods
 
     RE_SECTION = re.compile(r'^[ |\d]\d\.\s(.*)$')
     RE_SUBSECTION = re.compile(r'^\ +\w+\.\s(.*)$')
@@ -83,6 +84,7 @@ class AgendaParser(object):
 
     # Officer reports
     RE_EXEC_REPORT = re.compile(r'^\ {4}\w\.\ (.*?)\ \[(.*?)\]')
+    RE_OFFICER_REPORT_META = re.compile(r'\w+\.\ (.*?)\ \[(.*?)(?:\s\/\ (.*?))?\]')
 
     # Committee reports
     RE_REPORT_META = re.compile(r'\w+\.\sApache\s(.*?)\sProject\s\[(.*?)(?:\s\/\ (.*?))?\]')
@@ -102,13 +104,11 @@ class AgendaParser(object):
         self.date = self._parse_meeting_date(self._get_section(S_HEADER))
         self.roll_call = self._parse_roll_call(self._get_section(S_ROLL_CALL))
         self.last_minutes = self._parse_last_minutes(self._get_section(S_MINUTES))
-        self.executive_officer_reports = self._parse_exec_officer_reports(self._get_section(S_EXEC_REPORTS))
+        self.exec_reports = self._parse_exec_officer_reports(self._get_section(S_EXEC_REPORTS))
+        self.officer_reports = self._parse_officer_reports(self._get_section(S_OFFICER_REPORTS))
         self.reports = self._parse_committee_reports(self._get_section(S_REPORTS))
         self.orders = self._parse_special_orders(self._get_section(S_ORDERS))
         self.attachments = self._parse_attachments(self._get_section(S_ATTACHMENTS))
-
-        ## TODO: convert the following to use self._create_index() and compiled patterns like the above
-        self.additional_officer_reports = self._parse_add_officer_reports(raw_sections[S_OFFICER_REPORTS]['data'])
 
     def __repr__(self):
         return f"<ParsedAgenda: {self.date}>"
@@ -179,7 +179,10 @@ class AgendaParser(object):
                     approvals = None
                 project = m.group(1)
                 owner = m.group(2)
-                shepherd = m.group(3)
+                if m.group(3):
+                    shepherd = m.group(3)
+                else:
+                    shepherd = None
             m = self.RE_REPORT_ATTACH.search(line)
             if m:
                 attachment = m.group(1)
@@ -194,15 +197,51 @@ class AgendaParser(object):
 
         return reports
 
-    def _parse_add_officer_reports(self, data):
-        return {
-            R_VP_W3C: self._parse_fragment(data,
-                                           self.P_VP_W3C,
-                                           self.P_VP_LEGAL),
-            R_VP_LEGAL: self._parse_fragment(data,
-                                             self.P_VP_LEGAL,
-                                             self.P_SECURITY_TEAM),
-        }
+    def _parse_officer_reports(self, data):
+        """
+        Returns the list of officer reports
+
+            Parameters:
+                data (string): a string containing the additional officer report section of the agenda
+
+            Returns:
+                officer_reports (list): (TITLE, OWNER, SHEPHERD, ATTACHMENT, APPROVALS)
+        """
+        officer_reports = [ ]
+
+        title = None
+        owner = None
+        shepherd = None
+        attachment = None
+        approvals = None
+
+        for line in data:
+            m = self.RE_OFFICER_REPORT_META.search(line)
+            if m:
+                if title:
+                    officer_reports.append((title, owner, shepherd, attachment, approvals))
+                    attachment = None
+                    approvals = None
+                title = m.group(1)
+                owner = m.group(2)
+                if m.group(3):
+                    shepherd = m.group(3)
+                else:
+                    shepherd = None
+            m = self.RE_REPORT_ATTACH.search(line)
+            if m:
+                attachment = m.group(1)
+            m = self.RE_REPORT_APPROVALS.search(line)
+            if m:
+                temp_list = [sig.strip() for sig in m.group(1).split(",")]
+                approvals = tuple(temp_list)
+            ## TODO: figure out how to grab comments here
+
+        if title:
+            officer_reports.append((title, owner, shepherd, attachment, approvals))
+
+
+        return officer_reports
 
     def _parse_exec_officer_reports(self, data):
         """
@@ -350,12 +389,15 @@ class AgendaParser(object):
         elif section == S_EXEC_REPORTS:
             s_start = self._idx[S_EXEC_REPORTS]
             s_end = self._idx[S_OFFICER_REPORTS] - 1
-        elif section == S_ORDERS:
-            s_start = self._idx[S_ORDERS]
-            s_end = self._idx[S_DISCUSS_ITEMS] - 1
+        elif section == S_OFFICER_REPORTS:
+            s_start = self._idx[S_OFFICER_REPORTS]
+            s_end = self._idx[S_REPORTS] - 1
         elif section == S_REPORTS:
             s_start = self._idx[S_REPORTS]
             s_end = self._idx[S_ORDERS] - 1
+        elif section == S_ORDERS:
+            s_start = self._idx[S_ORDERS]
+            s_end = self._idx[S_DISCUSS_ITEMS] - 1
         elif section == S_ATTACHMENTS:
             s_start = self._idx[S_ATTACHMENTS]
             s_end = -1
