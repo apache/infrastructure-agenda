@@ -293,6 +293,16 @@ class AgendaParser(object):
 
     @staticmethod
     def _create_index(data, pattern):
+        """
+        Returns a list of line numbers where a specific pattern can be found.
+
+            Parameters:
+                data (string): a string to be searched through
+                pattern (re object): a pattern to be searched for within data
+
+            Returns:
+                idx (list): a list of line numbers
+        """
         line_num = 1
         idx = [line_num]
         for line in data:
@@ -304,6 +314,16 @@ class AgendaParser(object):
         return idx
 
     def _get_section(self, section):
+        """
+        Returns a slice of self._data based on the requested section
+
+            Parameters:
+                section (int): A number representing the requested section; likely using the
+                               globals defined above.
+
+            Returns:
+                (list): a slice of self._data
+        """
         s_start = 0
         s_end = 0
 
