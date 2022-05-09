@@ -43,6 +43,9 @@ class AgendaParser(object):
     RE_REPORT_ATTACH = re.compile(r'See\sAttachment\s(\w+)')
     RE_REPORT_APPROVALS = re.compile(r'approved:\s(.*)')
 
+    # Discussion items
+    RE_DISCUSS_ITEMS = re.compile(r' +\w+\. (.*)| +\* (.*)\:')
+
     # Attachments
     RE_ATTACHMENT = re.compile(r'^Attachment\s(\w+)\:\s(.*?)\s+\[(.*?)\]')
 
@@ -58,6 +61,12 @@ class AgendaParser(object):
         self.officer_reports = self._parse_officer_reports(self._get_section(S_OFFICER_REPORTS))
         self.reports = self._parse_committee_reports(self._get_section(S_REPORTS))
         self.orders = self._parse_special_orders(self._get_section(S_ORDERS))
+        self.discuss_items = self._parse_discuss_items(self._get_section(S_DISCUSS_ITEMS))
+        #self.review_action_items = self._parse_review_action_items(self._get_section(S_REVIEW_ACTION_ITEMS))
+        #self.unfinished_business = self._parse_unfinished_business(self._get_section(S_UNFINISHED_BUSINESS))
+        #self.new_business = self._parse_new_business(self._get_section(S_NEW_BUSINESS))
+        #self.announcements = self._parse_announcments(self._get_section(S_ANNOUNCEMENTS))
+        #self.adjournment = self._parse_ajournment(self._get_section(S_ADJOURNMENT))
         self.attachments = self._parse_attachments(self._get_section(S_ATTACHMENTS))
 
     def __repr__(self):
@@ -89,6 +98,36 @@ class AgendaParser(object):
             attachments.append((label, title, reporter, "".join(content)))
 
         return attachments
+
+    def _parse_discuss_items(self, data):
+        """
+        '    A. Set a date for the Annual Members Meeting'
+        -OR-
+        '''    * Branding: I'd like to invite counsel Mark Radcliffe from DLAPiper
+               to talk with the board about the risks to Apache marks and the
+               importance of having sufficient education and funding for all PMCs.
+               Mark is free at 11AM Pacific; I hope the board will listen.
+        '''
+        """
+        items = [ ]
+
+        title = None
+        content = [ ]
+
+        for line in data:
+            m = self.RE_DISCUSS_ITEMS.search(line)
+            if m:
+                if title:
+                    items.append((title, "".join(content)))
+                    content = [ ]
+                title = m.group(1)
+            else:
+                content.append(line)
+
+        if title:
+            items.append((title, "".join(content)))
+
+        return items
 
     def _parse_special_orders(self, data):
         orders = [ ]
