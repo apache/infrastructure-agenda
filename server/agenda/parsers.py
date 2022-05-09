@@ -18,6 +18,7 @@ S_ANNOUNCEMENTS = 12
 S_ADJOURNMENT = 13
 S_ATTACHMENTS = 14
 
+
 class AgendaParser(object):
     # TODO: DRY up the _parse_* methods
     # TODO: finish docstrings
@@ -65,7 +66,7 @@ class AgendaParser(object):
     def _parse_attachments(self, data):
         attachments = [ ]
 
-        id = None
+        label = None
         title = None
         reporter = None
         content = [ ]
@@ -73,10 +74,10 @@ class AgendaParser(object):
         for line in data:
             m = self.RE_ATTACHMENT.search(line)
             if m:
-                if id:
-                    attachments.append((id, title, reporter, "".join(content)))
+                if label:
+                    attachments.append((label, title, reporter, "".join(content)))
                     content = [ ]
-                id = m.group(1)
+                label = m.group(1)
                 title = m.group(2)
                 reporter = m.group(3)
             elif re.search(r'-{41}', line):
@@ -84,8 +85,8 @@ class AgendaParser(object):
             else:
                 content.append(line)
 
-        if id:
-            attachments.append((id, title, reporter, "".join(content)))
+        if label:
+            attachments.append((label, title, reporter, "".join(content)))
 
         return attachments
 
@@ -139,7 +140,7 @@ class AgendaParser(object):
             if m:
                 temp_list = [sig.strip() for sig in m.group(1).split(",")]
                 approvals = tuple(temp_list)
-            ## TODO: figure out how to grab comments here
+            # TODO: figure out how to grab comments here
 
         if project:
             reports.append((project, owner, shepherd, attachment, approvals))
@@ -184,7 +185,7 @@ class AgendaParser(object):
             if m:
                 temp_list = [sig.strip() for sig in m.group(1).split(",")]
                 approvals = tuple(temp_list)
-            ## TODO: figure out how to grab comments here
+            # TODO: figure out how to grab comments here
 
         if title:
             officer_reports.append((title, owner, shepherd, attachment, approvals))
@@ -247,7 +248,7 @@ class AgendaParser(object):
                 if m:
                     min_filename = m.group(1)
 
-            ### TBD: do we need to capture CONTENT?
+            # TBD: do we need to capture CONTENT?
 
         # Parse loop done. Finish out accumulated info.
         if min_date:
