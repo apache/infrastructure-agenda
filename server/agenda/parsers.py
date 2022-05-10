@@ -46,6 +46,10 @@ class AgendaParser(object):
     # Discussion items
     RE_DISCUSS_ITEMS = re.compile(r' +\w+\. (.*)| +\* (.*)\:')
 
+    # Action items
+    RE_REVIEW_ACTION_ITEMS = re.compile(r' +\* (.*)\: (.*)')
+    RE_REVIEW_ACTION_ITEMS_STATUS = re.compile(r' +Status\: (.*)')
+
     # Attachments
     RE_ATTACHMENT = re.compile(r'^Attachment\s(\w+)\:\s(.*?)\s+\[(.*?)\]')
 
@@ -62,7 +66,7 @@ class AgendaParser(object):
         self.reports = self._parse_committee_reports(self._get_section(S_REPORTS))
         self.orders = self._parse_special_orders(self._get_section(S_ORDERS))
         self.discuss_items = self._parse_discuss_items(self._get_section(S_DISCUSS_ITEMS))
-        #self.review_action_items = self._parse_review_action_items(self._get_section(S_REVIEW_ACTION_ITEMS))
+        self.review_action_items = self._parse_review_action_items(self._get_section(S_REVIEW_ACTION_ITEMS))
         #self.unfinished_business = self._parse_unfinished_business(self._get_section(S_UNFINISHED_BUSINESS))
         #self.new_business = self._parse_new_business(self._get_section(S_NEW_BUSINESS))
         #self.announcements = self._parse_announcments(self._get_section(S_ANNOUNCEMENTS))
@@ -99,6 +103,32 @@ class AgendaParser(object):
 
         return attachments
 
+    def _parse_review_action_items(self, data):
+        items = [ ]
+
+        assignee = None
+        title = None
+        status = None
+
+        # TODO: need to grab second, third, etc... lines of title/status
+        for line in data:
+            m = self.RE_REVIEW_ACTION_ITEMS.search(line)
+            if m:
+                if assignee:
+                    items.append((title, assignee, status))
+                    status = None
+                assignee = m.group(1)
+                title = m.group(2)
+
+            m = self.RE_REVIEW_ACTION_ITEMS_STATUS.search(line)
+            if m:
+                status = m.group(1)
+
+        if assignee:
+            items.append((title, assignee, status))
+
+        return items
+
     def _parse_discuss_items(self, data):
         """
         '    A. Set a date for the Annual Members Meeting'
@@ -109,6 +139,7 @@ class AgendaParser(object):
                Mark is free at 11AM Pacific; I hope the board will listen.
         '''
         """
+        # TODO: the RE_DISCUSS_ITEMS regex 'or' logic is not working
         items = [ ]
 
         title = None
