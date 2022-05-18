@@ -83,6 +83,7 @@ Raw list of features that are in-use today.
 * send reminders
   * template based on missing status the previous month(s)
   * first and final reminder selection should include all missing project reports by default, including non-responsive PMCs
+  * officer reports should have reminder functionality like project reports, with its own template and destination addresses
 * draft emails for late reports
 * show shepard reports - with easy navigation to only reports you are sheparding
 * search function
