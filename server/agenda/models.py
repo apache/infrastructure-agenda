@@ -19,9 +19,9 @@ class Agenda(object):
 
     def get_all(self):
 
-        return [{'filename': agenda.name,
-                 'checksum': agenda['checksum'],
-                 'revision': agenda['last_changed_rev']}
+        return [[agenda.name,
+                agenda['checksum'],
+                agenda['last_changed_rev']]
                 for agenda
                 in self._dir.files]
 

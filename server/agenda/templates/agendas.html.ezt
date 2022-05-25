@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  [include "head.html.ezt"]
+  <body>
+
+[include "navbar.html.ezt"]
+
+<main class="container">
+  <div class="bg-light p-5 rounded">
+    <h1>[title]</h1>
+    <ul>
+        [for items]
+        <li>[items]</li>
+        [end]
+    </ul>
+  </div>
+</main>
+
+
+    [include "foot.html.ezt"]
+
+
+  </body>
+</html>
