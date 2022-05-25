@@ -1,10 +1,7 @@
 import flask
-import flask_bootstrap
 
 from config import config
 from . import parsers
-
-bootstrap = flask_bootstrap.Bootstrap()
 
 
 def create_app(config_name):
@@ -12,8 +9,6 @@ def create_app(config_name):
     app.app_context().push()
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
-
-    bootstrap.init_app(app)
 
     from . import converters
     app.url_map.converters['meeting_dates'] = converters.DateConverter
