@@ -1,19 +1,11 @@
 import flask
 
-from config import config
-from . import parsers
 
+def init_app():
+    app = flask.Flask(__name__, instance_relative_config=False)
+    app.config.from_object('config.Config')
 
-def create_app(config_name):
-    app = flask.Flask('agenda')
-    app.app_context().push()
-    app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
+    with app.app_context():
+        from . import views
 
-    from . import converters
-    app.url_map.converters['meeting_dates'] = converters.DateConverter
-
-    from .api import api as api_blueprint
-    app.register_blueprint(api_blueprint, url_prefix='/api/v1')
-
-    return app
+        return app

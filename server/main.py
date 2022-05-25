@@ -1,4 +1,9 @@
-import os
-import agenda
+#!/usr/bin/python3
 
-app = agenda.create_app(os.getenv('FLASK_CONFIG') or 'default')
+from agenda import init_app
+
+
+app = init_app()
+
+if __name__ == "__main__":
+    app.run()
