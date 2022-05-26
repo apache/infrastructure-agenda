@@ -1,10 +1,10 @@
 import flask
 
 from . import api
-from ..models import Meeting
+from server.agenda.models import meeting
 
 
-meetings = Meeting()
+meetings = meeting.Meeting()
 
 
 @api.route('/meetings')

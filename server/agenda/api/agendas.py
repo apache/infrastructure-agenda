@@ -1,10 +1,10 @@
 import flask
 
 from . import api
-from ..models import Agenda
+from server.agenda.models import agenda
 
 
-agendas = Agenda()
+agendas = agenda.Agenda()
 
 
 @api.route('/agendas')

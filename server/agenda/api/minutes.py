@@ -1,10 +1,10 @@
 import flask
 
 from . import api
-from ..models import Minutes
+from server.agenda.models import minutes
 
 
-minutes = Minutes()
+minutes = minutes.Minutes()
 
 
 @api.route('/minutes')

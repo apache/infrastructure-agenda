@@ -1,10 +1,10 @@
 import flask
 
 from . import api
-from ..models import Committee
+from server.agenda.models import committee
 
 
-committees = Committee()
+committees = committee.Committee()
 
 
 @api.route('/committees')
