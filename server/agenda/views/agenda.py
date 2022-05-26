@@ -1,10 +1,10 @@
 import flask
 
 from . import tools
-from .. import models
+from ..models import agenda
 
 app = flask.current_app
-agendas = models.Agenda()
+agendas = agenda.Agenda()
 
 T_AGENDAS = tools.load_template('agendas.html.ezt')
 
