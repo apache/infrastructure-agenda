@@ -87,6 +87,22 @@ class Dir(FSObject):
                 return f
         raise FileNotFoundError
 
+    def update(self):
+        """update the directory
+
+            Returns: the output of the `svn up` command
+        """
+        try:
+            output = subprocess.run(["svn", "up", self._path],
+                                    check=True,
+                                    text=True,
+                                    capture_output=True)
+        except subprocess.CalledProcessError:
+            raise NotSVNRepoError
+
+        return output
+
+
     def _walkdir(self):
         """create a list of files in this dir and return it"""
         if self._recurse:
