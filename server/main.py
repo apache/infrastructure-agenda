@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
 
+import dotenv
+dotenv.load_dotenv()
+
 from agenda import init_app
 
 

@@ -12,6 +12,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    ENV = 'development'
     DATA_DIR = os.environ.get('DATA_DIR') or os.path.join(basedir, 'data')
 
 
