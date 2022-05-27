@@ -4,6 +4,7 @@ import re
 
 import flask
 
+
 class Meeting(object):
 
     def __init__(self):

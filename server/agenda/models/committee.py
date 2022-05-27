@@ -2,7 +2,7 @@ import os
 
 import flask
 
-from server.agenda.parsers import parseci
+from agenda.parsers import parseci
 
 class Committee(object):
 

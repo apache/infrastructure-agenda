@@ -2,7 +2,7 @@ import os
 
 import flask
 
-from server.agenda.utils import svn
+from agenda.utils import svn
 
 class Minutes(object):
 
