@@ -3,12 +3,12 @@ import datetime
 
 import pytest
 
-import agenda
+from .. import agenda
 
 
 @pytest.fixture
 def app():
-    app = agenda.create_app('testing')
+    app = agenda.init_app()
 
     yield app
 
