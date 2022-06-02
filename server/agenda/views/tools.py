@@ -19,8 +19,9 @@ def render(t, data):
     augmented = data.copy()
     augmented.update({
         'bs_css_url': flask.url_for('static', filename='css/bootstrap.min.css'),
-        'navbar_css_url': flask.url_for('static', filename='css/navbar-top-fixed.css'),
+        'style_css_url': flask.url_for('static', filename='css/style.css'),
         'bs_js_url': flask.url_for('static', filename='js/bootstrap.min.js'),
+        'feather_js_url': flask.url_for('static', filename="js/feather.min.js"),
         })
 
     buf = io.StringIO()

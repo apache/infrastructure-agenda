@@ -14,7 +14,8 @@ def agendas_index():
 
     items = agendas.get_all()
     formatted_items = [item[0] for item in items]
-    data = {'title': 'List of Agendas',
+    data = {'title': 'Agendas',
+            'page_name': 'agendas',
             'items': formatted_items,
     }
 

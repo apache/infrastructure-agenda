@@ -3,18 +3,62 @@
   [include "head.html.ezt"]
   <body>
 
-[include "navbar.html.ezt"]
+  [include "navigation.html.ezt"]
 
-<main class="container">
-  <div class="bg-light p-5 rounded">
-    <h1>[title]</h1>
-    <p class="lead">[body]</p>
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Welcome</h1>
+      </div>
+      <div>
+        <p>Sed aliquet mauris ac felis egestas, vel laoreet metus consectetur. Cras non libero eleifend, ornare nibh a, commodo nunc. Nulla dui odio, luctus et dapibus a, dapibus at lectus. Proin mi eros, placerat eget feugiat eget, aliquet ut nibh. Nam sed molestie justo, id vestibulum nulla. Maecenas ut hendrerit est, lacinia ornare enim. Sed pretium dignissim felis, in sagittis sem. Cras condimentum ullamcorper nunc nec iaculis. Donec at eros elementum libero facilisis dictum. Curabitur eleifend quam quam, at lacinia arcu elementum a. Nunc nec placerat quam, vel sagittis velit. Suspendisse ornare vulputate vulputate. Mauris tortor felis, egestas at porttitor vel, auctor eget metus. Duis eu ultrices erat, eget hendrerit elit. Maecenas facilisis id metus quis malesuada.</p>
+        <p>Cras molestie malesuada odio in viverra. Morbi nibh enim, facilisis nec ipsum vel, euismod placerat est. Maecenas leo purus, consequat id viverra sed, bibendum ut enim. Fusce facilisis justo eget rhoncus pharetra. Suspendisse potenti. Nulla id tempor augue. Nunc pretium massa et nibh elementum fermentum.</p>
+        <div class="container px-4 py-5" id="explainer-boxes">
+          <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+            <div class="col d-flex align-items-start">
+              <div class="icon-square text-dark d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                <span data-feather="clipboard"></span>
+              </div>
+              <div>
+                <h3>Agendas</h3>
+                <p>Donec dapibus tellus quis eros commodo, at fringilla ante lacinia. In hac habitasse platea dictumst.</p>
+              </div>
+            </div>
+            <div class="col d-flex align-items-start">
+              <div class="icon-square text-dark d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                <span data-feather="edit-3"></span>
+              </div>
+              <div>
+                <h3>Minutes</h3>
+                <p>Nunc euismod, tortor a tempor venenatis, magna nunc euismod eros, non finibus justo neque vitae erat. Curabitur mattis lacinia diam in pellentesque. Nunc venenatis porttitor mauris nec scelerisque.</p>
+              </div>
+            </div>
+            <div class="col d-flex align-items-start">
+              <div class="icon-square text-dark d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                <span data-feather="inbox"></span>
+              </div>
+              <div>
+                <h3>Reports</h3>
+                <p>Curabitur pellentesque quis nisl sit amet suscipit. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>
+              </div>
+            </div>
+            <div class="col d-flex align-items-start">
+              <div class="icon-square text-dark d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                <span data-feather="calendar"></span>
+              </div>
+              <div>
+                <h3>Schedule</h3>
+                <p>Praesent dictum pharetra neque, at tempus felis. Ut eu dui aliquet, elementum orci tempus, vehicula lectus.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
   </div>
-</main>
+</div>
 
 
-    [include "foot.html.ezt"]
-
-
+  [include "foot.html.ezt"]
   </body>
 </html>

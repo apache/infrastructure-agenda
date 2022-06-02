@@ -1,1 +1,3 @@
 <script src="[bs_js_url]"></script>
+<script src="[feather_js_url]"></script>
+<script>feather.replace()</script>
