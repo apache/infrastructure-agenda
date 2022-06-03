@@ -34,6 +34,7 @@ class Agenda(object):
 
         return self._dir.file(filename)
 
+    # TODO: move these to shared module so that we can import into other models
     @staticmethod
     def _parse_date_from_name(fname):
         fname_cleaned = fname.rstrip(".txt").split("_")[2:]

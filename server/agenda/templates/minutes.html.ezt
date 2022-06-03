@@ -17,16 +17,16 @@
               <th scope="col">Meeting Date</th>
               <th scope="col">Latest Revision</th>
               <th scope="col">Last Change Author</th>
-              <th scope="col">Minutes</th>
+              <th scope="col">Agenda</th>
             </tr>
           </thead>
           <tbody>
             [for items]
             <tr>
-              <td>[items.name]</td>
-              <td>["%0 (%1)" items.last_changed_rev items.text_last_updated]</td>
+              <td><a href=[items.url]>[items.name]</a></td>
+              <td>["%0 (%1)" items.last_changed_rev items.last_changed_date]</td>
               <td>[items.last_changed_author]</td>
-              <td></td>
+              <td><a href=[items.minutes_url]>[items.minutes]</a></td>
             </tr>
             [end]
           </tbody>
