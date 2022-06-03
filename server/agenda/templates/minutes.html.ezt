@@ -23,10 +23,10 @@
           <tbody>
             [for items]
             <tr>
-              <td><a href=[items.url]>[items.name]</a></td>
-              <td>["%0 (%1)" items.last_changed_rev items.last_changed_date]</td>
+              <td>[items.name]</td>
+              <td>["%0 (%1)" items.last_changed_rev items.text_last_updated]</td>
               <td>[items.last_changed_author]</td>
-              <td><a href=[items.minutes_url]>[items.minutes]</a></td>
+              <td></td>
             </tr>
             [end]
           </tbody>

@@ -19,3 +19,7 @@ def agendas_index():
     }
 
     return tools.render(T_AGENDAS, data)
+
+@app.route("/agendas/<date:meeting_date>")
+def find_agenda(meeting_date):
+    return agendas.get_by_date(meeting_date)

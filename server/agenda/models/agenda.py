@@ -1,4 +1,5 @@
 import os
+import datetime
 
 import flask
 
@@ -15,15 +16,30 @@ class Agenda(object):
                             recurse=True)
 
     def get_all(self):
-
-        return [[agenda.name,
-                agenda['checksum'],
-                agenda['last_changed_rev']]
-                for agenda
-                in self._dir.files]
+        agendas = self._dir.files
+        # TODO: this only works the first time the agendas index page is displayed
+        #       because it changes the underlying objects. So check before changing
+        #       or do this differently.
+        for agenda in agendas:
+            dt = self._parse_date_from_name(agenda.filename)
+            agenda.name = dt.strftime("%a, %d %b %Y")
+            agenda.url = flask.url_for('find_agenda', meeting_date=dt)
+            agenda.last_changed_date = agenda.last_changed_date.strftime("%c")
+            agenda.minutes = self._minutes_filename(agenda.filename)
+            agenda.minutes_url = flask.url_for('find_minutes', meeting_date=dt)
+        return agendas
 
     def get_by_date(self, date):
         filename = f"board_agenda_{date.strftime('%Y_%m_%d')}.txt"
 
         return self._dir.file(filename)
+
+    @staticmethod
+    def _parse_date_from_name(fname):
+        fname_cleaned = fname.rstrip(".txt").split("_")[2:]
+        return datetime.date(*[int(element) for element in fname_cleaned])
+
+    @staticmethod
+    def _minutes_filename(fname):
+        return fname.replace('board_agenda', 'board_minutes')
 
