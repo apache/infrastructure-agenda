@@ -14,7 +14,6 @@ def minutes_index():
 
     items = minutes.get_all()
     data = {'title': 'Minutes',
-            'page_name': 'minutes',
             'items': items,
     }
 

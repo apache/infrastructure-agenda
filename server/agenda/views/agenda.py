@@ -14,7 +14,6 @@ def agendas_index():
 
     items = agendas.get_all()
     data = {'title': 'Agendas',
-            'page_name': 'agendas',
             'items': items,
     }
 
