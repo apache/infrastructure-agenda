@@ -21,54 +21,14 @@
             </tr>
           </thead>
           <tbody>
+            [for items]
             <tr>
-              <td>May 18th, 2022</td>
-              <td>127307 (05/26/2022)</td>
-              <td>Svetlana Platanić (svetlana)</td>
-              <td><em>pending approval</em></td>
+              <td>[items.name]</td>
+              <td>["%0 (%1)" items.last_changed_rev items.text_last_updated]</td>
+              <td>[items.last_changed_author]</td>
+              <td></td>
             </tr>
-            <tr>
-              <td>April 20th, 2022</td>
-              <td>127242 (04/27/2022)</td>
-              <td>Đồng Lễ (dle)</td>
-              <td><a href="#">board_minutes_2022_04_20</a></td>
-            </tr>
-            <tr>
-              <td>March 16th, 2022</td>
-              <td>127225 (03/20/2022)</td>
-              <td>Jessica Orn (jorn)</td>
-              <td><a href="#">board_minutes_2022_03_16</a></td>
-            </tr>
-            <tr>
-              <td>February 16th, 2022</td>
-              <td>127201 (02/26/2022)</td>
-              <td>Layne Goodwin (goodwin)</td>
-              <td><a href="#">board_minutes_2022_02_16</a></td>
-            </tr>
-            <tr>
-              <td>January 19th, 2022</td>
-              <td>127167 (01/25/2022)</td>
-              <td>Svetlana Platanić (svetlana)</td>
-              <td><a href="#">board_minutes_2022_01_19</a></td>
-            </tr>
-            <tr>
-              <td>December 15th, 2021</td>
-              <td>127143 (12/21/2021)</td>
-              <td>Jessica Orn (jorn)</td>
-              <td><a href="#">board_minutes_2021_12_15</a></td>
-            </tr>
-            <tr>
-              <td>November 17th, 2021</td>
-              <td>127125 (11/20/2021)</td>
-              <td>Đồng Lễ (dle)</td>
-              <td><a href="#">board_minutes_2021_11_17</a></td>
-            </tr>
-            <tr>
-              <td>October 20th, 2021</td>
-              <td>127100 (10/25/2021)</td>
-              <td>Đồng Lễ (dle)</td>
-              <td><a href="#">board_minutes_2021_10_20</a></td>
-            </tr>
+            [end]
           </tbody>
         </table>
       </div>

@@ -1,11 +1,14 @@
 import subprocess
 import re
 import os
+import datetime
 
 
 class FSObject(object):
     """A parent class for the following two classes
     """
+
+    DATETIME_PATTERN="%Y-%m-%d %H:%M:%S %z"
 
     def __init__(self, path, *args, **kwargs):
         self._path = path
@@ -14,6 +17,20 @@ class FSObject(object):
     @property
     def path(self):
         return self._path
+
+    @property
+    def last_changed_author(self):
+        return self._info['last_changed_author']
+
+    @property
+    def last_changed_rev(self):
+        return self._info['last_changed_rev']
+
+    @property
+    def last_changed_date(self, fmt="%c"):
+        clean_str = self._info['last_changed_date'].split(' (')[0]
+        dt = datetime.datetime.strptime(clean_str, self.DATETIME_PATTERN)
+        return dt.strftime(fmt)
 
     @property
     def info(self):
@@ -153,6 +170,16 @@ class File(FSObject):
     @property
     def name(self):
         return os.path.split(self._path)[1]
+
+    @property
+    def checksum(self):
+        return self._info['checksum']
+
+    @property
+    def text_last_updated(self, fmt="%c"):
+        clean_str = self._info['text_last_updated'].split(' (')[0]
+        dt = datetime.datetime.strptime(clean_str, self.DATETIME_PATTERN)
+        return dt.strftime(fmt)
 
     @property
     def contents(self):

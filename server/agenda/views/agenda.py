@@ -13,10 +13,9 @@ T_AGENDAS = tools.load_template('agendas.html.ezt')
 def agendas_index():
 
     items = agendas.get_all()
-    formatted_items = [item[0] for item in items]
     data = {'title': 'Agendas',
             'page_name': 'agendas',
-            'items': formatted_items,
+            'items': items,
     }
 
     return tools.render(T_AGENDAS, data)
