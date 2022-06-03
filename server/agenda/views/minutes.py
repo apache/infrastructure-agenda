@@ -21,4 +21,4 @@ def minutes_index():
 
 @app.route("/minutes/<date:meeting_date>")
 def find_minutes(meeting_date):
-    return minutes.get_by_date(meeting_date)
+    return minutes.get_by_date(meeting_date).contents

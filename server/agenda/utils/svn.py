@@ -151,7 +151,7 @@ class File(FSObject):
 
     @property
     def contents(self):
-        with open(self._path, 'r')as file:
+        with open(self.path, 'r')as file:
             return file.read()
     
     def __repr__(self):
