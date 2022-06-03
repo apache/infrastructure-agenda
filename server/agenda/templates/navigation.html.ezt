@@ -17,7 +17,7 @@
       <div class="position-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            [is page_name "home"]
+            [is title "Welcome"]
             <a class="nav-link active" aria-current="page" href="/">
             [else]
             <a class="nav-link" href="/">
@@ -27,7 +27,7 @@
             </a>
           </li>
           <li class="nav-item">
-            [is page_name "agendas"]
+            [is title "Agendas"]
             <a class="nav-link active" aria-current="page" href="/agendas">
             [else]
             <a class="nav-link" href="/agendas">
@@ -37,7 +37,11 @@
             </a>
           </li>
           <li class="nav-item">
+            [is title "Minutes"]
+            <a class="nav-link active" aria-current="page" href="/minutes">
+            [else]
             <a class="nav-link" href="/minutes">
+            [end]
               <span data-feather="edit-3"></span>
               Minutes
             </a>
