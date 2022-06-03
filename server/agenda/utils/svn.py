@@ -11,34 +11,16 @@ class FSObject(object):
     DATETIME_PATTERN="%Y-%m-%d %H:%M:%S %z"
 
     def __init__(self, path, *args, **kwargs):
-        self._path = path
-        self._info = self._get_info()
-
-    @property
-    def path(self):
-        return self._path
-
-    @property
-    def last_changed_author(self):
-        return self._info['last_changed_author']
-
-    @property
-    def last_changed_rev(self):
-        return self._info['last_changed_rev']
-
-    @property
-    def last_changed_date(self, fmt="%c"):
-        clean_str = self._info['last_changed_date'].split(' (')[0]
-        dt = datetime.datetime.strptime(clean_str, self.DATETIME_PATTERN)
-        return dt.strftime(fmt)
-
-    @property
-    def info(self):
-        return self._info
+        self.path = path
+        self.info = self._get_info()
+        self.last_changed_author = self.info['last_changed_author']
+        self.last_changed_rev = self.info['last_changed_rev']
+        self.last_changed_date = datetime.datetime.strptime(self.info['last_changed_date'].split(' (')[0],
+                                                            self.DATETIME_PATTERN)
 
     def _get_info(self):
         try:
-            output = subprocess.run(["svn", "info", self._path],
+            output = subprocess.run(["svn", "info", self.path],
                                     check=True,
                                     text=True, 
                                     capture_output=True)
@@ -54,7 +36,7 @@ class FSObject(object):
         return info
 
     def __getitem__(self, item):
-        return self._info[item]
+        return self.info[item]
 
 
 class Dir(FSObject):
@@ -87,11 +69,7 @@ class Dir(FSObject):
         else:
             self._recurse = False
 
-        self._files = self._walkdir()
-
-    @property
-    def files(self):
-        return self._files
+        self.files = self._walkdir()
 
     def file(self, filename):
         """return a File object
@@ -100,7 +78,7 @@ class Dir(FSObject):
                 filename: name of the file being requested
         """
         for f in self.files:
-            if f.name == filename:
+            if f.filename == filename:
                 return f
         raise FileNotFoundError
 
@@ -110,7 +88,7 @@ class Dir(FSObject):
             Returns: the output of the `svn up` command
         """
         try:
-            output = subprocess.run(["svn", "up", self._path],
+            output = subprocess.run(["svn", "up", self.path],
                                     check=True,
                                     text=True,
                                     capture_output=True)
@@ -128,16 +106,16 @@ class Dir(FSObject):
                          in self._iter_files()
                          if re.search(self._filter, str(file[1]))]
         else:
-            file_list = [File(f"{self._path}/{file}")
+            file_list = [File(f"{self.path}/{file}")
                          for file
-                         in os.listdir(self._path) 
+                         in os.listdir(self.path)
                          if re.search(self._filter, str(file))]
 
         return file_list
 
     def _iter_files(self):
         """generator method to allow filtering of os.walk()"""
-        for dir_, dirs, files in os.walk(self._path):
+        for dir_, dirs, files in os.walk(self.path):
             for file in files:
                 yield (dir_, file)
 
@@ -166,20 +144,10 @@ class File(FSObject):
                 path: full path to this file
         """
         super().__init__(path, *args, **kwargs)
-        
-    @property
-    def name(self):
-        return os.path.split(self._path)[1]
-
-    @property
-    def checksum(self):
-        return self._info['checksum']
-
-    @property
-    def text_last_updated(self, fmt="%c"):
-        clean_str = self._info['text_last_updated'].split(' (')[0]
-        dt = datetime.datetime.strptime(clean_str, self.DATETIME_PATTERN)
-        return dt.strftime(fmt)
+        self.filename = os.path.split(self.path)[1]
+        self.checksum = self.info['checksum']
+        self.text_last_updated = datetime.datetime.strptime(self.info['text_last_updated'].split(' (')[0],
+                                                            self.DATETIME_PATTERN)
 
     @property
     def contents(self):
@@ -187,7 +155,7 @@ class File(FSObject):
             return file.read()
     
     def __repr__(self):
-        return f"<SVNFile: {self.name}>"
+        return f"<SVNFile: {self.filename}>"
 
 
 class NotSVNRepoError(Exception):
