@@ -22,10 +22,10 @@ class Minutes(object):
         for mins in minutes:
             dt = self._parse_date_from_name(mins.filename)
             mins.name = dt.strftime("%a, %d %b %Y")
-            mins.url = flask.url_for('find_agenda', meeting_date=dt)
+            mins.url = flask.url_for('find_minutes', meeting_date=dt)
             mins.last_changed_date = mins.last_changed_date.strftime("%c")
-            mins.minutes = self._minutes_filename(mins.filename)
-            mins.minutes_url = flask.url_for('find_minutes', meeting_date=dt)
+            mins.agenda = self._minutes_filename(mins.filename)
+            mins.agenda_url = flask.url_for('find_agenda', meeting_date=dt)
         return minutes
 
     def get_by_date(self, date):
