@@ -1,9 +1,11 @@
 import flask
 
+from server import config
 
-def init_app():
+
+def init_app(cfg=config.DevelopmentConfig):
     app = flask.Flask(__name__, instance_relative_config=False)
-    app.config.from_object('config.TestingConfig') # TODO: change this to be set by ENV variables
+    app.config.from_object(cfg)
 
     from . import converters
     app.url_map.converters['date'] = converters.DateConverter
