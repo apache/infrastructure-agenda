@@ -4,7 +4,9 @@ import io
 import flask
 import ezt
 
-TEMPLATES_DIR = os.path.join(os.path.abspath('agenda'), flask.current_app.template_folder)
+# TEMPLATES_DIR = os.path.join(os.path.abspath('agenda'), flask.current_app.template_folder)
+THIS_DIR = os.path.realpath(os.path.dirname(__file__))
+TEMPLATES_DIR = os.path.join(os.path.dirname(THIS_DIR), flask.current_app.template_folder)
 
 
 def load_template(tname):

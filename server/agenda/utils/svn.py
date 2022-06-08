@@ -146,8 +146,8 @@ class File(FSObject):
         super().__init__(path, *args, **kwargs)
         self.filename = os.path.split(self.path)[1]
         self.checksum = self.info['checksum']
-        self.text_last_updated = datetime.datetime.strptime(self.info['text_last_updated'].split(' (')[0],
-                                                            self.DATETIME_PATTERN)
+        # self.text_last_updated = datetime.datetime.strptime(self.info['text_last_updated'].split(' (')[0],
+        #                                                     self.DATETIME_PATTERN)
 
     @property
     def contents(self):
