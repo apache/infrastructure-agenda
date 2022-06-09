@@ -1,9 +1,11 @@
+import os
 import subprocess
-import datetime
 
 import pytest
 
-from .. import agenda
+import agenda
+
+DATA_DIR = os.path.join(os.path.realpath(os.path.dirname(__file__)), 'data')
 
 
 @pytest.fixture
@@ -18,20 +20,16 @@ def client(app):
     return app.test_client()
 
 
-config = agenda.config['testing']
-data_dir = config.DATA_DIR
-
-
 def pytest_configure():
     print("Setting up local SVN repo")
-    subprocess.run(["svnadmin", "create", f"{data_dir}/tmp"])
-    subprocess.run(["svn", "import", f"{data_dir}/repos", 
-                    f"file:///{data_dir}/tmp/trunk", "-m", "'Initial commit'"])
-    subprocess.run(["svn", "checkout", f"file:///{data_dir}/tmp/trunk", 
-                    f"{data_dir}/repos/"])
+    subprocess.run(["svnadmin", "create", f"{DATA_DIR}/tmp"])
+    subprocess.run(["svn", "import", f"{DATA_DIR}/repos",
+                    f"file:///{DATA_DIR}/tmp/trunk", "-m", "'Initial commit'"])
+    subprocess.run(["svn", "checkout", f"file:///{DATA_DIR}/tmp/trunk",
+                    f"{DATA_DIR}/repos/"])
 
 
 def pytest_unconfigure():
     print("Removing local SVN repo")
-    subprocess.run(["rm", "-rf", f"{data_dir}/tmp"])
-    subprocess.run(["rm", "-rf", f"{data_dir}/repos/.svn"])
+    subprocess.run(["rm", "-rf", f"{DATA_DIR}/tmp"])
+    subprocess.run(["rm", "-rf", f"{DATA_DIR}/repos/.svn"])
