@@ -140,7 +140,6 @@ class File(FSObject):
         super().__init__(path, *args, **kwargs)
         self.filename = os.path.split(self.path)[1]
         self.checksum = self.info['checksum']
-                                                     self.DATETIME_PATTERN)
 
     @property
     def contents(self):
