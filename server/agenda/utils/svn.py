@@ -19,13 +19,10 @@ class FSObject(object):
                                                             self.DATETIME_PATTERN)
 
     def _get_info(self):
-        try:
-            output = subprocess.run(["svn", "info", self.path],
+        output = subprocess.run(["svn", "info", self.path],
                                     check=True,
                                     text=True, 
                                     capture_output=True)
-        except subprocess.CalledProcessError:
-            raise NotSVNRepoError
 
         info = {}
         clean_output = output.stdout.strip()
@@ -35,8 +32,8 @@ class FSObject(object):
 
         return info
 
-    def __getitem__(self, item):
-        return self.info[item]
+    # def __getitem__(self, item):
+    #     return self.info[item]
 
 
 class Dir(FSObject):
@@ -82,20 +79,17 @@ class Dir(FSObject):
                 return f
         raise FileNotFoundError
 
-    def update(self):
-        """update the directory
-
-            Returns: the output of the `svn up` command
-        """
-        try:
-            output = subprocess.run(["svn", "up", self.path],
-                                    check=True,
-                                    text=True,
-                                    capture_output=True)
-        except subprocess.CalledProcessError:
-            raise NotSVNRepoError
-
-        return output
+    # def update(self):
+    #     """update the directory
+    #
+    #         Returns: the output of the `svn up` command
+    #     """
+    #     output = subprocess.run(["svn", "up", self.path],
+    #                             check=True,
+    #                             text=True,
+    #                             capture_output=True)
+    #
+    #     return output
 
 
     def _walkdir(self):
@@ -146,8 +140,7 @@ class File(FSObject):
         super().__init__(path, *args, **kwargs)
         self.filename = os.path.split(self.path)[1]
         self.checksum = self.info['checksum']
-        # self.text_last_updated = datetime.datetime.strptime(self.info['text_last_updated'].split(' (')[0],
-        #                                                     self.DATETIME_PATTERN)
+                                                     self.DATETIME_PATTERN)
 
     @property
     def contents(self):
@@ -156,8 +149,3 @@ class File(FSObject):
     
     def __repr__(self):
         return f"<SVNFile: {self.filename}>"
-
-
-class NotSVNRepoError(Exception):
-    """Raised when a filesystem object doesn't pertain to an SVN repository"""
-    pass
