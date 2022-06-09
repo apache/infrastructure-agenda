@@ -1,6 +1,6 @@
 import flask
 
-from server import config
+import config
 
 
 def init_app(cfg=config.DevelopmentConfig):
