@@ -4,7 +4,7 @@ APP_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    DATA_DIR = os.getenv('DATA_DIR') or os.path.join(APP_DIR, 'data')
+    DATA_DIR = os.getenv('DATA_DIR') or os.path.join(APP_DIR, 'tests', 'data')
 
     @staticmethod
     def init_app(app):
