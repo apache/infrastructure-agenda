@@ -21,6 +21,11 @@ def client(app):
     return app.test_client()
 
 
+@pytest.fixture
+def data_dir():
+    return cfg.DATA_DIR
+
+
 def pytest_configure():
     print("Setting up local SVN repo")
     subprocess.run(["svnadmin", "create", f"{cfg.DATA_DIR}/tmp"])
