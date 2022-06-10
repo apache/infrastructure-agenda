@@ -1,9 +1,10 @@
 import os
-basedir = os.path.abspath(os.path.dirname(__file__))
+
+APP_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
-    DATA_DIR = os.path.join(basedir, 'tests/data')
+    DATA_DIR = os.getenv('DATA_DIR') or os.path.join(APP_DIR, 'data')
 
     @staticmethod
     def init_app(app):
@@ -11,24 +12,13 @@ class Config:
 
 
 class DevelopmentConfig(Config):
-    DEBUG = True
-    ENV = 'development'
-    DATA_DIR = os.environ.get('DATA_DIR') or os.path.join(basedir, 'data')
+    pass
 
 
 class TestingConfig(Config):
+    DATA_DIR = os.path.join(APP_DIR, 'tests', 'data')
     TESTING = True
-    DATA_DIR = os.path.join(basedir, 'tests/data')
 
 
 class ProductionConfig(Config):
-    DATA_DIR = os.environ.get('DATA_DIR') or os.path.join(basedir, 'data')
-
-
-config = {
-    'development': DevelopmentConfig,
-    'testing': TestingConfig,
-    'production': ProductionConfig,
-
-    'default': DevelopmentConfig
-}
+    pass
