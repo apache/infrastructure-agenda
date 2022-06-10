@@ -33,4 +33,4 @@ data
         └── board_minutes_2015_01_21.txt
 ```
 
-Each folder in repos contains a svn repository, and must be named as above.
+Each folder in repos contains an svn repository, and must be named as above.
