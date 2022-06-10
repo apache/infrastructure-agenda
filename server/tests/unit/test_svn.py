@@ -30,6 +30,8 @@ def test_file(config):
     with open(svn_file.path, 'r') as fp:
         assert svn_file.contents == fp.read()
     assert str(svn_file) == '<SVNFile: board_agenda_2015_01_21.txt>'
+    assert svn_file.__eq__(svn_file)
+    assert not svn_file.__ne__(svn_file)
 
 
 def test_file_missing(config):
