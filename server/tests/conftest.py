@@ -11,7 +11,7 @@ cfg = config.TestingConfig
 
 @pytest.fixture
 def app():
-    app = agenda.init_app()
+    app = agenda.init_app(cfg)
 
     yield app
 
@@ -22,9 +22,8 @@ def client(app):
 
 
 @pytest.fixture
-def data_dir():
-    return cfg.DATA_DIR
-
+def config():
+    return cfg
 
 def pytest_configure():
     print("Setting up local SVN repo")
