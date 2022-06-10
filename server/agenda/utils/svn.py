@@ -2,6 +2,8 @@ import subprocess
 import re
 import os
 import datetime
+from functools import total_ordering
+
 
 
 class FSObject(object):
@@ -120,6 +122,7 @@ class Dir(FSObject):
         return f"<SVNDir: {self.path}>"
 
 
+@total_ordering
 class File(FSObject):
     """A class facilitating access to an SVN backed directory
 
@@ -143,8 +146,17 @@ class File(FSObject):
 
     @property
     def contents(self):
-        with open(self.path, 'r')as file:
+        with open(self.path, 'r') as file:
             return file.read()
     
     def __repr__(self):
         return f"<SVNFile: {self.filename}>"
+
+    def __eq__(self, other):
+        return self.filename == other.filename
+
+    def __ne__(self, other):
+        return not (self.filename == other.filename)
+
+    def __lt__(self, other):
+        return self.filename < other.filename

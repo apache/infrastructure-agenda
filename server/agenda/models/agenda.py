@@ -1,32 +1,34 @@
 import os
 import datetime
 
-import flask
+#import flask
 
 from agenda.utils import svn
 
 
 class Agenda(object):
 
-    def __init__(self):
-        self._dir = svn.Dir(os.path.join(flask.current_app.config['DATA_DIR'],
-                                         'repos',
-                                         'foundation_board'),
+    def __init__(self, data_dir):
+        self._dir = svn.Dir(os.path.join(data_dir, 'repos', 'foundation_board'),
                             filter=r'board_agenda_\d{4}_\d{2}_\d{2}\.txt',
                             recurse=True)
 
-    def get_all(self):
+    def get_all(self, sort=True, desc=False):
         agendas = self._dir.files
-        # TODO: this only works the first time the agendas index page is displayed
-        #       because it changes the underlying objects. So check before changing
-        #       or do this differently.
-        for agenda in agendas:
-            dt = self._parse_date_from_name(agenda.filename)
-            agenda.name = dt.strftime("%a, %d %b %Y")
-            agenda.url = flask.url_for('find_agenda', meeting_date=dt)
-            agenda.last_changed_date = agenda.last_changed_date.strftime("%c")
-            agenda.minutes = self._minutes_filename(agenda.filename)
-            agenda.minutes_url = flask.url_for('find_minutes', meeting_date=dt)
+        # # TODO: this only works the first time the agendas index page is displayed
+        # #       because it changes the underlying objects. So check before changing
+        # #       or do this differently.
+        # for agenda in agendas:
+        #     dt = self._parse_date_from_name(agenda.filename)
+        #     agenda.name = dt.strftime("%a, %d %b %Y")
+        #     agenda.url = flask.url_for('find_agenda', meeting_date=dt)
+        #     agenda.last_changed_date = agenda.last_changed_date.strftime("%c")
+        #     agenda.minutes = self._minutes_filename(agenda.filename)
+        #     agenda.minutes_url = flask.url_for('find_minutes', meeting_date=dt)
+
+        if sort:
+            agendas.sort(reverse=desc)
+
         return agendas
 
     def get_by_date(self, date):
