@@ -1,11 +1,11 @@
 import os
-from functools import total_ordering
+import functools
 
 from ..utils import svn
 from ..parsers import agenda_parser
 
 
-@total_ordering
+@functools.total_ordering
 class Agenda:
     """A class for Agenda objects
 
@@ -14,7 +14,6 @@ class Agenda:
         revision (str): the svn revision of the file this agenda's data came from
         revision_author (str): the last author of this file, based on svn info
         revision_date (datetime.date): a date object of the last svn revision
-        parsed_file (parsers.AgendaParser): a parsed agenda
     """
 
     def __init__(self, filename):
