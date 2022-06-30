@@ -3,7 +3,7 @@ Description=ASF Agenda Tool
 
 [Service]
 Type=simple
-WorkingDirectory=/opt/infrastructure-agenda/server
+WorkingDirectory=/opt/agenda/server
 ExecStart=/usr/local/bin/pipenv run python3 main.py
 Restart=always
 User=www-data
