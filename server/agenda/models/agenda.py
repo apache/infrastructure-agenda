@@ -22,9 +22,13 @@ class Agenda:
         self.revision = self.file.last_changed_rev
         self.revision_author = self.file.last_changed_author
         self.revision_date = self.file.last_changed_date
+        self.rev_date_str = self.revision_date.strftime("%c")
 
         self._parsed_file = agenda_parser.AgendaParser(self.file.path)
         self.date = self._parsed_file.date
+        self.url = '#'
+        self.name = self.date.strftime("%a, %d %b %Y")
+        self.roll_call = self._parsed_file.roll_call
 
     def __repr__(self):
         return f"<Agenda: {self.date}>"
@@ -46,7 +50,8 @@ class AgendaList:
 
     def __init__(self, directory):
         self._files = [ ]
-        for path in pathlib.Path(directory).rglob(r'board_agenda_????_??_??.txt'):
+        # TODO: update the pattern after utf-8 encoding issues figured out on old agendas
+        for path in pathlib.Path(os.path.join(directory, 'foundation_board')).rglob(r'board_agenda_??21_??_??.txt'):
             self._files.append(path)
 
         self.agendas = [ ]

@@ -4,7 +4,7 @@ from . import tools
 from ..models import agenda
 
 app = flask.current_app
-agendas = agenda.Agenda(app.config['DATA_DIR'])
+agendas = agenda.AgendaList(app.config['DATA_DIR'])
 
 T_AGENDAS = tools.load_template('agendas.html.ezt')
 
@@ -13,6 +13,11 @@ T_AGENDAS = tools.load_template('agendas.html.ezt')
 def agendas_index():
 
     items = agendas.get_all()
+    for a in items:
+        a.url = flask.url_for('find_agenda', meeting_date=a.date)
+        a.minutes_url = '#' # TODO: these two lines will be updated when models.Minutes is re-implemented
+        a.minutes = ''
+
     data = {'title': 'Agendas',
             'items': items,
     }
@@ -21,4 +26,4 @@ def agendas_index():
 
 @app.route("/agendas/<date:meeting_date>")
 def find_agenda(meeting_date):
-    return agendas.get_by_date(meeting_date).contents
+    return agendas.get_by_date(meeting_date).name
