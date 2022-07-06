@@ -7,6 +7,7 @@ app = flask.current_app
 agendas = agenda.AgendaList(app.config['DATA_DIR'])
 
 T_AGENDAS = tools.load_template('agendas.html.ezt')
+T_AGENDA = tools.load_template('agenda.html.ezt')
 
 
 @app.route("/agendas")
@@ -33,4 +34,10 @@ def agendas_index():
 
 @app.route("/agendas/<date:meeting_date>")
 def find_agenda(meeting_date):
-    return agendas.get_by_date(meeting_date).name
+
+    item = agendas.get_by_date(meeting_date)
+
+    data = {'title': f"Meeting Agenda for {item.name}",
+            }
+
+    return tools.render(T_AGENDA, data)
