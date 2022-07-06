@@ -1,6 +1,7 @@
 import os
 import functools
 import pathlib
+import datetime
 
 from ..utils import svn
 from ..parsers import agenda_parser
@@ -19,16 +20,9 @@ class Agenda:
 
     def __init__(self, filename):
         self.file = svn.File(filename)
-        self.revision = self.file.last_changed_rev
-        self.revision_author = self.file.last_changed_author
-        self.revision_date = self.file.last_changed_date
-        self.rev_date_str = self.revision_date.strftime("%c")
-
-        self._parsed_file = agenda_parser.AgendaParser(self.file.path)
-        self.date = self._parsed_file.date
-        self.url = '#'
+        self.date = self._get_date_from_filename(self.file.path)
         self.name = self.date.strftime("%a, %d %b %Y")
-        self.roll_call = self._parsed_file.roll_call
+        self._parsed_file = agenda_parser.AgendaParser(self.file.path)
 
     def __repr__(self):
         return f"<Agenda: {self.date}>"
@@ -41,6 +35,12 @@ class Agenda:
 
     def __lt__(self, other):
         return self.date < other.date
+
+    @staticmethod
+    def _get_date_from_filename(filename):
+        d = pathlib.Path(filename).stem.split('_')
+        date_bits = [int(item) for item in d[2:5]]
+        return datetime.date(*date_bits)
 
 
 class AgendaList:
