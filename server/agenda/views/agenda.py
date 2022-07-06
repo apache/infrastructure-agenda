@@ -25,6 +25,7 @@ def agendas_index():
         items.sort(reverse=True)
 
     data = {'title': 'Agendas',
+            'count': len(items),
             'items': items,
     }
 
