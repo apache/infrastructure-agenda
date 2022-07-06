@@ -1,7 +1,6 @@
 import subprocess
 import re
 import os
-import datetime
 from functools import total_ordering
 
 
@@ -15,10 +14,10 @@ class FSObject(object):
     def __init__(self, path, *args, **kwargs):
         self.path = path
         self.info = self._get_info()
-        self.last_changed_author = self.info['last_changed_author']
-        self.last_changed_rev = self.info['last_changed_rev']
-        self.last_changed_date = datetime.datetime.strptime(self.info['last_changed_date'].split(' (')[0],
-                                                            self.DATETIME_PATTERN)
+        self.revision_author = self.info['last_changed_author']
+        self.revision = self.info['last_changed_rev']
+        self.revision_date = self.info['last_changed_date']
+        self.svn_url = self.info['url']
 
     def _get_info(self):
         output = subprocess.run(["svn", "info", self.path],

@@ -24,9 +24,9 @@
             [for items]
             <tr>
               <td><a href=[items.url]>[items.name]</a></td>
-              <td>["%0 (%1)" items.revision items.rev_date_str]</td>
-              <td>[items.revision_author]</td>
-              <td><a href=[items.minutes_url]>[items.minutes]</a></td>
+              <td>["%0 (%1)" items.file.revision items.file.revision_date]</td>
+              <td>[items.file.revision_author]</td>
+              <td><a href=[items.file.svn_url]>SVN link</a></td>
             </tr>
             [end]
           </tbody>
