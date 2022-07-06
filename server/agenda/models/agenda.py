@@ -47,7 +47,7 @@ class AgendaList:
     """A class for lists of Agenda objects
 
     """
-    SKIP_LIST = ['board_agenda_2008_01_16.txt',
+    SKIP_LIST = ['board_agenda_2008_01_16.txt', # TODO: put this list in a puppet stored file and load it here
                  'board_agenda_2011_11_07.txt',
                  'board_agenda_2010_09_11.txt',
                  'board_agenda_2010_10_20.txt',
