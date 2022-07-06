@@ -18,6 +18,12 @@ def agendas_index():
         a.minutes_url = '#' # TODO: these two lines will be updated when models.Minutes is re-implemented
         a.minutes = ''
 
+    sort = flask.request.args.get('sort')
+    if sort == 'forward':
+        items.sort()
+    else:
+        items.sort(reverse=True)
+
     data = {'title': 'Agendas',
             'items': items,
     }
