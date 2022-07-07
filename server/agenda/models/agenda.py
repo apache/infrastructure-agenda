@@ -12,17 +12,17 @@ class Agenda:
     """A class for Agenda objects
 
     Attributes:
+        file (SVNFile): An SVNFile object pointing to the local file on disk
         date (datetime.date): a date object representing the meeting date
-        revision (str): the svn revision of the file this agenda's data came from
-        revision_author (str): the last author of this file, based on svn info
-        revision_date (datetime.date): a date object of the last svn revision
+        name (str): the name of the Agenda (string representation of the meeting date)
+        parsed_file (AgendaParser): A parsed version of the agenda text file
     """
 
     def __init__(self, filename):
         self.file = svn.File(filename)
         self.date = self._get_date_from_filename(self.file.path)
         self.name = self.date.strftime("%a, %d %b %Y")
-        self._parsed_file = agenda_parser.AgendaParser(self.file.path)
+        self.parsed_file = agenda_parser.AgendaParser(self.file.path)
 
     def __repr__(self):
         return f"<Agenda: {self.date}>"
