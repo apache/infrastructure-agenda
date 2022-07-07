@@ -363,7 +363,6 @@ class AgendaParser(object):
         data_str = "".join(data)
         start_time = re.search(r'The meeting is scheduled for (.*) and will begin', data_str)
         time_zone_link = re.search(r'Other\ Time\ Zones: (.*)', data_str)
-        print(f"{self.date}: {time_zone_link}")
 
         return tuple([start_time.group(1), time_zone_link.group(1)])
 
