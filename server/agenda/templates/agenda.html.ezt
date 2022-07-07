@@ -13,10 +13,30 @@
 
         <section id="call_to_order">
           <strong>1. Call to order</strong>
-          <p>The meeting was scheduled for **15:00 UTC** and began at **15:02** when a sufficient attendance to constitute a quorum was recognized by the chair.</p>
-          <p>Other Time Zones: **https://timeanddate.com/s/42hh**</p>
-          <p>The meeting was held via teleconference, hosted by the Secretary via Zoom.</p>
-          <p>The #asfboard channel on the-asf.slack.com was used for backup.</p>
+          <p>The meeting is scheduled for **22:00 UTC** and will begin as soon thereafter that a sufficient attendance to constitute a quorum is recognized by the chair.</p>
+          <p class="mx-5">Other Time Zones: **https://timeanddate.com/s/42hh**</p>
+          <p>The meeting will be held via teleconference, hosted by the Secretary via Zoom:</p>
+          <div class="mx-5">
+            https://zoom.us/j/383757451?pwd=VkJhVnREOFhyemI5SGhqcUdGZS85UT09<br/>
+            <br/>
+            Meeting ID: 383 757 451<br/>
+            Password: 20302183<br/>
+            One tap mobile<br/>
+            +13126266799,,383757451#,,#,20302183# US (Chicago)<br/>
+            +19294362866,,383757451#,,#,20302183# US (New York)<br/>
+            <br/>
+            Dial by your location<br/>
+                    <span class="mx-5">+1 312 626 6799 US (Chicago)</span><br/>
+                    <span class="mx-5">+1 929 436 2866 US (New York)</span><br/>
+                    <span class="mx-5">+1 301 715 8592 US</span><br/>
+                    <span class="mx-5">+1 346 248 7799 US (Houston)</span><br/>
+                    <span class="mx-5">+1 669 900 6833 US (San Jose)</span><br/>
+                    <span class="mx-5">+1 253 215 8782 US</span><br/>
+            Meeting ID: 383 757 451<br/>
+            Password: 20302183<br/>
+            Find your local number: https://zoom.us/u/aeTYHU0QL<br/><br/>
+          </div>
+          <p>The #asfboard channel on the-asf.slack.com will be used for backup.</p>
         </section>
 
         <section id="roll_call">
