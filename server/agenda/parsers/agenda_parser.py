@@ -310,7 +310,7 @@ class AgendaParser(object):
             m = re.search(r'The meeting of (.*)', line)
             if m:
                 if min_date:
-                    minutes.append((min_date, min_filename, min_content))
+                    minutes.append(self.Minutes(min_date, min_filename, min_content))
                     min_filename = None
                     min_content = None
                 min_date = datetime.datetime.strptime(m.group(1), '%B %d, %Y')
@@ -323,7 +323,7 @@ class AgendaParser(object):
 
         # Parse loop done. Finish out accumulated info.
         if min_date:
-            minutes.append((min_date, min_filename, min_content))
+            minutes.append(self.Minutes(min_date, min_filename, min_content))
 
         #print('MINUTES:', minutes)
         return minutes
@@ -416,3 +416,11 @@ class AgendaParser(object):
             s_end = self._idx[section + 1] - 1
 
         return self._data[s_start:s_end]
+
+    class Minutes(object):
+
+        def __init__(self, date, file, content):
+            self.date = date.strftime('%B %d, %Y')
+            self.file = file
+            self.content = content
+

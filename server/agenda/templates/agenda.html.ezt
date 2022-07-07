@@ -44,13 +44,13 @@
         <section id="roll_call">
           <strong>2. Roll Call</strong>
           <div class="mx-3">
-            <p> Directors (expected to be) Present:</p>
+            <p>Directors (expected to be) Present:</p>
           <ul>
             [for directors_present]
             <li>[directors_present]</li>
             [end]
           </ul>
-          <p> Directors (expected to be) Absent:</p>
+          <p>Directors (expected to be) Absent:</p>
           <ul>
             [for directors_absent]
             <li>[directors_absent]</li>
@@ -80,7 +80,18 @@
 
         <section id="minutes">
           <strong>3. Minutes from previous meetings</strong>
-
+          <div class="mx-3">
+            Minutes (in Subversion) are found under the URL:<br/><br/>
+            <span class="mx-3"><a href="https://svn.apache.org/repos/private/foundation/board/">https://svn.apache.org/repos/private/foundation/board/</a></span><br/><br/>
+            <ol>
+            [for minutes]
+              <li>
+                The meeting of [minutes.date]<br/>
+                See: [minutes.file]
+              </li>
+            [end]
+            </ol>
+          </div>
         </section>
 
         <section id="exec_reports">
