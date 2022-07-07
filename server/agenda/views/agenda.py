@@ -41,6 +41,11 @@ def find_agenda(meeting_date):
             'meeting_date': item.name,
             'start_time': item.parsed_file.call_to_order[0],
             'time_zone_link': item.parsed_file.call_to_order[1],
+            'directors_present': item.parsed_file.roll_call[0],
+            'directors_absent': item.parsed_file.roll_call[1],
+            'officers_present': item.parsed_file.roll_call[2],
+            'officers_absent': item.parsed_file.roll_call[3],
+            'guests': item.parsed_file.roll_call[4]
             }
 
     return tools.render(T_AGENDA, data)

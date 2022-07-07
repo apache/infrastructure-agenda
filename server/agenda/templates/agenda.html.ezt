@@ -44,26 +44,36 @@
         <section id="roll_call">
           <strong>2. Roll Call</strong>
           <div class="mx-3">
-            <p>Directors Present:</p>
+            <p> Directors (expected to be) Present:</p>
           <ul>
-            <li>**Me**</li>
+            [for directors_present]
+            <li>[directors_present]</li>
+            [end]
           </ul>
-          <p>Directors Absent:</p>
+          <p> Directors (expected to be) Absent:</p>
           <ul>
-            <li>**None**</li>
+            [for directors_absent]
+            <li>[directors_absent]</li>
+            [end]
           </ul>
           </p>
-          <p>Executive Officers Present:</p>
+          <p>Executive Officers (expected to be) Present:</p>
           <ul>
-            <li>**Not me**</li>
+            [for officers_present]
+            <li>[officers_present]</li>
+            [end]
           </ul>
-          <p>Executive Officers Absent:</p>
+          <p>Executive Officers (expected to be) Absent:</p>
           <ul>
-            <li>**None**</li>
+            [for officers_absent]
+            <li>[officers_absent]</li>
+            [end]
           </ul>
-          <p>Guests:</p>
+          <p>Guests (expected):</p>
           <ul>
-            <li>**Also not me**</li>
+            [for guests]
+            <li>[guests]</li>
+            [end]
           </ul>
           </div>
         </section>
