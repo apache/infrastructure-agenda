@@ -38,6 +38,7 @@ def find_agenda(meeting_date):
     item = agendas.get_by_date(meeting_date)
 
     data = {'title': f"Meeting Agenda for {item.name}",
+            'meeting_date': item.name
             }
 
     return tools.render(T_AGENDA, data)
