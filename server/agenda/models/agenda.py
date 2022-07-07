@@ -113,3 +113,10 @@ class AgendaList:
 
     def get_all(self):
         return self.agendas
+
+    def refresh_by_date(self, date):
+        a = self.get_by_date(date)
+
+        file_path = a.file.path
+        self.agendas.remove(a)
+        self.agendas.append(Agenda(file_path))
