@@ -14,11 +14,11 @@
         <section id="call_to_order">
           <strong>1. Call to order</strong>
           <div class="mx-3">
-            <p>The meeting is scheduled for **22:00 UTC** and will begin as soon thereafter that a sufficient attendance to constitute a quorum is recognized by the chair.</p>
-            <p class="mx-3">Other Time Zones: **https://timeanddate.com/s/42hh**</p>
+            <p>The meeting is scheduled for [start_time] and will begin as soon thereafter that a sufficient attendance to constitute a quorum is recognized by the chair.</p>
+            <p class="mx-3">Other Time Zones: <a href="[time_zone_link]">[time_zone_link]</a></p>
             <p>The meeting will be held via teleconference, hosted by the Secretary via Zoom:</p>
             <div class="mx-3">
-              https://zoom.us/j/383757451?pwd=VkJhVnREOFhyemI5SGhqcUdGZS85UT09<br/>
+              <a href="https://zoom.us/j/383757451?pwd=VkJhVnREOFhyemI5SGhqcUdGZS85UT09">https://zoom.us/j/383757451?pwd=VkJhVnREOFhyemI5SGhqcUdGZS85UT09</a><br/>
               <br/>
               Meeting ID: 383 757 451<br/>
               Password: 20302183<br/>
@@ -35,7 +35,7 @@
                       <span class="mx-3">+1 253 215 8782 US</span><br/>
               Meeting ID: 383 757 451<br/>
               Password: 20302183<br/>
-              Find your local number: https://zoom.us/u/aeTYHU0QL<br/><br/>
+              Find your local number: <a href="https://zoom.us/u/aeTYHU0QL">https://zoom.us/u/aeTYHU0QL</a><br/><br/>
             </div>
             <p>The #asfboard channel on the-asf.slack.com will be used for backup.</p>
           </div>

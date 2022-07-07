@@ -59,6 +59,7 @@ class AgendaParser(object):
         self._idx = self._create_index(self._data, self.RE_SECTION)
 
         self.date = self._parse_meeting_date(self._get_section(S_HEADER))
+        self.call_to_order = self._parse_call_to_order(self._get_section(S_CALL_TO_ORDER))
         self.roll_call = self._parse_roll_call(self._get_section(S_ROLL_CALL))
         self.last_minutes = self._parse_last_minutes(self._get_section(S_MINUTES))
         self.exec_reports = self._parse_exec_reports(self._get_section(S_EXEC_REPORTS))
@@ -357,6 +358,14 @@ class AgendaParser(object):
 
         # return everything but the initial cruft that gets captured
         return roll_call[1:]
+
+    def _parse_call_to_order(self, data):
+        data_str = "".join(data)
+        start_time = re.search(r'The meeting is scheduled for (.*) and will begin', data_str)
+        time_zone_link = re.search(r'Other\ Time\ Zones: (.*)', data_str)
+        print(f"{self.date}: {time_zone_link}")
+
+        return tuple([start_time.group(1), time_zone_link.group(1)])
 
     def _parse_meeting_date(self, data):
         date_str = self.RE_AGENDA_DATE.search("".join(data))

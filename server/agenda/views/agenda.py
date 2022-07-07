@@ -38,7 +38,9 @@ def find_agenda(meeting_date):
     item = agendas.get_by_date(meeting_date)
 
     data = {'title': f"Meeting Agenda for {item.name}",
-            'meeting_date': item.name
+            'meeting_date': item.name,
+            'start_time': item.parsed_file.call_to_order[0],
+            'time_zone_link': item.parsed_file.call_to_order[1],
             }
 
     return tools.render(T_AGENDA, data)
