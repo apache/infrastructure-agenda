@@ -1,4 +1,3 @@
-import os
 import functools
 import pathlib
 import datetime
@@ -89,10 +88,9 @@ class AgendaList:
                  'board_agenda_2011_01_19.txt',
                  'board_agenda_2010_09_22.txt']
 
-    def __init__(self, directory):
+    def __init__(self, repo_dir):
         self._files = [ ]
-        # TODO: update the pattern after utf-8 encoding issues figured out on old agendas
-        for path in pathlib.Path(os.path.join(directory, 'foundation_board')).rglob(r'board_agenda_????_??_??.txt'):
+        for path in pathlib.Path(repo_dir).rglob(r'board_agenda_??2?_??_??.txt'):
             if path.name not in self.SKIP_LIST:
                 self._files.append(path)
 

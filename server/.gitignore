@@ -153,3 +153,6 @@ cython_debug/
 
 /data
 *.sublime*
+
+# agenda_server puppet provisioned config
+agenda.yaml

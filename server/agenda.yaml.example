@@ -1,0 +1,5 @@
+SERVER_PORT: 5000
+
+AGENDA_REPO: /path/to/repo/containing/agendas
+COMMITTERS_REPO: /path/to/repo/containing/committer/info
+MINUTES_REPO: /path/to/repo/containing/minutes

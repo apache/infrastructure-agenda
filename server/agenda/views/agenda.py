@@ -4,7 +4,7 @@ from . import tools
 from ..models import agenda
 
 app = flask.current_app
-agendas = agenda.AgendaList(app.config['DATA_DIR'])
+agendas = agenda.AgendaList(app.config['AGENDA_REPO'])
 
 T_AGENDAS = tools.load_template('agendas.html.ezt')
 T_AGENDA = tools.load_template('agenda.html.ezt')
