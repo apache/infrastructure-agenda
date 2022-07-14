@@ -13,24 +13,22 @@
 5. `$ pip install -r requirements.txt`
 
 ### Configure local application
-Create a .env alongside main.py, which _minimally_ sets `FLASK_ENV` and possibly `DATA_DIR` (by default this uses sanitized test data, if the ENV variable is left unset), see below for example:
-```bash
-FLASK_ENV=development
-DATA_DIR=/path/to/svn/files
+Copy `agenda.yaml.example` to `agenda.yaml` and edit to your needs. The contents of said file are show below for reference:
+```yaml
+SERVER_PORT: 5000
+
+AGENDA_REPO: /path/to/repo/containing/agendas
+COMMITTERS_REPO: /path/to/repo/containing/committer/info
+MINUTES_REPO: /path/to/repo/containing/minutes
 ```
 
-The `DATA_DIR` path should be setup like the following:
-```
-data
-└── repos
-    ├── committers_board
-    │   ├── calendar.txt
-    │   └── committee-info.txt
-    ├── foundation_board
-    │   ├── board_agenda_2015_01_21.txt
-    │   └── board_agenda_2015_02_18.txt
-    └── minutes
-        └── board_minutes_2015_01_21.txt
-```
+### Run the app
+First, ensure you are in the `server/` directory and you have activated the virtual environment:
 
-Each folder in repos contains an svn repository, and must be named as above.
+`$ infrastructure-agenda/server`
+
+`$ source venv/bin/activate`
+
+Run the application:
+
+`$ python main.py`
