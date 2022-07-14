@@ -284,16 +284,16 @@ class AgendaParser(object):
             m = self.RE_EXEC_REPORT.search(line)
             if m:
                 if position:
-                    exec_reports.append((position, reporter, "".join(content)))
+                    exec_reports.append(self.ExecReport(position, reporter, "".join(content)))
                     reporter = None
                     content = [ ]
                 position = m.group(1)
                 reporter = m.group(2)
             else:
-                content.append(line)
+                content.append(line.lstrip(' '))
 
         if position:
-            exec_reports.append((position, reporter, "".join(content)))
+            exec_reports.append(self.ExecReport(position, reporter, "".join(content)))
 
         return exec_reports
 

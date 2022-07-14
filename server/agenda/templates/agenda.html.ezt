@@ -96,7 +96,16 @@
 
         <section id="exec_reports">
           <strong>4. Executive Officer Reports</strong>
-
+          <div class="mx-3">
+            <ol>
+            [for exec_reports]
+              <li>
+                ["%0 [%1]" exec_reports.role exec_reports.reporter]
+                <pre>[exec_reports.content]</pre>
+              </li>
+            [end]
+            </ol>
+          </div>
         </section>
 
         <section id="officer_reports">
