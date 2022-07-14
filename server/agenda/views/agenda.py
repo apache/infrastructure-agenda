@@ -8,6 +8,7 @@ agendas = agenda.AgendaList(app.config['AGENDA_REPO'])
 
 T_AGENDAS = tools.load_template('agendas.html.ezt')
 T_AGENDA = tools.load_template('agenda.html.ezt')
+T_AGENDA_ERROR = tools.load_template('agenda_error.html.ezt')
 
 
 @app.route("/agendas")
@@ -32,21 +33,30 @@ def agendas_index():
 
     return tools.render(T_AGENDAS, data)
 
+
 @app.route("/agendas/<date:meeting_date>")
 def find_agenda(meeting_date):
 
     item = agendas.get_by_date(meeting_date)
 
-    data = {'title': f"Meeting Agenda for {item.name}",
-            'meeting_date': item.name,
-            'start_time': item.parsed_file.call_to_order[0],
-            'time_zone_link': item.parsed_file.call_to_order[1],
-            'directors_present': item.parsed_file.roll_call[0],
-            'directors_absent': item.parsed_file.roll_call[1],
-            'officers_present': item.parsed_file.roll_call[2],
-            'officers_absent': item.parsed_file.roll_call[3],
-            'guests': item.parsed_file.roll_call[4],
-            'minutes': item.parsed_file.last_minutes
-            }
+    if item.parsed_file:
+        data = {'title': f"Meeting Agenda for {item.name}",
+                'meeting_date': item.name,
+                'start_time': item.parsed_file.call_to_order[0],
+                'time_zone_link': item.parsed_file.call_to_order[1],
+                'directors_present': item.parsed_file.roll_call[0],
+                'directors_absent': item.parsed_file.roll_call[1],
+                'officers_present': item.parsed_file.roll_call[2],
+                'officers_absent': item.parsed_file.roll_call[3],
+                'guests': item.parsed_file.roll_call[4],
+                'minutes': item.parsed_file.last_minutes
+                }
 
-    return tools.render(T_AGENDA, data)
+        return tools.render(T_AGENDA, data)
+
+    else:
+        data = {'title': f"Meeting agenda for {item.name}",
+                'meeting_date': item.name,
+                'svn_url': item.file.svn_url
+                }
+        return tools.render(T_AGENDA_ERROR, data)

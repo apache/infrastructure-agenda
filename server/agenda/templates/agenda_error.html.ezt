@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  [include "head.html.ezt"]
+  <body>
+
+  [include "navigation.html.ezt"]
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      <div class="pt-3 pb-2 mb-3">
+        <p class="text-center"><strong>The Apache Software Foundation</strong></p>
+        <p class="text-center"><strong>Board of Directors Meeting Minutes</strong></p>
+        <p class="text-center"><strong>[meeting_date]</strong></p>
+
+        <p>The agenda you selected is not available in this tool. You can review it in svn at:</p>
+        <p><a href="[svn_url]">[svn_url]</a>.</p>
+
+    </main>
+  </div>
+</div>
+
+  [include "foot.html.ezt"]
+  </body>
+</html>
