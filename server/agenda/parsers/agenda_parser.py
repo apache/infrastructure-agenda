@@ -54,7 +54,7 @@ class AgendaParser(object):
     RE_ATTACHMENT = re.compile(r'^Attachment\s(\w+)\:\s(.*?)\s+\[(.*?)\]')
 
     def __init__(self, file):
-        with open(file, 'r', encoding="ascii", errors="surrogateescape") as fp:
+        with open(file, 'r', encoding="utf-8", errors="surrogateescape") as fp:
             self._data = fp.readlines()
         self._idx = self._create_index(self._data, self.RE_SECTION)
 
