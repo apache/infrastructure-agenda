@@ -240,7 +240,7 @@ class AgendaParser(object):
             m = self.RE_OFFICER_REPORT_META.search(line)
             if m:
                 if title:
-                    officer_reports.append((title, owner, shepherd, attachment, approvals))
+                    officer_reports.append(self.Report(title, owner, shepherd, attachment, approvals))
                     attachment = None
                     approvals = None
                 title = m.group(1)
@@ -259,7 +259,7 @@ class AgendaParser(object):
             # TODO: figure out how to grab comments here
 
         if title:
-            officer_reports.append((title, owner, shepherd, attachment, approvals))
+            officer_reports.append(self.Report(title, owner, shepherd, attachment, approvals))
 
 
         return officer_reports
@@ -424,3 +424,18 @@ class AgendaParser(object):
             self.file = file
             self.content = content
 
+    class ExecReport(object):
+
+        def __init__(self, role, reporter, content):
+            self.role = role
+            self.reporter = reporter
+            self.content = content
+
+    class Report(object):
+
+        def __init__(self, title, owner, shepherd, attachment, approvals):
+            self.title = title
+            self.owner = owner
+            self.shepherd = shepherd
+            self.attachment = attachment
+            self.approvals = ", ".join(approvals)

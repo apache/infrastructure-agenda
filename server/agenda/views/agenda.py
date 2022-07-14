@@ -50,7 +50,8 @@ def find_agenda(meeting_date):
                 'officers_absent': item.parsed_file.roll_call[3],
                 'guests': item.parsed_file.roll_call[4],
                 'minutes': item.parsed_file.last_minutes,
-                'exec_reports': item.parsed_file.exec_reports
+                'exec_reports': item.parsed_file.exec_reports,
+                'officer_reports': item.parsed_file.officer_reports
                 }
 
         return tools.render(T_AGENDA, data)

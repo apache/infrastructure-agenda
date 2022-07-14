@@ -110,6 +110,19 @@
 
         <section id="officer_reports">
           <strong>5. Additional Officer Reports</strong>
+          <div class="mx-3">
+            <ol>
+            [for officer_reports]
+              <li>
+                [officer_reports.title] [[officer_reports.owner][if-any officer_reports.shepherd] / [officer_reports.shepherd][end]]<br />
+                See attachment [officer_reports.attachment]<br />
+                [<span class="mx-2">approved: [officer_reports.approvals]</span><br />
+                <span class="mx-3">comments: </span><br />
+                <span class="mx-3">]</span>
+              </li>
+            [end]
+            </ol>
+          </div>
 
         </section>
 
