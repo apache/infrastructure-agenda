@@ -65,6 +65,7 @@ Raw list of features that are in-use today.
   * Display only "flagged" projects or reports (including officers) in order
   * Display only "unapproved" project reports in order
 * Track action items (finer points of this: TBD)
+* Support private sections in reports (currently done using `<private>...</private>` but breaks if unbalanced)
 * Archive private version of agenda before monthly meeting (including all private sections, comments etc.)
 * Post-Meeting publishing:
   * Publish **public** version of meeting minutes after meeting
